@@ -46,3 +46,120 @@
 
 4.游戏结束：当玩家被摧毁时，清空所有内容并用红色大写英文字母写：GAME OVER，分两行，居中。显示5秒后回到主界面。如果玩家积分模式达到指定分数且生命不为0，则显示绿色大字YOU WIN，五秒后回到主界面。
 
+## 三. 技术架构与状态机
+
+### 1. 模块层次
+
+```
+top.v                    # 顶层芯片：时钟分频、去抖、模块互联、IO 绑定
+├── vgac.v               # ZJU VGA 控制器（来自 DEMO/VGAdemo/vgac.v）
+├── vga_top.v            # VGA 渲染顶层：组合渲染 + 优先级 MUX
+│   ├── player_render    # 玩家飞机渲染
+│   ├── enemy_render[]   # 敌方 UFO 渲染（多实例）
+│   ├── obstacle_render[]# 障碍物石头渲染（多实例）
+│   ├── bullet_render    # 子弹渲染（敌弹+玩家弹统一）
+│   ├── hud_render       # HUD/UI 渲染（分数、暂停、菜单、结束画面）
+│   └── bg_render        # 背景渲染（主菜单边框、纯黑背景）
+├── game_fsm.v           # 游戏状态机（MENU / PLAY / PAUSE / GAMEOVER / WIN）
+├── player.v             # 玩家飞机实例（已完成）
+├── enemy_pool.v         # 敌方 UFO 池（管理 N 个 enemy 实例）
+│   └── enemy.v[]        # 单架 UFO 实例（已完成）
+├── obstacle_pool.v      # 障碍物池（管理 M 个 obstacle 实例）
+│   └── obstacle.v[]     # 单个石头实例（已完成）
+├── bullet_pool.v        # 子弹池（统一管理玩家弹与敌弹）
+├── collision.v          # 碰撞检测模块
+├── score_keeper.v       # 计分/击杀/计时模块
+├── lfsr.v               # 16-bit 伪随机数发生器 (LFSR)
+├── btn_debounce.v       # 按键去抖模块
+├── seg_display.v        # 数码管显示控制（封装 DispNum.v）
+└── DispNum.v            # 7 段数码管驱动（已提供）
+```
+
+### 2. 游戏状态机 (game_fsm)
+
+| 状态       | 说明                                                         |
+| ---------- | ------------------------------------------------------------ |
+| `MENU`     | 初始状态。显示主菜单界面。等待难度选择和开始按键             |
+| `PLAY`     | 游戏进行中。生成敌人/障碍物、更新实体、处理碰撞、计分        |
+| `PAUSE`    | 暂停状态。所有实体停止更新，显示暂停标志。再次按暂停键恢复   |
+| `GAMEOVER` | 玩家生命归零。显示红色 GAME OVER，5 秒后返回 MENU            |
+| `WIN`      | 积分模式达到目标分数。显示绿色 YOU WIN，5 秒后返回 MENU      |
+
+状态转移：
+- `MENU → PLAY`：BTNX4Y3 按下且难度已选择
+- `PLAY → PAUSE`：BTNX0Y0 按下（5 秒内最多一次）
+- `PAUSE → PLAY`：BTNX0Y0 按下，3 秒倒计时后恢复
+- `PLAY → GAMEOVER`：玩家 lives == 0
+- `PLAY → WIN`：积分模式 && score >= target_score
+- `GAMEOVER → MENU`：5 秒后自动
+- `WIN → MENU`：5 秒后自动
+
+### 3. 帧节拍系统
+
+- 系统时钟：100MHz → `clk_100m`
+- VGA 像素时钟：25MHz = `clkdiv[1]`（100MHz / 4）
+- 帧节拍 `frame_tick`：在 `vgac.vs` 下降沿产生，约 60Hz
+- 所有游戏逻辑更新（移动、生成、碰撞、计分）在 `frame_tick` 有效时进行
+- 数码管扫描用独立的 1kHz 左右扫描时钟
+
+### 4. 子弹系统
+
+- `bullet_pool` 统一管理所有子弹，维护一个固定大小的子弹槽位数组
+- 每颗子弹属性：active, x, y, dx, dy, type(PBULLET/EBULLET), traj(LINE/CIRC/PARA), life(存活帧数)
+- 玩家开火：`player.fire_pulse` 触发，从 muzzle_lx/muzzle_rx/muzzle_y 位置创建两颗 PBULLET
+- 敌机开火：`enemy.fire_req` 触发，在 fire_x/fire_y 位置创建 EBULLET，按 fire_traj/fire_count/fire_dual 参数生成
+- 子弹移动每帧更新：直线弹道 dx/dy 恒定；曲线弹道根据运动方程逐帧计算偏移
+- 子弹飞出屏幕（y<0 或 y>=480 或 x<0 或 x>=640）自动回收
+
+## 四. 计分与难度系统
+
+### 1. 计分规则
+
+| 项目           | 分数       |
+| -------------- | ---------- |
+| 击毁敌机       | 5 × 敌机HP |
+| 摧毁障碍物     | 0          |
+| 生存奖励       | 1 分/秒    |
+| 积分模式目标   | 暂定 500   |
+| 无尽模式       | 无目标上限 |
+
+### 2. 难度系数公式
+
+定义难度基础系数 `D`：
+- Easy: D=1.0
+- Normal: D=1.5
+- Hard: D=2.0
+- Hell: D=3.0
+
+随时间增长系数 `T(t)`（t 为游戏进行秒数）：
+- 积分模式: T(t) = 1 + floor(t/30) × 0.1
+- 无尽模式: T(t) = 1 + floor(t/15) × 0.1
+
+实际难度乘数: `M = D × T(t)`
+
+影响项目：
+- 敌人刷新间隔: `base_spawn_interval / M`
+- 敌人 HP: `clamp(ceil(1 × M), 1, 3)`
+- 敌人子弹数: `clamp(ceil(2 × M), 1, 5)`
+- 敌人发射周期: `base_fire_period / M`
+- 障碍物刷新率: 随 M 增大增加 M/L 尺寸出现概率
+
+## 五. VGA 渲染规范
+
+- 详见 `ZJUVGA.md`（同目录下的 VGA 接口文档）
+- 所有 `*_render` 模块必须是纯组合逻辑，不得包含时钟/计数
+- 颜色位序：`{B[3:0], G[3:0], R[3:0]}`（BGR 序，不是 RGB）
+- 消隐期（rdn==1）时 vga_data 强制输出 12'h000
+- 多实体优先级：HUD > 玩家 > 玩家子弹 > 敌弹 > 敌人 > 障碍物 > 背景
+
+## 六. K7 板卡引脚绑定
+
+详见 `K7.xdc` 约束文件。关键信号：
+- 100MHz 时钟: AC18
+- 复位: W13 (低有效)
+- VGA: r[3:0]/g[3:0]/b[3:0]/hs(M22)/vs(M21)
+- 按钮: BTNX0Y0..X4Y3 (4组×4个)
+- 开关: SW[15:0]
+- LED: LED[7:0]
+- 数码管: SEGMENT[7:0], AN[3:0]
+

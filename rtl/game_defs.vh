@@ -68,7 +68,7 @@
 `define OBS_FALL_SPEED 1
 
 // ---------------- 颜色 (12bit, ZJU vgac d_in = {B[3:0],G[3:0],R[3:0]}) ----------------
-// 详见 ZJUVGA.md §3.2：位序为 BGR，不是 RGB
+// 详见 Settings/ZJUVGA.md §3.2：位序为 BGR，不是 RGB
 `define COL_BLACK    12'h000
 `define COL_WHITE    12'hFFF
 `define COL_RED      12'h00F   // R=F
