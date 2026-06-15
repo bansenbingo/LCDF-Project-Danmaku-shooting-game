@@ -12,8 +12,8 @@ module collision (
 
     input  wire [9:0]    player_px,
     input  wire [9:0]    player_py,
-    input  wire [4:0]    player_w,
-    input  wire [4:0]    player_h,
+    input  wire [9:0]    player_w,
+    input  wire [9:0]    player_h,
     input  wire          player_alive,
     input  wire          player_reviving,
 
