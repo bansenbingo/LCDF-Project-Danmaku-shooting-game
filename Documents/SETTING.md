@@ -28,9 +28,9 @@
 
 ### 3.游戏操作
 
-1.游戏开始：游戏开始显示主界面菜单，按动BTNX0Y0-X0Y3四个键选择难度,通过SW[0]的开关决定模式（积分还是无尽）。难度选择后，按动BTNX4Y3进入游戏。游戏开始后如果要暂停，按动BTNX0Y0.
+1.游戏开始：游戏开始显示主界面菜单，按动BTNX0Y0-X0Y3四个键选择难度，也可通过键盘1/2/3/4选择难度；通过SW[0]的开关决定模式（积分还是无尽）。难度选择后，按动BTNX4Y3或键盘Enter/J/Space进入游戏。游戏开始后如果要暂停，按动BTNX0Y0或键盘P。
 
-2.玩家：通过BTNX0Y0-BTNX4Y3实现前后左右移动和开火。移动采用BTNX3Y0,BTNX4Y1,BTNX3Y2,BTNX2Y1四个键控制，开火由BTNX4Y3控制。
+2.玩家：通过BTNX0Y0-BTNX4Y3实现前后左右移动和开火。移动采用BTNX3Y0,BTNX4Y1,BTNX3Y2,BTNX2Y1四个键控制，开火由BTNX4Y3控制。也可使用键盘W/A/S/D控制上/左/下/右移动，J/Space/Enter开火，K升级武器。
 
 3.计分：当前击毁敌军数、玩家当前生命、玩家积分 通过四位数码管SEGMENT[7:0],每个数码管的激活通过使能AN[3:0]激活。单个数码管功能参照DispNum.v。如果需要切换显示内容，通过按动BTNX1Y3实现，三者循环显示。注意：击毁敌军数不管击毁什么难度的敌军都算1个。由于数码管仅有四位，所以计数超过9999时，只保留后四位，超过9999的部分通过LED[7:0]用二进制方式表示，例如123456的显示方法为：数码管显示3456，LED用二进制表示12，即LED[7:0] = 00001100,LED[2]和[3]点亮其他不亮，如果还超出则全部清零重新显示。
 
@@ -51,9 +51,9 @@
 ### 1. 模块层次
 
 ```
-top.v                    # 顶层芯片：时钟分频、去抖、模块互联、IO 绑定
+top.sv                   # 顶层芯片：时钟分频、去抖、模块互联、IO 绑定
 ├── vgac.v               # ZJU VGA 控制器（来自 DEMO/VGAdemo/vgac.v）
-├── vga_top.v            # VGA 渲染顶层：组合渲染 + 优先级 MUX
+├── vga_top.sv           # VGA 渲染顶层：组合渲染 + 优先级 MUX
 │   ├── player_render    # 玩家飞机渲染
 │   ├── enemy_render[]   # 敌方 UFO 渲染（多实例）
 │   ├── obstacle_render[]# 障碍物石头渲染（多实例）
@@ -62,12 +62,12 @@ top.v                    # 顶层芯片：时钟分频、去抖、模块互联�
 │   └── bg_render        # 背景渲染（主菜单边框、纯黑背景）
 ├── game_fsm.v           # 游戏状态机（MENU / PLAY / PAUSE / GAMEOVER / WIN）
 ├── player.v             # 玩家飞机实例（已完成）
-├── enemy_pool.v         # 敌方 UFO 池（管理 N 个 enemy 实例）
+├── enemy_pool.sv        # 敌方 UFO 池（管理 N 个 enemy 实例）
 │   └── enemy.v[]        # 单架 UFO 实例（已完成）
-├── obstacle_pool.v      # 障碍物池（管理 M 个 obstacle 实例）
+├── obstacle_pool.sv     # 障碍物池（管理 M 个 obstacle 实例）
 │   └── obstacle.v[]     # 单个石头实例（已完成）
-├── bullet_pool.v        # 子弹池（统一管理玩家弹与敌弹）
-├── collision.v          # 碰撞检测模块
+├── bullet_pool.sv       # 子弹池（统一管理玩家弹与敌弹）
+├── collision.sv         # 碰撞检测模块
 ├── score_keeper.v       # 计分/击杀/计时模块
 ├── lfsr.v               # 16-bit 伪随机数发生器 (LFSR)
 ├── btn_debounce.v       # 按键去抖模块
@@ -159,6 +159,7 @@ top.v                    # 顶层芯片：时钟分频、去抖、模块互联�
 - 复位: W13 (低有效)
 - VGA: r[3:0]/g[3:0]/b[3:0]/hs(M22)/vs(M21)
 - 按钮: BTNX0Y0..X4Y3 (4组×4个)
+- PS/2键盘: ps2_clk / ps2_data
 - 开关: SW[15:0]
 - LED: LED[7:0]
 - 数码管: SEGMENT[7:0], AN[3:0]
