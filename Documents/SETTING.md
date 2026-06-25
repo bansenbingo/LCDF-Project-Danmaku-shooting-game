@@ -46,6 +46,148 @@
 
 4.游戏结束：当玩家被摧毁时，清空所有内容并用红色大写英文字母写：GAME OVER，分两行，居中。显示5秒后回到主界面。如果玩家积分模式达到指定分数且生命不为0，则显示绿色大字YOU WIN，五秒后回到主界面。
 
+## 三. 工程文件架构
+
+```
+Danmaku-Shooting/
+├── rtl/                          # Verilog 源码（22文件：21 .v + 1 .vh）
+│   ├── game_defs.vh              # 全局宏定义头文件
+│   │
+│   ├── vgac.v                    # ZJU VGA控制器（复制自DEMO/VGAdemo/）
+│   ├── AntiJitter.v              # 参数化按键消抖（复制自DEMO/VGAdemo/）
+│   ├── Keypad.v                  # 4×5矩阵键盘扫描（复制自DEMO/VGAdemo/）
+│   ├── ShiftReg.v                # 并转串移位寄存器（复制自DEMO/VGAdemo/）
+│   ├── SegmentDecoder.v          # 十六进制→7段解码（复制自DEMO/VGAdemo/）
+│   ├── Seg7Decode.v              # 8位7段译码+锁存使能（复制自DEMO/VGAdemo/）
+│   ├── Seg7Remap.v               # 7段引脚重映射（复制自DEMO/VGAdemo/）
+│   ├── Seg7Device.v              # 7段设备+P2S输出（复制自DEMO/VGAdemo/）
+│   │
+│   ├── ps2_keyboard.v            # PS/2键盘接口（Set 2，make/break解码）
+│   ├── lfsr_random.v             # 16位Galois LFSR伪随机数生成器
+│   │
+│   ├── player_render.v           # 玩家三角形飞机渲染（纯组合逻辑）
+│   ├── enemy_render.v            # 敌机椭圆UFO渲染（纯组合逻辑）
+│   ├── bullet_render.v           # 子弹渲染（玩家菱形/敌弹方块，纯组合逻辑）
+│   ├── obstacle_render.v         # 障碍物石头渲染（纯组合逻辑）
+│   ├── text_render.v             # 单字符8×8字模渲染（纯组合逻辑）
+│   ├── font_rom.v                # 8×8字符ROM（A-Z,0-9,标点共44字符）
+│   ├── menu_render.v             # 菜单界面渲染（标题/边框/选项，纯组合逻辑）
+│   ├── hud_render.v              # HUD渲染（分数/生命/暂停/结束，纯组合逻辑）
+│   │
+│   ├── vga_top.v                 # VGA渲染管线顶层（25MHz时钟/优先级合成/帧同步）
+│   ├── game_logic.v              # 核心游戏逻辑（状态机/实体管理/碰撞检测/计分）
+│   └── game_top.v                # FPGA顶层模块（时钟分频/外设/VGA/游戏互联）
+│   │
+├── DispNum.v                     # 4位数码管底层驱动（项目根目录，Digital自动生成）
+├── K7.xdc                        # K7开发板引脚约束文件
+├── Documents/
+│   ├── SETTING.md                # 本文件 — 游戏设定与工程架构
+│   ├── PLAN.md                   # 开发计划书（原始规划参考）
+│   └── ZJUVGA.md                 # VGA接口编程规范
+└── DEMO/                         # 参考Demo（提供vgac等基础模块来源）
+    ├── VGAdemo/
+    └── 接口DEMO/
+```
+
+### 模块层次结构
+
+```
+game_top.v  (FPGA顶层)
+├── clkdiv         (32位自由运行计数器 @ 100MHz → 分频时钟)
+├── AntiJitter ×16 (开关消抖，clkdiv[15] ≈ 3kHz采样)
+├── Keypad         (4×5矩阵按钮扫描，输出keyCode[4:0]+keyReady)
+├── ps2_keyboard   (PS/2 Set2解码，输出scan_code[7:0]+key_ready)
+│
+├── vga_top.v      (VGA渲染管线)
+│   ├── cdiv[1:0]              → vga_clk = 25MHz (100MHz÷4)
+│   ├── tick_counter[20:0]    → frame_tick @ 60Hz (每1,666,667拍)
+│   ├── vgac                   → 640×480@60Hz, row_addr/col_addr/rdn/r/g/b/hs/vs
+│   ├── player_render ×1       → hit_pl, col_pl
+│   ├── enemy_render ×8        → hit_en[N], col_en[N]  (generate块)
+│   ├── bullet_render ×80      → hit_pb[16]+hit_eb[64] (generate块)
+│   ├── obstacle_render ×8     → hit_ob[N], col_ob[N]  (generate块)
+│   ├── hud_render ×1          → hit_hud, col_hud
+│   ├── menu_render ×1         → hit_menu, col_menu (仅MENU状态有效)
+│   └── 优先级MUX → vga_data   → vgac.d_in
+│
+├── game_logic.v   (核心游戏逻辑，frame_tick驱动)
+│   ├── PS/2按键解码  (WASD移动/J/Space/Enter开火/K升级/P暂停/1-4难度)
+│   ├── 按钮映射      (BTNX3Y0=上, BTNX4Y1=右, BTNX3Y2=下, BTNX2Y1=左,
+│   │                  BTNX4Y3=开火/开始, BTNX0Y0=暂停/难度Easy, BTNX1Y3=显示切换)
+│   ├── 5状态FSM      (MENU → PLAYING ⇄ PAUSED, PLAYING → GAMEOVER/WIN → MENU)
+│   ├── 玩家管理      (移动/双发/无敌保护/武器升级/复活闪烁/作弊模式)
+│   ├── 敌机管理      (轮转生成/frame_tick间隔/左右漂移/难度自适应)
+│   ├── 子弹管理      (固定槽位分配：敌机N占用子弹槽N*8~N*8+7)
+│   ├── 障碍物管理    (轮转生成/尺寸形状随机/慢速下漂)
+│   ├── 碰撞检测      (直接逐对AABB检测，无嵌套for循环)
+│   ├── 计分/难度     (5×enemyHP/kill + 1/sec生存分, D×T(t)难度缩放)
+│   └── seg_data输出  (击杀数/生命数/积分三模式切换，BTNX1Y3循环)
+│
+├── DispNum         (直接7段显示：SEGMENT[7:0], AN[3:0], scan≈clkdiv[15:14])
+├── Seg7Device      (串行7段：SEGLED_CLK/DO/PEN/CLR，P2S输出)
+├── ShiftReg         (串行LED：LED_CLK/DO/PEN/CLR，P2S输出)
+├── LED[7:0]         (直接LED：积分高位溢出二进制表示)
+└── Buzzer = 1'b1    (蜂鸣器关闭)
+```
+
+### 关键模块接口说明
+
+#### vga_top — VGA渲染管线
+
+| 端口 | 方向 | 位宽 | 说明 |
+|------|------|------|------|
+| clk_100m | input | 1 | 100MHz系统时钟 |
+| rstn | input | 1 | 低有效复位 |
+| game_state | input | 3 | 游戏状态(0:MENU 1:PLAY 2:PAUSE 3:GAMEOVER 4:WIN) |
+| pl_x, pl_y | input | 10+9 | 玩家中心坐标 |
+| en_active/en_x/en_y/en_hp | input | 8+80+72+16 | 敌机状态(8个扁平成总线) |
+| pb_active/pb_x/pb_y/pb_type | input | 16+160+144+32 | 玩家子弹(16个) |
+| eb_active/eb_x/eb_y/eb_type | input | 64+640+576+128 | 敌弹(64个) |
+| ob_active/ob_x/ob_y/ob_size/ob_shape | input | 8+80+72+16+16 | 障碍物(8个) |
+| r, g, b | output | 4 | VGA色彩通道 |
+| hs, vs | output | 1 | 行/场同步 |
+| frame_tick | output | 1 | 60Hz游戏更新脉冲(100MHz域) |
+
+**优先级链**：rdn=1 → 黑色；否则：Menu(仅MENU态) > HUD > 玩家 > 玩家子弹 > 敌弹 > 敌人 > 障碍物 > 黑色背景
+
+#### game_logic — 核心游戏逻辑
+
+| 端口 | 方向 | 位宽 | 说明 |
+|------|------|------|------|
+| clk | input | 1 | 100MHz系统时钟 |
+| rstn | input | 1 | 低有效复位 |
+| frame_tick | input | 1 | 60Hz更新脉冲 |
+| key_code/key_ready | input | 5+1 | 按钮矩阵输出 |
+| ps2_scan/ps2_ready | input | 8+1 | 键盘扫描码 |
+| sw | input | 16 | 已消抖拨码开关 |
+| pl_x~pl_flash | output | 10+9+1+1 | 玩家状态 |
+| game_state~mode | output | 3+20+8+3+2+1 | 游戏全局状态 |
+| en_active~en_hp | output | 8+80+72+16 | 敌机状态(扁平成总线) |
+| pb_active~pb_type | output | 16+160+144+32 | 玩家子弹状态 |
+| eb_active~eb_type | output | 64+640+576+128 | 敌弹状态 |
+| ob_active~ob_shape | output | 8+80+72+16+16 | 障碍物状态 |
+| seg_data/seg_mode/led | output | 16+2+8 | 7段显示数据/模式/LED |
+
+**固定槽位分配**：敌机0占用敌弹槽0-7，敌机1占用槽8-15，以此类推。每敌机默认发射2颗子弹到其专用槽。
+
+### 在 Vivado 中使用
+
+1. **创建工程**：Vivado 2025.1 → 新建RTL工程 → 选择K7开发板
+2. **添加源文件**：将所有 `rtl/*.v` + `rtl/*.vh` + 根目录 `DispNum.v` 加入工程
+3. **添加约束**：`K7.xdc`（引脚约束）
+4. **设置顶层**：`game_top`
+5. **综合→实现→生成比特流**
+6. **烧录**：通过Vivado Hardware Manager下载到K7开发板
+
+### 综合优化要点
+
+- **固定槽位分配**：敌机子弹不搜索空闲槽，直接在专属槽写入，避免深度组合逻辑
+- **纯组合渲染器**：所有`*_render`模块无`posedge`，`(sx,sy)`扫描坐标实时判定像素归属
+- **扁平总线**：多实体状态通过高位宽总线传递（如`eb_x[639:0]`=64个×10位），配合`generate`块展开
+- **优先级链式**：多实体命中用链式MUX（非if-else嵌套循环），首命中即胜出
+- **直接碰撞检测**：逐对硬编码AABB检查，无嵌套for循环
+
+
 ## 四. 计分与难度系统
 
 ### 1. 计分规则

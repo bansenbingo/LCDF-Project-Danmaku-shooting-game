@@ -1,0 +1,3 @@
+dist_mem_gen_v8_0.v,verilog,dist_mem_gen_v8_0_17,../../../ipstatic/simulation/dist_mem_gen_v8_0.v,incdir="../../../../../../Xilinx/2025.1/Vivado/data/rsb/busdef"
+font_rom.v,verilog,xil_defaultlib,../../../../Danmaku-Shooting.gen/sources_1/ip/font_rom/sim/font_rom.v,incdir="../../../../../../Xilinx/2025.1/Vivado/data/rsb/busdef"
+glbl.v,Verilog,xil_defaultlib,glbl.v

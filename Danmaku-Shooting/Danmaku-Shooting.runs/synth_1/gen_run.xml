@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="synth_1" LaunchPart="xc7k160tffg676-1" LaunchTime="1782305430" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/game_top.dcp">
+  <File Type="REPORTS-TCL" Name="game_top_reports.tcl"/>
+  <File Type="RDS-UTIL" Name="game_top_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="game_top_utilization_synth.pb"/>
+  <File Type="PA-TCL" Name="game_top.tcl"/>
+  <File Type="RDS-RDS" Name="game_top.vds"/>
+  <File Type="RDS-DCP" Name="game_top.dcp"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/AntiJitter.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/AntiJitter.v"/>
+        <Attr Name="ImportTime" Val="1781672406"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/DispNum.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../DispNum.v"/>
+        <Attr Name="ImportTime" Val="1776687001"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Seg7Decode.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/Seg7Decode.v"/>
+        <Attr Name="ImportTime" Val="1781672427"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Seg7Device.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/Seg7Device.v"/>
+        <Attr Name="ImportTime" Val="1781672433"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Seg7Remap.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/Seg7Remap.v"/>
+        <Attr Name="ImportTime" Val="1781672430"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/SegmentDecoder.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/SegmentDecoder.v"/>
+        <Attr Name="ImportTime" Val="1781672422"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ShiftReg.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/ShiftReg.v"/>
+        <Attr Name="ImportTime" Val="1781672414"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/rtl/game_defs.vh">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/game_defs.vh"/>
+        <Attr Name="ImportTime" Val="1781671712"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/rtl/bullet_render.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/bullet_render.v"/>
+        <Attr Name="ImportTime" Val="1781673162"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/rtl/enemy_render.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/enemy_render.v"/>
+        <Attr Name="ImportTime" Val="1781673160"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/game_logic.v"/>
+        <Attr Name="ImportTime" Val="1781672555"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/hud_render.v"/>
+        <Attr Name="ImportTime" Val="1781672060"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/menu_render.v"/>
+        <Attr Name="ImportTime" Val="1781672141"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/obstacle_render.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/obstacle_render.v"/>
+        <Attr Name="ImportTime" Val="1781671799"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/player_render.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/player_render.v"/>
+        <Attr Name="ImportTime" Val="1781671770"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ps2_keyboard.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/ps2_keyboard.v"/>
+        <Attr Name="ImportTime" Val="1781671727"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vga_top.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/vga_top.v"/>
+        <Attr Name="ImportTime" Val="1781672207"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vgac.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/vgac.v"/>
+        <Attr Name="ImportTime" Val="1781672403"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_top.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/game_top.v"/>
+        <Attr Name="ImportTime" Val="1781672364"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/lfsr_random.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/lfsr_random.v"/>
+        <Attr Name="ImportTime" Val="1781671732"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/text_render.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../rtl/text_render.v"/>
+        <Attr Name="ImportTime" Val="1781671875"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="game_top"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/imports/LCDF-Project-Danmaku-shooting-game/K7.xdc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../K7.xdc"/>
+        <Attr Name="ImportTime" Val="1781674199"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/game_top.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>
