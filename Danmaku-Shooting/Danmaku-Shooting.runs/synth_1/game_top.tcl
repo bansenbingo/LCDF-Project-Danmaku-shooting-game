@@ -56,7 +56,9 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 8
 set_param general.usePosixSpawnForFork 1
+set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7k160tffg676-1
 
@@ -73,21 +75,19 @@ OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/game_defs.vh
 read_verilog -library xil_defaultlib {
-  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/AntiJitter.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/DispNum.v
+  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Keyboard.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Seg7Decode.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Seg7Device.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Seg7Remap.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/SegmentDecoder.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ShiftReg.v
-  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/bullet_render.v
-  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/enemy_render.v
+  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/bullet_render.v
+  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/enemy_render.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v
-  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/obstacle_render.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/player_render.v
-  Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ps2_keyboard.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vga_top.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vgac.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_top.v

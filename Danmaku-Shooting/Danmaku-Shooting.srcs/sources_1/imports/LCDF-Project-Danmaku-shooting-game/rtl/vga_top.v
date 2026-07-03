@@ -1,5 +1,5 @@
 //==============================================================================
-// vga_top.v — VGA rendering pipeline top
+// vga_top.v ??VGA rendering pipeline top
 // Priority: HUD > Player > Player Bullets > Enemy Bullets > Enemies > Obstacles > Menu > BG
 // ZJU VGA rules: 25MHz pixel clock, BGR color, active-low clrn, pure-comb renderers
 //==============================================================================
@@ -25,28 +25,23 @@ module vga_top (
 
     //--- Enemy State (8 enemies, flattened) ---
     input  wire [7:0]  en_active,
-    input  wire [79:0] en_x,       // 8 × 10 bits
-    input  wire [71:0] en_y,       // 8 × 9 bits
+    input  wire [79:0] en_x,       // 8 ? 10 bits
+    input  wire [71:0] en_y,       // 8 ? 9 bits
     input  wire [15:0] en_hp,      // 8 × 2 bits
+    input  wire [7:0]  en_flash,   // hit-flash per enemy
 
     //--- Player Bullet State (16 bullets, flattened) ---
     input  wire [15:0] pb_active,
-    input  wire [159:0] pb_x,      // 16 × 10 bits
-    input  wire [143:0] pb_y,      // 16 × 9 bits
-    input  wire [31:0]  pb_type,   // 16 × 2 bits
+    input  wire [159:0] pb_x,      // 16 ? 10 bits
+    input  wire [143:0] pb_y,      // 16 ? 9 bits
+    input  wire [31:0]  pb_type,   // 16 ? 2 bits
 
     //--- Enemy Bullet State (64 bullets, flattened) ---
     input  wire [63:0] eb_active,
-    input  wire [639:0] eb_x,      // 64 × 10 bits
-    input  wire [575:0] eb_y,      // 64 × 9 bits
-    input  wire [127:0] eb_type,   // 64 × 2 bits
+    input  wire [639:0] eb_x,      // 64 ? 10 bits
+    input  wire [575:0] eb_y,      // 64 ? 9 bits
+    input  wire [127:0] eb_type,   // 64 ? 2 bits
 
-    //--- Obstacle State (8 obstacles, flattened) ---
-    input  wire [7:0]  ob_active,
-    input  wire [79:0] ob_x,       // 8 × 10 bits
-    input  wire [71:0] ob_y,       // 8 × 9 bits
-    input  wire [15:0] ob_size,    // 8 × 2 bits
-    input  wire [15:0] ob_shape,   // 8 × 2 bits
 
     //--- VGA Outputs ---
     output wire [3:0]  r, g, b,
@@ -60,7 +55,7 @@ module vga_top (
     //==========================================================================
     reg [1:0] cdiv;
     always @(posedge clk_100m) cdiv <= cdiv + 1'b1;
-    wire vga_clk = cdiv[1];   // 100MHz ÷ 4 = 25MHz
+    wire vga_clk = cdiv[1];   // 100MHz ? 4 = 25MHz
 
     //==========================================================================
     // 2. VGA Controller
@@ -82,15 +77,15 @@ module vga_top (
     );
 
     //==========================================================================
-    // 3. Frame Tick Generation — synced to VGA vertical sync
-    //    vs is active-low during vertical sync pulse (2 lines = 64µs).
+    // 3. Frame Tick Generation ??synced to VGA vertical sync
+    //    vs is active-low during vertical sync pulse (2 lines = 64?s).
     //    We detect vs falling edge (start of V-sync = new frame), sync it
     //    to the 100MHz domain, and produce a one-cycle frame_tick pulse.
-    //    This guarantees game state updates happen during V-blank → no tearing.
+    //    This guarantees game state updates happen during V-blank ??no tearing.
     //==========================================================================
     reg [2:0] vs_sync;
     always @(posedge clk_100m) vs_sync <= {vs_sync[1:0], vs};
-    wire vs_fall = vs_sync[2] && !vs_sync[1];  // vs 1→0 = start of V-sync
+    wire vs_fall = vs_sync[2] && !vs_sync[1];  // vs 1?? = start of V-sync
 
     always @(posedge clk_100m or negedge rstn) begin
         if (!rstn) begin
@@ -117,7 +112,7 @@ module vga_top (
 
     //--- 4b. Enemy Renderers (8 instances) ---
     wire [7:0]  hit_en;
-    wire [95:0] col_en_packed;  // 8 × 12 bits
+    wire [95:0] col_en_packed;  // 8 ? 12 bits
 
     genvar ei;
     generate
@@ -128,6 +123,7 @@ module vga_top (
                 .ey(en_y[ei*9 +: 9]),
                 .active(en_active[ei]),
                 .hp(en_hp[ei*2 +: 2]),
+                .flash(en_flash[ei]),
                 .hit(hit_en[ei]),
                 .color(col_en_packed[ei*12 +: 12])
             );
@@ -147,7 +143,7 @@ module vga_top (
 
     //--- 4c. Player Bullet Renderers (16 instances) ---
     wire [15:0] hit_pb;
-    wire [191:0] col_pb_packed;  // 16 × 12 bits
+    wire [191:0] col_pb_packed;  // 16 ? 12 bits
 
     genvar pbi;
     generate
@@ -188,7 +184,7 @@ module vga_top (
 
     //--- 4d. Enemy Bullet Renderers (64 instances) ---
     wire [63:0] hit_eb;
-    wire [767:0] col_eb_packed;  // 64 × 12 bits
+    wire [767:0] col_eb_packed;  // 64 ? 12 bits
 
     genvar ebi;
     generate
@@ -275,36 +271,6 @@ module vga_top (
                     hit_eb[62] ? col_eb_packed[62*12 +: 12] :
                                  col_eb_packed[63*12 +: 12];
 
-    //--- 4e. Obstacle Renderers (8 instances) ---
-    wire [7:0]  hit_ob;
-    wire [95:0] col_ob_packed;  // 8 × 12 bits
-
-    genvar oi;
-    generate
-        for (oi = 0; oi < 8; oi = oi + 1) begin : gen_obs
-            obstacle_render u_or (
-                .sx(sx), .sy(sy),
-                .ox(ob_x[oi*10 +: 10]),
-                .oy(ob_y[oi*9 +: 9]),
-                .active(ob_active[oi]),
-                .size(ob_size[oi*2 +: 2]),
-                .shape(ob_shape[oi*2 +: 2]),
-                .hit(hit_ob[oi]),
-                .color(col_ob_packed[oi*12 +: 12])
-            );
-        end
-    endgenerate
-
-    wire hit_ob_any = |hit_ob;
-    wire [11:0] col_ob = hit_ob[0] ? col_ob_packed[0*12 +: 12] :
-                         hit_ob[1] ? col_ob_packed[1*12 +: 12] :
-                         hit_ob[2] ? col_ob_packed[2*12 +: 12] :
-                         hit_ob[3] ? col_ob_packed[3*12 +: 12] :
-                         hit_ob[4] ? col_ob_packed[4*12 +: 12] :
-                         hit_ob[5] ? col_ob_packed[5*12 +: 12] :
-                         hit_ob[6] ? col_ob_packed[6*12 +: 12] :
-                         col_ob_packed[7*12 +: 12];
-
     //--- 4f. HUD Renderer ---
     wire        hit_hud;
     wire [11:0] col_hud;
@@ -330,7 +296,7 @@ module vga_top (
     // 5. Priority MUX
     //    HUD > Player > Player Bullets > Enemy Bullets > Enemies > Obstacles
     //    > Menu > Background
-    //    rdn=1 (blanking) → force black
+    //    rdn=1 (blanking) ??force black
     //==========================================================================
     always @* begin
         if (rdn)
@@ -347,8 +313,6 @@ module vga_top (
             vga_data = col_eb;
         else if (hit_en_any)
             vga_data = col_en;
-        else if (hit_ob_any)
-            vga_data = col_ob;
         else
             vga_data = `COL_BLACK;
     end

@@ -1,0 +1,63 @@
+\contentsline {section}{\numberline {1}背景介绍}{3}{section.1}%
+\contentsline {section}{\numberline {2}设计说明}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}设计开发环境}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}输入输出交互选择}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}板载输入}{3}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}显示输出}{4}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.3}系统总体架构}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}引脚约束}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}时钟域设计}{5}{subsection.2.5}%
+\contentsline {section}{\numberline {3}模块结构}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}工程文件}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}各模块关系图}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}核心模块详细说明}{8}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}game\_top --- FPGA 顶层模块}{8}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}vgac --- VGA 控制器}{9}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}vga\_top --- VGA 渲染管线顶层}{10}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}game\_logic --- 核心游戏逻辑}{11}{subsubsection.3.3.4}%
+\contentsline {paragraph}{游戏状态机}{11}{subsubsection.3.3.4}%
+\contentsline {paragraph}{输入映射}{13}{figure.caption.7}%
+\contentsline {paragraph}{实体管理}{14}{table.caption.8}%
+\contentsline {paragraph}{碰撞检测}{14}{table.caption.8}%
+\contentsline {paragraph}{计分与武器升级}{15}{table.caption.8}%
+\contentsline {paragraph}{玩家属性}{15}{table.caption.8}%
+\contentsline {paragraph}{LFSR 伪随机数生成器}{15}{table.caption.8}%
+\contentsline {subsubsection}{\numberline {3.3.5}字库实现}{15}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.6}渲染器模块族}{16}{subsubsection.3.3.6}%
+\contentsline {section}{\numberline {4}程序流程}{16}{section.4}%
+\contentsline {subsection}{\numberline {4.1}游戏主循环}{16}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}VGA 渲染流程}{18}{subsection.4.2}%
+\contentsline {section}{\numberline {5}调试过程分析}{19}{section.5}%
+\contentsline {subsection}{\numberline {5.1}语法与综合调试}{19}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}主要调试问题与解决方案}{19}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}问题 1：玩家飞机位置与移动异常}{19}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}问题 2：敌机生成和显示不全}{20}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}问题 3：子弹发射数量少}{20}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}问题 4：文字显示异常}{20}{subsubsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.5}问题 5：椭球体渲染鬼影点}{20}{subsubsection.5.2.5}%
+\contentsline {subsection}{\numberline {5.3}综合资源使用}{21}{subsection.5.3}%
+\contentsline {section}{\numberline {6}核心模块模拟仿真结果}{21}{section.6}%
+\contentsline {subsection}{\numberline {6.1}按键消抖模块（AntiJitter）仿真}{21}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}游戏逻辑模块（game\_logic）仿真}{21}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}VGA 渲染管线仿真}{22}{subsection.6.3}%
+\contentsline {section}{\numberline {7}操作说明}{23}{section.7}%
+\contentsline {subsection}{\numberline {7.1}游戏启动}{23}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}菜单操作}{23}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}游戏操作}{23}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}游戏机制}{24}{subsection.7.4}%
+\contentsline {section}{\numberline {8}验证过程演示}{24}{section.8}%
+\contentsline {subsection}{\numberline {8.1}上板验证流程}{24}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}上板测试结果}{25}{subsection.8.2}%
+\contentsline {section}{\numberline {9}程序代码（关键部分）}{25}{section.9}%
+\contentsline {subsection}{\numberline {9.1}game\_top --- 顶层互联}{25}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}game\_logic --- 状态机与输入映射}{26}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}game\_logic --- FSM 状态转换}{26}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}LFSR 伪随机数生成}{28}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}hud\_render --- 内联字库（部分）}{28}{subsection.9.5}%
+\contentsline {section}{\numberline {10}组内成员分工说明及贡献比例}{29}{section.10}%
+\contentsline {subsection}{\numberline {10.1}成员分工}{29}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}贡献比例}{29}{subsection.10.2}%
+\contentsline {section}{\numberline {11}总结与展望}{29}{section.11}%
+\contentsline {subsection}{\numberline {11.1}项目总结}{29}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}改进方向}{30}{subsection.11.2}%
+\contentsline {section}{\numberline {12}参考资料}{31}{section.12}%

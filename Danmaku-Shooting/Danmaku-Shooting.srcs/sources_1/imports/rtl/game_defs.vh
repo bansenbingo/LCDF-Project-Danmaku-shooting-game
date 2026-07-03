@@ -1,5 +1,5 @@
 //==============================================================================
-// game_defs.vh — Global definitions for Aeroplane Danmaku Shooting
+// game_defs.vh ??Global definitions for Aeroplane Danmaku Shooting
 // Colors are in BGR order per ZJU VGA spec: d_in = {B[3:0], G[3:0], R[3:0]}
 //==============================================================================
 
@@ -53,9 +53,9 @@
 `define PLAYER_H          24    // height of player triangle
 `define PLAYER_SPEED       2    // pixels per frame
 `define PLAYER_HP_DEFAULT  3
-`define PLAYER_FIRE_RATE   8    // frames between shots (at 60Hz)
+`define PLAYER_FIRE_RATE   4    // frames between shots (at 60Hz) — lowered for faster fire
 `define PLAYER_INV_TIME   180   // invincibility frames after respawn (3 sec)
-`define PLAYER_BULLET_SPD  5    // player bullet speed
+`define PLAYER_BULLET_SPD  8    // player bullet speed — increased
 
 //---------------------------- Enemy -------------------------------------------
 `define ENEMY_SPAWN_BASE  120   // base spawn interval in frames (2 sec at 60Hz)
@@ -63,12 +63,6 @@
 `define ENEMY_BULLET_SPD    2   // enemy bullet base speed
 `define ENEMY_W            14   // half-width of enemy UFO ellipse
 `define ENEMY_H            10   // half-height of enemy UFO ellipse
-
-//---------------------------- Obstacle ----------------------------------------
-`define OBSTACLE_SPAWN_BASE 300 // base spawn interval (5 sec)
-`define OBS_SMALL_W         6
-`define OBS_MEDIUM_W        12
-`define OBS_LARGE_W         20
 
 //---------------------------- Bullet ------------------------------------------
 `define BULLET_W            2   // half-width of bullet rendering box

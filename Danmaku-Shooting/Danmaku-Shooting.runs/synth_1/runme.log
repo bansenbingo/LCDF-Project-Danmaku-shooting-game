@@ -8,7 +8,7 @@
   **** SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
   **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
   **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-  **** Start of session at: Wed Jun 24 20:50:35 2026
+  **** Start of session at: Thu Jul  2 14:33:56 2026
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 
@@ -25,9 +25,9 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 43260
+INFO: [Synth 8-7075] Helper process launched with PID 129108
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 1300.965 ; gain = 495.043
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1301.016 ; gain = 496.066
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-6901] identifier 'sck' is used before its declaration [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ShiftReg.v:27]
 WARNING: [Synth 8-6901] identifier 'sdat' is used before its declaration [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ShiftReg.v:27]
@@ -96,59 +96,56 @@ WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-
 WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v:499]
 WARNING: [Synth 8-6901] identifier 'char_code' is used before its declaration [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v:24]
 WARNING: [Synth 8-6901] identifier 'char_code' is used before its declaration [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v:27]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:237]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:238]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:239]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:240]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:241]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:242]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:243]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:244]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:246]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:247]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:248]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:249]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:250]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:251]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:252]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:253]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:255]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:256]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:257]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:258]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:259]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:260]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:261]
-WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:262]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:264]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:265]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:266]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:267]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:268]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:269]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:270]
-WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:271]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:328]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:339]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:348]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:382]
-WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:410]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:411]
-WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:431]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:264]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:265]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:266]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:267]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:268]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:269]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:270]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:271]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:273]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:274]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:275]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:276]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:277]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:278]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:279]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:280]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:282]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:283]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:284]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:285]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:286]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:287]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:288]
+WARNING: [Synth 8-10929] literal value 'd40 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:289]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:291]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:292]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:293]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:294]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:295]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:296]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:297]
+WARNING: [Synth 8-10929] literal value 'd42 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:298]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:355]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:366]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:375]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:408]
+WARNING: [Synth 8-10929] literal value 'd37 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:435]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:436]
+WARNING: [Synth 8-10929] literal value 'd36 truncated to fit in 5 bits [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:456]
 INFO: [Common 17-14] Message 'Synth 8-10929' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-6157] synthesizing module 'game_top' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_top.v:8]
-INFO: [Synth 8-6157] synthesizing module 'AntiJitter' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/AntiJitter.v:21]
-	Parameter WIDTH bound to: 4 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'AntiJitter' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/AntiJitter.v:21]
-INFO: [Synth 8-6157] synthesizing module 'ps2_keyboard' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ps2_keyboard.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'ps2_keyboard' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ps2_keyboard.v:6]
+INFO: [Synth 8-6157] synthesizing module 'Keyboard' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Keyboard.v:8]
+INFO: [Synth 8-6157] synthesizing module 'ps2_drive' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Keyboard.v:193]
+INFO: [Synth 8-6155] done synthesizing module 'ps2_drive' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Keyboard.v:193]
+INFO: [Synth 8-6155] done synthesizing module 'Keyboard' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/Keyboard.v:8]
 INFO: [Synth 8-6157] synthesizing module 'vga_top' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vga_top.v:8]
-INFO: [Synth 8-6157] synthesizing module 'enemy_render' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/enemy_render.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'enemy_render' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/enemy_render.v:7]
-INFO: [Synth 8-6157] synthesizing module 'bullet_render' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/bullet_render.v:8]
-INFO: [Synth 8-6155] done synthesizing module 'bullet_render' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/bullet_render.v:8]
-INFO: [Synth 8-6157] synthesizing module 'obstacle_render' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/obstacle_render.v:8]
-INFO: [Synth 8-6155] done synthesizing module 'obstacle_render' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/obstacle_render.v:8]
+INFO: [Synth 8-6157] synthesizing module 'enemy_render' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/enemy_render.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'enemy_render' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/enemy_render.v:7]
+INFO: [Synth 8-6157] synthesizing module 'bullet_render' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/bullet_render.v:8]
+INFO: [Synth 8-6155] done synthesizing module 'bullet_render' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/bullet_render.v:8]
 INFO: [Synth 8-6157] synthesizing module 'vgac' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vgac.v:21]
 INFO: [Synth 8-6155] done synthesizing module 'vgac' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vgac.v:21]
 INFO: [Synth 8-6157] synthesizing module 'player_render' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/player_render.v:7]
@@ -248,8 +245,8 @@ WARNING: [Synth 8-151] case item 8'b01010110 is unreachable [Z:/LCDF-Project-Dan
 WARNING: [Synth 8-151] case item 8'b01010111 is unreachable [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:23]
 INFO: [Synth 8-6155] done synthesizing module 'menu_render' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/menu_render.v:7]
 INFO: [Synth 8-6155] done synthesizing module 'vga_top' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vga_top.v:8]
-INFO: [Synth 8-6157] synthesizing module 'game_logic' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'game_logic' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:7]
+INFO: [Synth 8-6157] synthesizing module 'game_logic' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:8]
+INFO: [Synth 8-6155] done synthesizing module 'game_logic' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:8]
 INFO: [Synth 8-6157] synthesizing module 'DispNum' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/DispNum.v:92]
 INFO: [Synth 8-6157] synthesizing module 'Decoder2' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/DispNum.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'Decoder2' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/DispNum.v:6]
@@ -275,16 +272,12 @@ INFO: [Synth 8-6157] synthesizing module 'ShiftReg__parameterized0' [Z:/LCDF-Pro
 	Parameter WIDTH bound to: 16 - type: integer 
 INFO: [Synth 8-6155] done synthesizing module 'ShiftReg__parameterized0' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ShiftReg.v:21]
 INFO: [Synth 8-6155] done synthesizing module 'game_top' (0#1) [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_top.v:8]
-WARNING: [Synth 8-6014] Unused sequential element ext_pending_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ps2_keyboard.v:39]
-WARNING: [Synth 8-3936] Found unconnected internal register 'ps2_data_sync_reg' and it is trimmed from '3' to '2' bits. [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/ps2_keyboard.v:18]
-WARNING: [Synth 8-6014] Unused sequential element sel_mode_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:190]
-WARNING: [Synth 8-6014] Unused sequential element fired_left_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:260]
-WARNING: [Synth 8-6014] Unused sequential element fired_right_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:260]
-WARNING: [Synth 8-6014] Unused sequential element fired_center_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:260]
-WARNING: [Synth 8-6014] Unused sequential element diff_fire_bonus_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:309]
-WARNING: [Synth 8-6014] Unused sequential element bi_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:328]
-WARNING: [Synth 8-6014] Unused sequential element hit_player_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:406]
-WARNING: [Synth 8-7137] Register en_dir_reg in module game_logic has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:299]
+WARNING: [Synth 8-6014] Unused sequential element keyK_d_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:59]
+WARNING: [Synth 8-6014] Unused sequential element key_upg_latch_reg was removed.  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:78]
+WARNING: [Synth 8-7137] Register difficulty_reg in module game_logic has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:259]
+WARNING: [Synth 8-7137] Register mode_reg in module game_logic has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:260]
+WARNING: [Synth 8-7129] Port key_data[7] in module game_logic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port key_data[5] in module game_logic is either unconnected or has no load
 WARNING: [Synth 8-7129] Port kills[7] in module hud_render is either unconnected or has no load
 WARNING: [Synth 8-7129] Port kills[6] in module hud_render is either unconnected or has no load
 WARNING: [Synth 8-7129] Port kills[5] in module hud_render is either unconnected or has no load
@@ -296,19 +289,21 @@ WARNING: [Synth 8-7129] Port kills[0] in module hud_render is either unconnected
 WARNING: [Synth 8-7129] Port difficulty[1] in module hud_render is either unconnected or has no load
 WARNING: [Synth 8-7129] Port difficulty[0] in module hud_render is either unconnected or has no load
 WARNING: [Synth 8-7129] Port mode in module hud_render is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btype[1] in module bullet_render is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btype[0] in module bullet_render is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1686.281 ; gain = 880.359
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1511.961 ; gain = 707.012
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1686.281 ; gain = 880.359
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1511.961 ; gain = 707.012
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1686.281 ; gain = 880.359
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1511.961 ; gain = 707.012
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.274 . Memory (MB): peak = 1686.281 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.200 . Memory (MB): peak = 1511.961 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -319,30 +314,41 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/game_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 1789.684 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1565.766 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.047 . Memory (MB): peak = 1789.684 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1565.766 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1789.684 ; gain = 983.762
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1565.766 ; gain = 760.816
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7k160tffg676-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1789.684 ; gain = 983.762
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1565.766 ; gain = 760.816
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1789.684 ; gain = 983.762
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1565.766 ; gain = 760.816
 ---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'Keyboard'
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'game_logic'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+             STATE_RESET |                            00001 |                              000
+              STATE_READ |                            00010 |                              001
+             STATE_BREAK |                            00100 |                              010
+               STATE_EXT |                            01000 |                              011
+         STATE_EXT_BREAK |                            10000 |                              100
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'Keyboard'
 WARNING: [Synth 8-327] inferring latch for variable 'yw2_char_reg' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v:454]
 WARNING: [Synth 8-327] inferring latch for variable 'yw1_char_reg' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/hud_render.v:449]
 ---------------------------------------------------------------------------------------------------
@@ -356,108 +362,111 @@ WARNING: [Synth 8-327] inferring latch for variable 'yw1_char_reg' [Z:/LCDF-Proj
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'game_logic'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:27 . Memory (MB): peak = 1789.684 ; gain = 983.762
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1565.766 ; gain = 760.816
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input   20 Bit       Adders := 1     
-	   2 Input   17 Bit       Adders := 16    
-	   3 Input   11 Bit       Adders := 195   
-	   2 Input   11 Bit       Adders := 292   
-	   2 Input   10 Bit       Adders := 88    
-	   2 Input    9 Bit       Adders := 80    
-	   3 Input    9 Bit       Adders := 64    
-	   2 Input    8 Bit       Adders := 13    
-	   2 Input    7 Bit       Adders := 2     
+	   2 Input   32 Bit       Adders := 28    
+	   2 Input   20 Bit       Adders := 2     
+	   2 Input   17 Bit       Adders := 8     
+	   3 Input   11 Bit       Adders := 180   
+	   2 Input   11 Bit       Adders := 274   
+	   2 Input   10 Bit       Adders := 43    
+	   3 Input   10 Bit       Adders := 5     
+	   2 Input    9 Bit       Adders := 41    
+	   2 Input    8 Bit       Adders := 20    
+	   2 Input    7 Bit       Adders := 4     
 	   2 Input    5 Bit       Adders := 8     
-	   2 Input    4 Bit       Adders := 23    
-	   2 Input    3 Bit       Adders := 3     
-	   2 Input    2 Bit       Adders := 21    
+	   2 Input    4 Bit       Adders := 1     
+	   2 Input    3 Bit       Adders := 5     
+	   2 Input    2 Bit       Adders := 9     
 +---XORs : 
 	   2 Input     16 Bit         XORs := 1     
-	   2 Input      4 Bit         XORs := 8     
-	   2 Input      1 Bit         XORs := 1     
 +---XORs : 
-	                8 Bit    Wide XORs := 1     
+	                9 Bit    Wide XORs := 1     
 +---Registers : 
-	              640 Bit    Registers := 2     
-	              576 Bit    Registers := 2     
-	              160 Bit    Registers := 2     
-	              144 Bit    Registers := 2     
-	              128 Bit    Registers := 1     
-	               80 Bit    Registers := 4     
-	               72 Bit    Registers := 4     
+	              640 Bit    Registers := 1     
+	              576 Bit    Registers := 1     
+	              160 Bit    Registers := 1     
+	              144 Bit    Registers := 1     
+	               80 Bit    Registers := 1     
+	               72 Bit    Registers := 1     
 	               65 Bit    Registers := 1     
 	               64 Bit    Registers := 3     
-	               32 Bit    Registers := 1     
-	               20 Bit    Registers := 2     
+	               20 Bit    Registers := 1     
 	               17 Bit    Registers := 1     
-	               16 Bit    Registers := 11    
+	               16 Bit    Registers := 4     
 	               11 Bit    Registers := 2     
-	               10 Bit    Registers := 4     
-	                9 Bit    Registers := 4     
-	                8 Bit    Registers := 14    
+	               10 Bit    Registers := 5     
+	                9 Bit    Registers := 3     
+	                8 Bit    Registers := 10    
 	                5 Bit    Registers := 1     
-	                4 Bit    Registers := 25    
-	                3 Bit    Registers := 6     
-	                2 Bit    Registers := 7     
-	                1 Bit    Registers := 53    
+	                4 Bit    Registers := 5     
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 4     
+	                1 Bit    Registers := 21    
++---RAMs : 
+	               64 Bit	(8 X 8 bit)          RAMs := 1     
 +---Muxes : 
 	   2 Input  640 Bit        Muxes := 30    
-	   5 Input  640 Bit        Muxes := 2     
-	   2 Input  576 Bit        Muxes := 30    
-	   5 Input  576 Bit        Muxes := 2     
+	   5 Input  640 Bit        Muxes := 1     
+	   5 Input  576 Bit        Muxes := 1     
+	   2 Input  576 Bit        Muxes := 28    
+	   2 Input  522 Bit        Muxes := 2     
+	   5 Input  160 Bit        Muxes := 1     
 	   2 Input  160 Bit        Muxes := 2     
-	   5 Input  160 Bit        Muxes := 2     
+	   5 Input  144 Bit        Muxes := 1     
 	   2 Input  144 Bit        Muxes := 1     
-	   5 Input  144 Bit        Muxes := 2     
-	   2 Input   80 Bit        Muxes := 6     
-	   5 Input   80 Bit        Muxes := 4     
-	   2 Input   72 Bit        Muxes := 6     
-	   5 Input   72 Bit        Muxes := 4     
+	   2 Input   80 Bit        Muxes := 17    
+	   5 Input   80 Bit        Muxes := 1     
+	   5 Input   72 Bit        Muxes := 1     
+	   2 Input   72 Bit        Muxes := 3     
 	   2 Input   65 Bit        Muxes := 1     
-	   2 Input   64 Bit        Muxes := 39    
 	   5 Input   64 Bit        Muxes := 4     
+	   2 Input   64 Bit        Muxes := 48    
 	   5 Input   20 Bit        Muxes := 1     
+	   2 Input   20 Bit        Muxes := 18    
 	   2 Input   17 Bit        Muxes := 1     
-	   2 Input   16 Bit        Muxes := 115   
-	   5 Input   16 Bit        Muxes := 10    
-	   5 Input   12 Bit        Muxes := 8     
-	   3 Input   12 Bit        Muxes := 81    
-	   6 Input   12 Bit        Muxes := 8     
+	   5 Input   16 Bit        Muxes := 3     
+	   2 Input   16 Bit        Muxes := 4     
+	   4 Input   16 Bit        Muxes := 1     
+	   2 Input   12 Bit        Muxes := 135   
 	   4 Input   12 Bit        Muxes := 2     
-	   2 Input   12 Bit        Muxes := 8     
-	   2 Input   11 Bit        Muxes := 197   
+	   3 Input   12 Bit        Muxes := 1     
+	   2 Input   11 Bit        Muxes := 184   
 	   5 Input   11 Bit        Muxes := 2     
-	   2 Input   10 Bit        Muxes := 173   
 	   5 Input   10 Bit        Muxes := 1     
-	   2 Input    9 Bit        Muxes := 478   
-	   3 Input    9 Bit        Muxes := 1     
-	   5 Input    9 Bit        Muxes := 3     
-	   2 Input    8 Bit        Muxes := 125   
-	   5 Input    8 Bit        Muxes := 9     
+	   2 Input   10 Bit        Muxes := 63    
+	   4 Input   10 Bit        Muxes := 1     
+	   5 Input    9 Bit        Muxes := 2     
+	   2 Input    9 Bit        Muxes := 150   
+	   2 Input    8 Bit        Muxes := 64    
+	   5 Input    8 Bit        Muxes := 11    
 	   4 Input    8 Bit        Muxes := 1     
-	   2 Input    7 Bit        Muxes := 81    
-	   4 Input    7 Bit        Muxes := 1     
-	   2 Input    5 Bit        Muxes := 28    
+	   2 Input    5 Bit        Muxes := 19    
 	   4 Input    5 Bit        Muxes := 6     
 	  10 Input    5 Bit        Muxes := 1     
 	   7 Input    5 Bit        Muxes := 1     
-	   6 Input    5 Bit        Muxes := 1     
-	   5 Input    5 Bit        Muxes := 1     
+	   6 Input    5 Bit        Muxes := 2     
+	   5 Input    5 Bit        Muxes := 2     
+	   3 Input    5 Bit        Muxes := 1     
 	   4 Input    4 Bit        Muxes := 5     
-	   2 Input    4 Bit        Muxes := 8     
-	   5 Input    3 Bit        Muxes := 5     
-	   2 Input    3 Bit        Muxes := 7     
-	   3 Input    3 Bit        Muxes := 1     
-	   2 Input    2 Bit        Muxes := 1063  
+	   2 Input    4 Bit        Muxes := 4     
+	   5 Input    3 Bit        Muxes := 3     
+	  14 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 3     
 	   5 Input    2 Bit        Muxes := 1     
-	   4 Input    1 Bit        Muxes := 9     
-	   2 Input    1 Bit        Muxes := 1834  
-	   5 Input    1 Bit        Muxes := 19    
+	   2 Input    2 Bit        Muxes := 41    
+	   4 Input    2 Bit        Muxes := 1     
+	   3 Input    2 Bit        Muxes := 1     
+	   6 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 359   
+	   4 Input    1 Bit        Muxes := 2     
+	   5 Input    1 Bit        Muxes := 24    
+	   6 Input    1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -473,14 +482,7 @@ Finished Part Resource Summary
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 DSP Report: Generating DSP ady2, operation Mode is: A*B.
 DSP Report: operator ady2 is absorbed into DSP ady2.
 DSP Report: Generating DSP adx2, operation Mode is: A*B.
@@ -514,294 +516,29 @@ DSP Report: operator ady2 is absorbed into DSP ady2.
 DSP Report: Generating DSP adx2, operation Mode is: A*B.
 DSP Report: operator adx2 is absorbed into DSP adx2.
 WARNING: [Synth 8-3332] Sequential element (yw1_char_reg[0]) is unused and will be removed from module hud_render.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-DSP Report: Generating DSP ady2, operation Mode is: A*B.
-DSP Report: operator ady2 is absorbed into DSP ady2.
-DSP Report: Generating DSP adx2, operation Mode is: A*B.
-DSP Report: operator adx2 is absorbed into DSP adx2.
-INFO: [Synth 8-5544] ROM "en_fire_cd0" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[40] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[41] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[42] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[43] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[44] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[45] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[46] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[47] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[48] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[49] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[50] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[51] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[52] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[53] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[54] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[55] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[56] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[57] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[58] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[59] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[60] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[61] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[62] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[63] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[64] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[65] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[66] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[67] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[68] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[69] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[70] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[71] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[72] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[73] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[74] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[75] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[76] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[77] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[78] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[79] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[120] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[121] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[122] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[123] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[124] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[125] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[126] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[127] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[128] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[129] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[130] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[131] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[132] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[133] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[134] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[135] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[136] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[137] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[138] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[139] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[140] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[141] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[142] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[143] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[144] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[145] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[146] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[147] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[148] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[149] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[150] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[151] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[152] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[153] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[154] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[155] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[156] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[157] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[158] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[159] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[200] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[201] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[202] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[203] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[204] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[205] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[206] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[207] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[208] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[209] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[210] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[211] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[212] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[213] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[214] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[215] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[216] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[217] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[218] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\eb_x_r_reg[219] )
-INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-INFO: [Synth 8-5546] ROM "key_w" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_s" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_a" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_d" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_4" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_3" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_1" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_2" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_p" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_ent" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_k" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_spc" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_j" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_w" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_s" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_a" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_d" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_4" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_3" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_1" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_2" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_p" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_ent" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_k" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_spc" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "key_j" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[0]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[1]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[2]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[3]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[4]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[5]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[6]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[7]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[8]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[9]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[10]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[11]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[12]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[13]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[14]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[15]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[16]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[17]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[18]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[19]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[20]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[21]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[22]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[23]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[24]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[25]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[26]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[27]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[28]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[29]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[30]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[31]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[32]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[33]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[34]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[35]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[36]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[37]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[38]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[39]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[40]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[41]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[42]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[43]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[44]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[45]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[46]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[47]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[48]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[49]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[50]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[51]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[52]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[53]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[54]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[55]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[56]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[57]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[58]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[59]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[60]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[61]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[62]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[63]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[64]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[65]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[66]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[67]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[68]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[69]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[70]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[71]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[72]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[73]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[74]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[75]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[76]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[77]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[78]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[79]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[80]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[81]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[82]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[83]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[84]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[85]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[86]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[87]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[88]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[89]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[90]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[91]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[92]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[93]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[94]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[95]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[96]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[97]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[98]' (FDC) to 'pb_type_reg[0]'
-INFO: [Synth 8-3886] merging instance 'eb_type_reg[99]' (FDC) to 'pb_type_reg[0]'
-INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'u_game_logici_5/seg_mode_reg[0]/Q' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:201]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:201]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:201]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'u_game_logici_5/seg_cycle_reg[1]/Q' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:181]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:181]
+CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_logic.v:181]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:01 ; elapsed = 00:01:16 . Memory (MB): peak = 1789.684 ; gain = 983.762
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:18 ; elapsed = 00:01:20 . Memory (MB): peak = 1861.438 ; gain = 1056.488
 ---------------------------------------------------------------------------------
- Sort Area is vga_top__GB1 adx2_0 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 adx2_0 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_11 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_13 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_3 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 adx2_3 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_5 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 adx2_5 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_7 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 adx2_7 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_9 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 adx2_9 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 adx2_b : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 adx2_b : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB1 adx2_d : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB1 adx2_f : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB1 ady2_10 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_12 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_14 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_2 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 ady2_2 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_4 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 ady2_4 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_6 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 ady2_6 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_8 : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 ady2_8 : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_a : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 ady2_a : 0 0 : 863 863 : Used 1 time 0
- Sort Area is vga_top__GB1 ady2_c : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB0 ady2_c : 0 0 : 863 863 : Used 1 time 0
  Sort Area is vga_top__GB1 ady2_e : 0 0 : 863 863 : Used 1 time 0
 ---------------------------------------------------------------------------------
@@ -821,43 +558,36 @@ ROM: Preliminary Mapping Report
 +------------+-------------+---------------+----------------+
 
 
+Distributed RAM: Preliminary Mapping Report (see note below)
++------------+----------------------------------+-----------+----------------------+-------------+
+|Module Name | RTL Object                       | Inference | Size (Depth x Width) | Primitives  | 
++------------+----------------------------------+-----------+----------------------+-------------+
+|game_top    | u_keyboard/keyboard_drv/fifo_reg | Implied   | 8 x 8                | RAM32M x 2  | 
++------------+----------------------------------+-----------+----------------------+-------------+
+
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+
 DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
-+----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|Module Name     | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
-+----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-+----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
++-------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name  | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++-------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++-------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 
 Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
 ---------------------------------------------------------------------------------
@@ -867,20 +597,33 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:10 ; elapsed = 00:01:25 . Memory (MB): peak = 1813.246 ; gain = 1007.324
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:24 ; elapsed = 00:01:26 . Memory (MB): peak = 1861.438 ; gain = 1056.488
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
-info: optimization accepted worst group hill climbing move (-1381.0/oG. 320.0ps)
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:02:37 ; elapsed = 00:02:53 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Timing Optimization : Time (s): cpu = 00:01:58 ; elapsed = 00:02:01 . Memory (MB): peak = 2158.508 ; gain = 1353.559
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Final Mapping Report
++------------+----------------------------------+-----------+----------------------+-------------+
+|Module Name | RTL Object                       | Inference | Size (Depth x Width) | Primitives  | 
++------------+----------------------------------+-----------+----------------------+-------------+
+|game_top    | u_keyboard/keyboard_drv/fifo_reg | Implied   | 8 x 8                | RAM32M x 2  | 
++------------+----------------------------------+-----------+----------------------+-------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:02:39 ; elapsed = 00:03:06 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Technology Mapping : Time (s): cpu = 00:02:01 ; elapsed = 00:02:05 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -898,79 +641,63 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:02:43 ; elapsed = 00:03:11 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished IO Insertion : Time (s): cpu = 00:02:04 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:02:43 ; elapsed = 00:03:11 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:04 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:46 ; elapsed = 00:03:13 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:05 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:02:46 ; elapsed = 00:03:13 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:05 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:02:46 ; elapsed = 00:03:14 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:05 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:02:46 ; elapsed = 00:03:14 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:05 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
 ---------------------------------------------------------------------------------
 
 DSP Final Report (the ' indicates corresponding REG is set)
-+----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|Module Name     | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
-+----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|enemy_render    | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-|obstacle_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-+----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
++-------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name  | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++-------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 10     | 10     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|enemy_render | A*B         | 11     | 11     | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++-------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 
 
 Report BlackBoxes: 
@@ -980,51 +707,55 @@ Report BlackBoxes:
 +-+--------------+----------+
 
 Report Cell Usage: 
-+------+--------+------+
-|      |Cell    |Count |
-+------+--------+------+
-|1     |BUFG    |     5|
-|2     |CARRY4  |  3204|
-|3     |DSP48E1 |    32|
-|4     |LUT1    |   103|
-|5     |LUT2    |  2311|
-|6     |LUT3    |   697|
-|7     |LUT4    |  9446|
-|8     |LUT5    |  3065|
-|9     |LUT6    |  5527|
-|10    |MUXF7   |     6|
-|11    |MUXF8   |     1|
-|12    |FDCE    |  2975|
-|13    |FDPE    |    25|
-|14    |FDRE    |   286|
-|15    |FDSE    |    12|
-|16    |LD      |     6|
-|17    |IBUF    |    25|
-|18    |OBUF    |    42|
-+------+--------+------+
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |BUFG     |     3|
+|2     |CARRY4   |   877|
+|3     |DSP48E1  |    16|
+|4     |LUT1     |   279|
+|5     |LUT2     |  1401|
+|6     |LUT3     |   733|
+|7     |LUT4     |  1392|
+|8     |LUT5     |  1360|
+|9     |LUT6     |  1532|
+|10    |MUXF7    |    23|
+|11    |RAM32M   |     1|
+|12    |RAM32X1D |     2|
+|13    |FDCE     |   896|
+|14    |FDPE     |    25|
+|15    |FDRE     |   188|
+|16    |FDSE     |    14|
+|17    |LD       |     6|
+|18    |IBUF     |     4|
+|19    |OBUF     |    42|
++------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:02:46 ; elapsed = 00:03:14 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:05 ; elapsed = 00:02:08 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 3 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:02:33 ; elapsed = 00:03:10 . Memory (MB): peak = 2374.531 ; gain = 1465.207
-Synthesis Optimization Complete : Time (s): cpu = 00:02:46 ; elapsed = 00:03:15 . Memory (MB): peak = 2374.531 ; gain = 1568.609
+Synthesis finished with 0 errors, 6 critical warnings and 4 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:55 ; elapsed = 00:02:05 . Memory (MB): peak = 2164.445 ; gain = 1305.691
+Synthesis Optimization Complete : Time (s): cpu = 00:02:05 ; elapsed = 00:02:09 . Memory (MB): peak = 2164.445 ; gain = 1359.496
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.170 . Memory (MB): peak = 2374.531 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 3249 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.062 . Memory (MB): peak = 2173.469 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 925 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 2374.531 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 2179.281 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 6 instances were transformed.
+  A total of 9 instances were transformed.
   LD => LDCE: 6 instances
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 1 instance 
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 2 instances
 
-Synth Design complete | Checksum: 36ecf06e
+Synth Design complete | Checksum: 1372aecc
 INFO: [Common 17-83] Releasing license: Synthesis
-303 Infos, 218 Warnings, 0 Critical Warnings and 0 Errors encountered.
+72 Infos, 217 Warnings, 6 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:02:52 ; elapsed = 00:03:24 . Memory (MB): peak = 2374.531 ; gain = 1773.938
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.064 . Memory (MB): peak = 2374.531 ; gain = 0.000
+synth_design: Time (s): cpu = 00:02:09 ; elapsed = 00:02:15 . Memory (MB): peak = 2179.281 ; gain = 1582.379
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.014 . Memory (MB): peak = 2179.281 ; gain = 0.000
 INFO: [Common 17-1381] The checkpoint 'Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.runs/synth_1/game_top.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file game_top_utilization_synth.rpt -pb game_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Wed Jun 24 20:54:08 2026...
+INFO: [Common 17-206] Exiting Vivado at Thu Jul  2 14:36:20 2026...

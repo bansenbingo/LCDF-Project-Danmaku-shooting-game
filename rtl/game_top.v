@@ -21,10 +21,6 @@ module game_top (
     //--- Switches ---
     input  wire [15:0] SW,
 
-    //--- PS/2 Keyboard ---
-    inout  wire        ps2_clk,
-    inout  wire        ps2_data,
-
     //--- 7-Segment Display (direct connection) ---
     output wire [7:0]  SEGMENT,     // segments a-g + dp
     output wire [3:0]  AN,          // anodes (active-low)
@@ -81,20 +77,6 @@ module game_top (
             );
         end
     endgenerate
-
-    //==========================================================================
-    // PS/2 Keyboard Interface
-    //==========================================================================
-    wire [7:0] ps2_scan_code;
-    wire       ps2_key_ready;
-    ps2_keyboard u_ps2 (
-        .clk(clkdiv[8]),     // ~390kHz for PS/2 sampling
-        .rstn(rstn),
-        .ps2_clk(ps2_clk),
-        .ps2_data(ps2_data),
-        .scan_code(ps2_scan_code),
-        .key_ready(ps2_key_ready)
-    );
 
     //==========================================================================
     // VGA Top (rendering pipeline)
@@ -176,8 +158,6 @@ module game_top (
         .rstn       (rstn),
         .frame_tick (frame_tick),
         .btn        (btn_db),
-        .ps2_scan   (ps2_scan_code),
-        .ps2_ready  (ps2_key_ready),
         .sw         (SW_OK),
         .pl_x       (pl_x),
         .pl_y       (pl_y),

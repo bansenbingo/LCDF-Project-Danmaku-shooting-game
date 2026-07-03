@@ -11,8 +11,6 @@ module game_logic (
     input  wire        frame_tick,  // 60Hz game update pulse
 
     input  wire [4:0]  btn,         // {BTNX4, BTN[3:0]} debounced buttons
-    input  wire [7:0]  ps2_scan,
-    input  wire        ps2_ready,
     input  wire [15:0] sw,
 
     output reg  [9:0]  pl_x,
@@ -53,57 +51,33 @@ module game_logic (
     output reg  [7:0]  led
 );
     //==========================================================================
-    // PS/2 Key Decode — Latched flags (ps2_ready is a 10ns pulse, rare to
-    //   coincide with 60Hz tick. Latch key events so no press is missed.)
+    // SW[] Switch Input Mapping
+    //   SW[0]  → UP,        SW[1]  → DOWN
+    //   SW[2]  → LEFT,       SW[3]  → RIGHT
+    //   SW[4]  → FIRE/START, SW[5]  → PAUSE (edge)
+    //   SW[6]  → CYCLE (edge),SW[7] → DIFF EASY
+    //   SW[8]  → DIFF NORMAL,SW[9]  → DIFF HARD
+    //   SW[10] → DIFF HELL,  SW[11] → MODE (0=survival,1=score)
+    //   SW[12:15] → reserved (cheat)
+    //   SW=1 held; SW=0 released. Pause/Cycle use posedge->latch->tick.
     //==========================================================================
-    // Edge-detect on ps2_ready (one cycle at 100MHz)
-    reg ps2_ready_d; always @(posedge clk) ps2_ready_d <= ps2_ready;
-    wire ps2_ready_rise = ps2_ready && !ps2_ready_d;
+    reg [15:0] sw_d;
+    always @(posedge clk) sw_d <= sw;
 
-    // Key-down latches: set on ps2_ready_rise, cleared on tick
-    reg key_w_latch, key_a_latch, key_s_latch, key_d_latch;
-    reg key_j_latch, key_spc_latch, key_ent_latch;
-    reg key_k_latch, key_p_latch;
-    reg key_1_latch, key_2_latch, key_3_latch, key_4_latch;
-
+    reg sw5_latch, sw6_latch;
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
-            key_w_latch   <= 1'b0; key_a_latch   <= 1'b0;
-            key_s_latch   <= 1'b0; key_d_latch   <= 1'b0;
-            key_j_latch   <= 1'b0; key_spc_latch <= 1'b0;
-            key_ent_latch <= 1'b0; key_k_latch   <= 1'b0;
-            key_p_latch   <= 1'b0; key_1_latch   <= 1'b0;
-            key_2_latch   <= 1'b0; key_3_latch   <= 1'b0;
-            key_4_latch   <= 1'b0;
+            sw5_latch <= 1'b0;
+            sw6_latch <= 1'b0;
         end else begin
-            if (ps2_ready_rise) begin
-                case (ps2_scan)
-                    8'h1D: key_w_latch   <= 1'b1;
-                    8'h1C: key_a_latch   <= 1'b1;
-                    8'h1B: key_s_latch   <= 1'b1;
-                    8'h23: key_d_latch   <= 1'b1;
-                    8'h3B: key_j_latch   <= 1'b1;
-                    8'h29: key_spc_latch <= 1'b1;
-                    8'h5A: key_ent_latch <= 1'b1;
-                    8'h42: key_k_latch   <= 1'b1;
-                    8'h4D: key_p_latch   <= 1'b1;
-                    8'h16: key_1_latch   <= 1'b1;
-                    8'h1E: key_2_latch   <= 1'b1;
-                    8'h26: key_3_latch   <= 1'b1;
-                    8'h25: key_4_latch   <= 1'b1;
-                    default: ;
-                endcase
-            end
-            // Clear all latches on tick (NB: sampled with old value in case below)
-            if (tick) begin
-                key_w_latch   <= 1'b0; key_a_latch   <= 1'b0;
-                key_s_latch   <= 1'b0; key_d_latch   <= 1'b0;
-                key_j_latch   <= 1'b0; key_spc_latch <= 1'b0;
-                key_ent_latch <= 1'b0; key_k_latch   <= 1'b0;
-                key_p_latch   <= 1'b0; key_1_latch   <= 1'b0;
-                key_2_latch   <= 1'b0; key_3_latch   <= 1'b0;
-                key_4_latch   <= 1'b0;
-            end
+            if (sw[5] && !sw_d[5])
+                sw5_latch <= 1'b1;
+            else if (tick)
+                sw5_latch <= 1'b0;
+            if (sw[6] && !sw_d[6])
+                sw6_latch <= 1'b1;
+            else if (tick)
+                sw6_latch <= 1'b0;
         end
     end
 
@@ -112,7 +86,6 @@ module game_logic (
     //   btn[0] (W14): UP,  btn[1] (V14): DOWN,
     //   btn[2] (V19): LEFT, btn[3] (V18): RIGHT,
     //   btn[4] (W16, BTNX4): FIRE / START
-    //   Pause / Difficulty / Cycle via keyboard only
     //==========================================================================
     wire btn_up    = btn[0];
     wire btn_down  = btn[1];
@@ -120,23 +93,21 @@ module game_logic (
     wire btn_right = btn[3];
     wire btn_fire  = btn[4];
 
-    // Combined input (button OR keyboard latch)
-    wire move_up    = btn_up    || key_w_latch;
-    wire move_down  = btn_down  || key_s_latch;
-    wire move_left  = btn_left  || key_a_latch;
-    wire move_right = btn_right || key_d_latch;
-    wire fire_key   = btn_fire  || key_j_latch || key_spc_latch || key_ent_latch;
-    wire start_key  = btn_fire  || key_j_latch || key_spc_latch || key_ent_latch;
-    wire pause_key  = key_p_latch;
-    wire upgrade_key = key_k_latch;
-    wire btn_cyc    = key_k_latch;
+    // Combined input (button OR switch)
+    wire move_up    = btn_up    || sw[0];
+    wire move_down  = btn_down  || sw[1];
+    wire move_left  = btn_left  || sw[2];
+    wire move_right = btn_right || sw[3];
+    wire fire_key   = btn_fire  || sw[4];
+    wire start_key  = btn_fire  || sw[4];
+    wire pause_key  = sw5_latch;
+    wire upgrade_key = sw6_latch;
+    wire btn_cyc    = sw6_latch;
 
     //==========================================================================
-    // Cheat Mode: SW[2,3,5,7,11,13]=1, all others=0 (6 specified prime indices)
+    // Cheat Mode: activate when all reserved SW[12:15] are ON
     //==========================================================================
-    wire cheat_ok = sw[2] && sw[3] && sw[5] && sw[7] && sw[11] && sw[13] &&
-                    !sw[0] && !sw[1] && !sw[4] && !sw[6] &&
-                    !sw[8] && !sw[9] && !sw[10] && !sw[12] && !sw[14] && !sw[15];
+    wire cheat_ok = sw[12] && sw[13] && sw[14] && sw[15];
 
     //==========================================================================
     // Registers
@@ -302,11 +273,11 @@ module game_logic (
                     pl_weapon     <= 2'd0;
                     next_kills_upg<= 8'd10;
 
-                    if (key_1_latch) sel_diff <= `DIFF_EASY;
-                    if (key_2_latch) sel_diff <= `DIFF_NORMAL;
-                    if (key_3_latch) sel_diff <= `DIFF_HARD;
-                    if (key_4_latch) sel_diff <= `DIFF_HELL;
-                    sel_mode <= sw[0];
+                    if (sw[7])  sel_diff <= `DIFF_EASY;
+                    if (sw[8])  sel_diff <= `DIFF_NORMAL;
+                    if (sw[9])  sel_diff <= `DIFF_HARD;
+                    if (sw[10]) sel_diff <= `DIFF_HELL;
+                    sel_mode <= sw[11];
 
                     if (start_key) begin
                         state       <= `STATE_PLAYING;

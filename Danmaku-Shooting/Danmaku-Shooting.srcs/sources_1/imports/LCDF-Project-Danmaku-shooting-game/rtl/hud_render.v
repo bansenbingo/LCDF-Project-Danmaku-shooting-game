@@ -17,9 +17,14 @@ module hud_render (
     output wire        hit,
     output wire [11:0] color
 );
-    //---------- Font ROM IP (Distributed Memory Generator, 512x8, 9-bit addr) ----------
+    //---------- Character ROM (Block Memory) ----------
+    // Address: {char_code[5:0], sy[2:0]} = 9 bits, Data: 8-bit bitmap row
+    // Character mapping: A-Z=0-25, 0-9=26-35, space=36, :=37, |=39, -=40, .=42
     wire [7:0] char_bitmap;
-    font_rom u_font (.a({char_code, sy[2:0]}), .spo(char_bitmap));
+    ROM_f u_font_rom (
+        .a  ({char_code[5:0], sy[2:0]}),
+        .spo(char_bitmap)
+    );
 
     //---------- Utility: character at (base_x, base_y) ----------
     // Returns the character code expected at pixel (sx, sy) given a string layout
@@ -57,20 +62,20 @@ module hud_render (
     reg [5:0] score_char;
     always @* begin
         case (score_chi)
-            4'd0:  score_char = 5'd18;  // S
-            4'd1:  score_char = 5'd2;   // C
-            4'd2:  score_char = 5'd14;  // O
-            4'd3:  score_char = 5'd17;  // R
-            4'd4:  score_char = 5'd4;   // E
+            4'd0:  score_char = 6'd18;  // S
+            4'd1:  score_char = 6'd2;   // C
+            4'd2:  score_char = 6'd14;  // O
+            4'd3:  score_char = 6'd17;  // R
+            4'd4:  score_char = 6'd4;   // E
             4'd5:  score_char = 6'd37;  // :
-            4'd6:  score_char = 5'd26 + {1'b0, sc_digit7};  // digit
-            4'd7:  score_char = 5'd26 + {1'b0, sc_digit6};
-            4'd8:  score_char = 5'd26 + {1'b0, sc_digit5};
-            4'd9:  score_char = 5'd26 + {1'b0, sc_digit4};
-            4'd10: score_char = 5'd26 + {1'b0, sc_digit3};
-            4'd11: score_char = 5'd26 + {1'b0, sc_digit2};
-            4'd12: score_char = 5'd26 + {1'b0, sc_digit1};
-            4'd13: score_char = 5'd26 + {1'b0, sc_digit0};
+            4'd6:  score_char = 6'd26 + {1'b0, sc_digit7};  // digit
+            4'd7:  score_char = 6'd26 + {1'b0, sc_digit6};
+            4'd8:  score_char = 6'd26 + {1'b0, sc_digit5};
+            4'd9:  score_char = 6'd26 + {1'b0, sc_digit4};
+            4'd10: score_char = 6'd26 + {1'b0, sc_digit3};
+            4'd11: score_char = 6'd26 + {1'b0, sc_digit2};
+            4'd12: score_char = 6'd26 + {1'b0, sc_digit1};
+            4'd13: score_char = 6'd26 + {1'b0, sc_digit0};
             default: score_char = 6'd36;
         endcase
     end
@@ -96,11 +101,11 @@ module hud_render (
 
     wire in_go1 = (game_state == `STATE_GAMEOVER) &&
                   (sx >= go1_base_x) && (sx < go1_base_x + 10'd32) &&
-                  (sy >= go1_base_y) && (sy < go1_base_y + 10'd16);
+                  (sy >= go1_base_y) && (sy < go1_base_y + 10'd8);
 
     wire in_go2 = (game_state == `STATE_GAMEOVER) &&
                   (sx >= go2_base_x) && (sx < go2_base_x + 10'd32) &&
-                  (sy >= go2_base_y) && (sy < go2_base_y + 10'd16);
+                  (sy >= go2_base_y) && (sy < go2_base_y + 10'd8);
 
     wire [1:0] go1_chi = sx[4:3] - go1_base_x[4:3];
     wire [1:0] go2_chi = sx[4:3] - go2_base_x[4:3];
@@ -108,25 +113,19 @@ module hud_render (
     reg [5:0] go1_char, go2_char;
     always @* begin
         case (go1_chi)  // G,A,M,E
-            2'd0: go1_char = 5'd6;   // G
-            2'd1: go1_char = 5'd0;   // A
-            2'd2: go1_char = 5'd12;  // M
-            2'd3: go1_char = 5'd4;   // E
+            2'd0: go1_char = 6'd6;   // G
+            2'd1: go1_char = 6'd0;   // A
+            2'd2: go1_char = 6'd12;  // M
+            2'd3: go1_char = 6'd4;   // E
         endcase
         case (go2_chi)  // O,V,E,R
-            2'd0: go2_char = 5'd14;  // O
-            2'd1: go2_char = 5'd21;  // V
-            2'd2: go2_char = 5'd4;   // E
-            2'd3: go2_char = 5'd17;  // R
+            2'd0: go2_char = 6'd14;  // O
+            2'd1: go2_char = 6'd21;  // V
+            2'd2: go2_char = 6'd4;   // E
+            2'd3: go2_char = 6'd17;  // R
         endcase
     end
 
-    // Scale up GAME OVER to double height: use every other row
-    wire go_row_scaled = sy[0] ? sy[3:1] : sy[3:1];  // each font row drawn 2 pixels tall
-    wire go_hit = 0;  // Computed below
-
-    // Simplified: just double-size the font by checking every other pixel
-    // For now: regular size text
     wire go1_hit = in_go1 && char_bitmap[3'd7 - sx[2:0]];
     wire go2_hit = in_go2 && char_bitmap[3'd7 - sx[2:0]];
 
@@ -141,10 +140,10 @@ module hud_render (
 
     wire in_yw1 = (game_state == `STATE_WIN) &&
                   (sx >= yw1_base_x) && (sx < yw1_base_x + 10'd24) &&
-                  (sy >= yw1_base_y) && (sy < yw1_base_y + 10'd16);
+                  (sy >= yw1_base_y) && (sy < yw1_base_y + 10'd8);
     wire in_yw2 = (game_state == `STATE_WIN) &&
                   (sx >= yw2_base_x) && (sx < yw2_base_x + 10'd24) &&
-                  (sy >= yw2_base_y) && (sy < yw2_base_y + 10'd16);
+                  (sy >= yw2_base_y) && (sy < yw2_base_y + 10'd8);
 
     wire [1:0] yw1_chi = sx[4:3] - yw1_base_x[4:3];
     wire [1:0] yw2_chi = sx[4:3] - yw2_base_x[4:3];
@@ -152,14 +151,14 @@ module hud_render (
     reg [5:0] yw1_char, yw2_char;
     always @* begin
         case (yw1_chi)  // Y,O,U
-            2'd0: yw1_char = 5'd24;  // Y
-            2'd1: yw1_char = 5'd14;  // O
-            2'd2: yw1_char = 5'd20;  // U
+            2'd0: yw1_char = 6'd24;  // Y
+            2'd1: yw1_char = 6'd14;  // O
+            2'd2: yw1_char = 6'd20;  // U
         endcase
         case (yw2_chi)  // W,I,N
-            2'd0: yw2_char = 5'd22;  // W
-            2'd1: yw2_char = 5'd8;   // I
-            2'd2: yw2_char = 5'd13;  // N
+            2'd0: yw2_char = 6'd22;  // W
+            2'd1: yw2_char = 6'd8;   // I
+            2'd2: yw2_char = 6'd13;  // N
         endcase
     end
 
@@ -178,10 +177,10 @@ module hud_render (
     reg [5:0] hp_char;
     always @* begin
         case (hp_chi)
-            2'd0: hp_char = 5'd7;   // H
-            2'd1: hp_char = 5'd15;  // P
+            2'd0: hp_char = 6'd7;   // H
+            2'd1: hp_char = 6'd15;  // P
             2'd2: hp_char = 6'd37;  // :
-            2'd3: hp_char = 5'd26 + {2'd0, lives};  // digit
+            2'd3: hp_char = 6'd26 + {2'd0, lives};  // digit
         endcase
     end
     wire hp_hit = in_hp_box && char_bitmap[3'd7 - sx[2:0]];

@@ -13,10 +13,15 @@ module menu_render (
     output wire        hit,
     output wire [11:0] color
 );
-    //---------- Font ROM IP (Distributed Memory Generator, 512x8, 9-bit addr) ----------
-    wire [7:0] char_bitmap;
+    //---------- Font ROM (Block Memory) ----------
+    // Address: {char_code[5:0], sy[2:0]} = 9 bits, Data: 8-bit bitmap row
+    // Character mapping: A-Z=0-25, space=36, :=37, / unused=38, -=40, .=42
     wire [5:0] char_code;
-    font_rom u_font (.a({char_code, sy[2:0]}), .spo(char_bitmap));
+    wire [7:0] char_bitmap;
+    ROM_f u_font_rom (
+        .a  ({char_code[5:0], sy[2:0]}),
+        .spo(char_bitmap)
+    );
 
     //---------- Menu Border Box ----------
     // Colored border rectangle around the center area
@@ -38,9 +43,9 @@ module menu_render (
                         (sy >= 10'd432) && (sy < 10'd436);
 
     //---------- Title: "AEROPLANE DANMAKU SHOOTING" ----------
-    // Title at y=100, centered. 26 characters, start at x=112
+    // Title at y=96, centered. 26 characters, start at x=112 (Y must be multiple of 8 for text alignment)
     wire [9:0] title_base_x = 10'd112;  // (640 - 26*8) / 2 ≈ 112
-    wire [9:0] title_base_y = 10'd100;
+    wire [9:0] title_base_y = 10'd96;
 
     wire in_title = (game_state == `STATE_MENU) &&
                     (sx >= title_base_x) && (sx < title_base_x + 10'd208) &&
@@ -61,35 +66,35 @@ module menu_render (
     always @* begin
         // "AEROPLANE" (9 chars)
         case (title_chi_line1)
-            5'd0: title_char1 = 5'd0;   // A
-            5'd1: title_char1 = 5'd4;   // E
-            5'd2: title_char1 = 5'd17;  // R
-            5'd3: title_char1 = 5'd14;  // O
-            5'd4: title_char1 = 5'd15;  // P
-            5'd5: title_char1 = 5'd11;  // L
-            5'd6: title_char1 = 5'd0;   // A
-            5'd7: title_char1 = 5'd13;  // N
-            5'd8: title_char1 = 5'd4;   // E
+            6'd0: title_char1 = 6'd0;   // A
+            6'd1: title_char1 = 6'd4;   // E
+            6'd2: title_char1 = 6'd17;  // R
+            6'd3: title_char1 = 6'd14;  // O
+            6'd4: title_char1 = 6'd15;  // P
+            6'd5: title_char1 = 6'd11;  // L
+            6'd6: title_char1 = 6'd0;   // A
+            6'd7: title_char1 = 6'd13;  // N
+            6'd8: title_char1 = 6'd4;   // E
             default: title_char1 = 6'd36; // space
         endcase
         // "DANMAKU SHOOTING" (16 chars)
         case (title_chi_line2)
-            5'd0:  title_char2 = 5'd3;   // D
-            5'd1:  title_char2 = 5'd0;   // A
-            5'd2:  title_char2 = 5'd13;  // N
-            5'd3:  title_char2 = 5'd12;  // M
-            5'd4:  title_char2 = 5'd0;   // A
-            5'd5:  title_char2 = 5'd10;  // K
-            5'd6:  title_char2 = 5'd20;  // U
-            5'd7:  title_char2 = 6'd36;  // space
-            5'd8:  title_char2 = 5'd18;  // S
-            5'd9:  title_char2 = 5'd7;   // H
-            5'd10: title_char2 = 5'd14;  // O
-            5'd11: title_char2 = 5'd14;  // O
-            5'd12: title_char2 = 5'd19;  // T
-            5'd13: title_char2 = 5'd8;   // I
-            5'd14: title_char2 = 5'd13;  // N
-            5'd15: title_char2 = 5'd6;   // G
+            6'd0:  title_char2 = 6'd3;   // D
+            6'd1:  title_char2 = 6'd0;   // A
+            6'd2:  title_char2 = 6'd13;  // N
+            6'd3:  title_char2 = 6'd12;  // M
+            6'd4:  title_char2 = 6'd0;   // A
+            6'd5:  title_char2 = 6'd10;  // K
+            6'd6:  title_char2 = 6'd20;  // U
+            6'd7:  title_char2 = 6'd36;  // space
+            6'd8:  title_char2 = 6'd18;  // S
+            6'd9:  title_char2 = 6'd7;   // H
+            6'd10: title_char2 = 6'd14;  // O
+            6'd11: title_char2 = 6'd14;  // O
+            6'd12: title_char2 = 6'd19;  // T
+            6'd13: title_char2 = 6'd8;   // I
+            6'd14: title_char2 = 6'd13;  // N
+            6'd15: title_char2 = 6'd6;   // G
             default: title_char2 = 6'd36;
         endcase
     end
@@ -98,10 +103,9 @@ module menu_render (
     wire title_hit2 = in_title_line2 && char_bitmap[3'd7 - sx[2:0]];
     wire title_hit = title_hit1 || title_hit2;
 
-    //---------- START box ----------
-    // Rectangle with "START" text at y=180
+    //---------- START box ----------  (Y must be multiple of 8 for text alignment)
     wire [9:0] start_box_x = 10'd264;
-    wire [9:0] start_box_y = 10'd180;
+    wire [9:0] start_box_y = 10'd184;
     wire start_box = (sx >= start_box_x) && (sx < start_box_x + 10'd112) &&
                      (sy >= start_box_y) && (sy < start_box_y + 10'd24);
     wire start_box_edge = start_box && (
@@ -110,8 +114,8 @@ module menu_render (
     wire start_box_fill = start_box && !start_box_edge;
 
     // "START" text centered in box (5 chars * 8 = 40, box is 112)
-    wire [9:0] start_text_x = 10'd300;  // 264 + (112-40)/2 ≈ 300
-    wire [9:0] start_text_y = 10'd188;  // 180 + (24-8)/2 ≈ 188
+    wire [9:0] start_text_x = 10'd300;
+    wire [9:0] start_text_y = 10'd192;  // Y multiple of 8
     wire in_start_text = (game_state == `STATE_MENU) && start_box &&
                          (sx >= start_text_x) && (sx < start_text_x + 10'd40) &&
                          (sy >= start_text_y) && (sy < start_text_y + 10'd8);
@@ -119,20 +123,19 @@ module menu_render (
     reg [5:0] start_char;
     always @* begin
         case (start_chi)
-            5'd0: start_char = 5'd18;  // S
-            5'd1: start_char = 5'd19;  // T
-            5'd2: start_char = 5'd0;   // A
-            5'd3: start_char = 5'd17;  // R
-            5'd4: start_char = 5'd19;  // T
+            6'd0: start_char = 6'd18;  // S
+            6'd1: start_char = 6'd19;  // T
+            6'd2: start_char = 6'd0;   // A
+            6'd3: start_char = 6'd17;  // R
+            6'd4: start_char = 6'd19;  // T
             default: start_char = 6'd36;
         endcase
     end
     wire start_text_hit = in_start_text && char_bitmap[3'd7 - sx[2:0]];
 
-    //---------- Difficulty display ----------
-    // "DIFFICULTY:EASY" etc. at bottom-right corner area
+    //---------- Difficulty display ----------  (Y must be multiple of 8)
     wire [9:0] diff_base_x = 10'd360;
-    wire [9:0] diff_base_y = 10'd300;
+    wire [9:0] diff_base_y = 10'd304;
     wire in_diff_label = (game_state == `STATE_MENU) &&
                          (sx >= diff_base_x) && (sx < diff_base_x + 10'd88) &&
                          (sy >= diff_base_y) && (sy < diff_base_y + 10'd8);
@@ -142,17 +145,17 @@ module menu_render (
     reg [5:0] diff_char;
     always @* begin
         case (diff_chi)
-            5'd0:  diff_char = 5'd3;   // D
-            5'd1:  diff_char = 5'd8;   // I
-            5'd2:  diff_char = 5'd5;   // F
-            5'd3:  diff_char = 5'd5;   // F
-            5'd4:  diff_char = 5'd8;   // I
-            5'd5:  diff_char = 5'd2;   // C
-            5'd6:  diff_char = 5'd20;  // U
-            5'd7:  diff_char = 5'd11;  // L
-            5'd8:  diff_char = 5'd19;  // T
-            5'd9:  diff_char = 5'd24;  // Y
-            5'd10: diff_char = 6'd37;  // :
+            6'd0:  diff_char = 6'd3;   // D
+            6'd1:  diff_char = 6'd8;   // I
+            6'd2:  diff_char = 6'd5;   // F
+            6'd3:  diff_char = 6'd5;   // F
+            6'd4:  diff_char = 6'd8;   // I
+            6'd5:  diff_char = 6'd2;   // C
+            6'd6:  diff_char = 6'd20;  // U
+            6'd7:  diff_char = 6'd11;  // L
+            6'd8:  diff_char = 6'd19;  // T
+            6'd9:  diff_char = 6'd24;  // Y
+            6'd10: diff_char = 6'd37;  // :
             default: diff_char = 6'd36;
         endcase
     end
@@ -160,7 +163,7 @@ module menu_render (
 
     // Difficulty value: "EASY"/"NORMAL"/"HARD"/"HELL"
     wire [9:0] diff_val_x = 10'd448;
-    wire [9:0] diff_val_y = 10'd300;
+    wire [9:0] diff_val_y = 10'd304;
     wire in_diff_val = (game_state == `STATE_MENU) &&
                        (sx >= diff_val_x) && (sx < diff_val_x + 10'd48) &&
                        (sy >= diff_val_y) && (sy < diff_val_y + 10'd8);
@@ -169,36 +172,36 @@ module menu_render (
     always @* begin
         if (difficulty == `DIFF_EASY) begin
             case (diffv_chi)
-                5'd0: diffv_char = 5'd4;   // E
-                5'd1: diffv_char = 5'd0;   // A
-                5'd2: diffv_char = 5'd18;  // S
-                5'd3: diffv_char = 5'd24;  // Y
+                6'd0: diffv_char = 6'd4;   // E
+                6'd1: diffv_char = 6'd0;   // A
+                6'd2: diffv_char = 6'd18;  // S
+                6'd3: diffv_char = 6'd24;  // Y
                 default: diffv_char = 6'd36;
             endcase
         end else if (difficulty == `DIFF_NORMAL) begin
             case (diffv_chi)
-                5'd0: diffv_char = 5'd13;  // N
-                5'd1: diffv_char = 5'd14;  // O
-                5'd2: diffv_char = 5'd17;  // R
-                5'd3: diffv_char = 5'd12;  // M
-                5'd4: diffv_char = 5'd0;   // A
-                5'd5: diffv_char = 5'd11;  // L
+                6'd0: diffv_char = 6'd13;  // N
+                6'd1: diffv_char = 6'd14;  // O
+                6'd2: diffv_char = 6'd17;  // R
+                6'd3: diffv_char = 6'd12;  // M
+                6'd4: diffv_char = 6'd0;   // A
+                6'd5: diffv_char = 6'd11;  // L
                 default: diffv_char = 6'd36;
             endcase
         end else if (difficulty == `DIFF_HARD) begin
             case (diffv_chi)
-                5'd0: diffv_char = 5'd7;   // H
-                5'd1: diffv_char = 5'd0;   // A
-                5'd2: diffv_char = 5'd17;  // R
-                5'd3: diffv_char = 5'd3;   // D
+                6'd0: diffv_char = 6'd7;   // H
+                6'd1: diffv_char = 6'd0;   // A
+                6'd2: diffv_char = 6'd17;  // R
+                6'd3: diffv_char = 6'd3;   // D
                 default: diffv_char = 6'd36;
             endcase
         end else begin  // HELL
             case (diffv_chi)
-                5'd0: diffv_char = 5'd7;    // H
-                5'd1: diffv_char = 5'd4;    // E
-                5'd2: diffv_char = 5'd11;   // L
-                5'd3: diffv_char = 5'd11;   // L
+                6'd0: diffv_char = 6'd7;    // H
+                6'd1: diffv_char = 6'd4;    // E
+                6'd2: diffv_char = 6'd11;   // L
+                6'd3: diffv_char = 6'd11;   // L
                 default: diffv_char = 6'd36;
             endcase
         end
@@ -206,7 +209,7 @@ module menu_render (
     wire diff_val_hit = in_diff_val && char_bitmap[3'd7 - sx[2:0]];
 
     //---------- Mode display ----------
-    // "MODE:SCORE" or "MODE:ENDLESS"
+    // "MODE:SCORE" or "MODE:ENDLESS"  (Y must be multiple of 8)
     wire [9:0] mode_base_x = 10'd360;
     wire [9:0] mode_base_y = 10'd320;
     wire in_mode_label = (game_state == `STATE_MENU) &&
@@ -216,11 +219,11 @@ module menu_render (
     reg [5:0] mode_char;
     always @* begin
         case (mode_chi)
-            5'd0: mode_char = 5'd12;  // M
-            5'd1: mode_char = 5'd14;  // O
-            5'd2: mode_char = 5'd3;   // D
-            5'd3: mode_char = 5'd4;   // E
-            5'd4: mode_char = 6'd37;  // :
+            6'd0: mode_char = 6'd12;  // M
+            6'd1: mode_char = 6'd14;  // O
+            6'd2: mode_char = 6'd3;   // D
+            6'd3: mode_char = 6'd4;   // E
+            6'd4: mode_char = 6'd37;  // :
             default: mode_char = 6'd36;
         endcase
     end
@@ -237,55 +240,182 @@ module menu_render (
     always @* begin
         if (!mode) begin  // SCORE
             case (modev_chi)
-                5'd0: modev_char = 5'd18;  // S
-                5'd1: modev_char = 5'd2;   // C
-                5'd2: modev_char = 5'd14;  // O
-                5'd3: modev_char = 5'd17;  // R
-                5'd4: modev_char = 5'd4;   // E
+                6'd0: modev_char = 6'd18;  // S
+                6'd1: modev_char = 6'd2;   // C
+                6'd2: modev_char = 6'd14;  // O
+                6'd3: modev_char = 6'd17;  // R
+                6'd4: modev_char = 6'd4;   // E
                 default: modev_char = 6'd36;
             endcase
         end else begin  // ENDLESS
             case (modev_chi)
-                5'd0: modev_char = 5'd4;   // E
-                5'd1: modev_char = 5'd13;  // N
-                5'd2: modev_char = 5'd3;   // D
-                5'd3: modev_char = 5'd11;  // L
-                5'd4: modev_char = 5'd4;   // E
-                5'd5: modev_char = 5'd18;  // S
-                5'd6: modev_char = 5'd18;  // S
+                6'd0: modev_char = 6'd4;   // E
+                6'd1: modev_char = 6'd13;  // N
+                6'd2: modev_char = 6'd3;   // D
+                6'd3: modev_char = 6'd11;  // L
+                6'd4: modev_char = 6'd4;   // E
+                6'd5: modev_char = 6'd18;  // S
+                6'd6: modev_char = 6'd18;  // S
                 default: modev_char = 6'd36;
             endcase
         end
     end
     wire mode_val_hit = in_mode_val && char_bitmap[3'd7 - sx[2:0]];
 
-    //---------- Controls hint ----------
-    // "PRESS START TO PLAY" at bottom
-    wire [9:0] hint_base_x = 10'd200;
-    wire [9:0] hint_base_y = 10'd400;
-    wire in_hint = (game_state == `STATE_MENU) &&
-                   (sx >= hint_base_x) && (sx < hint_base_x + 10'd152) &&
-                   (sy >= hint_base_y) && (sy < hint_base_y + 10'd8);
-    wire [4:0] hint_chi = sx[7:3] - hint_base_x[7:3];
+    //---------- Controls hint (multi-line, Y must be multiples of 8) ----------
+    wire [9:0] hint_base_x = 10'd100;
+    wire [9:0] hint_y0 = 10'd360;   // "WASD: Move  J/Space: Fire  K: Upgrade"
+    wire [9:0] hint_y1 = 10'd376;   // "P: Pause  M: Mode  Tab: Display"
+    wire [9:0] hint_y2 = 10'd392;   // "1-4: Difficulty  Enter: Start"
+    wire [9:0] hint_y3 = 10'd408;   // "PRESS ENTER TO START"
+    wire in_hint0 = (game_state == `STATE_MENU) &&
+                    (sx >= hint_base_x) && (sx < hint_base_x + 10'd360) &&
+                    (sy >= hint_y0) && (sy < hint_y0 + 10'd8);
+    wire in_hint1 = (game_state == `STATE_MENU) &&
+                    (sx >= hint_base_x) && (sx < hint_base_x + 10'd360) &&
+                    (sy >= hint_y1) && (sy < hint_y1 + 10'd8);
+    wire in_hint2 = (game_state == `STATE_MENU) &&
+                    (sx >= hint_base_x) && (sx < hint_base_x + 10'd360) &&
+                    (sy >= hint_y2) && (sy < hint_y2 + 10'd8);
+    wire in_hint3 = (game_state == `STATE_MENU) &&
+                    (sx >= hint_base_x) && (sx < hint_base_x + 10'd360) &&
+                    (sy >= hint_y3) && (sy < hint_y3 + 10'd8);
+    wire [4:0] hint_chi = sx[5:3] - hint_base_x[5:3];
     reg [5:0] hint_char;
     always @* begin
-        // "PRESS START TO PLAY" = 19 chars... too long, trim to "PRESS START"
-        case (hint_chi)
-            5'd0:  hint_char = 5'd15;  // P
-            5'd1:  hint_char = 5'd17;  // R
-            5'd2:  hint_char = 5'd4;   // E
-            5'd3:  hint_char = 5'd18;  // S
-            5'd4:  hint_char = 5'd18;  // S
-            5'd5:  hint_char = 6'd36;  //
-            5'd6:  hint_char = 5'd18;  // S
-            5'd7:  hint_char = 5'd19;  // T
-            5'd8:  hint_char = 5'd0;   // A
-            5'd9:  hint_char = 5'd17;  // R
-            5'd10: hint_char = 5'd19;  // T
-            default: hint_char = 6'd36;
-        endcase
+        if (in_hint0) begin
+            // "WASD: MOVE  J/SPACE: FIRE  K: UPGRADE"
+            case (hint_chi)
+                6'd0:  hint_char = 6'd22;  // W
+                6'd1:  hint_char = 6'd0;   // A
+                6'd2:  hint_char = 6'd18;  // S
+                6'd3:  hint_char = 6'd3;   // D
+                6'd4:  hint_char = 6'd37;  // :
+                6'd5:  hint_char = 6'd36;  // space
+                6'd6:  hint_char = 6'd12;  // M
+                6'd7:  hint_char = 6'd14;  // O
+                6'd8:  hint_char = 6'd21;  // V
+                6'd9:  hint_char = 6'd4;   // E
+                6'd10: hint_char = 6'd36;
+                6'd11: hint_char = 6'd36;
+                6'd12: hint_char = 6'd9;   // J
+                6'd13: hint_char = 6'd40;  // -
+                6'd14: hint_char = 6'd5;   // F
+                6'd15: hint_char = 6'd8;   // I
+                6'd16: hint_char = 6'd17;  // R
+                6'd17: hint_char = 6'd4;   // E
+                6'd18: hint_char = 6'd36;
+                6'd19: hint_char = 6'd36;
+                6'd20: hint_char = 6'd10;  // K
+                6'd21: hint_char = 6'd37;  // :
+                6'd22: hint_char = 6'd36;
+                6'd23: hint_char = 6'd20;  // U
+                6'd24: hint_char = 6'd15;  // P
+                6'd25: hint_char = 6'd6;   // G
+                6'd26: hint_char = 6'd17;  // R
+                6'd27: hint_char = 6'd0;   // A
+                6'd28: hint_char = 6'd3;   // D
+                6'd29: hint_char = 6'd4;   // E
+                default: hint_char = 6'd36;
+            endcase
+        end else if (in_hint1) begin
+            // "P: PAUSE  M: MODE  TAB: DISPLAY"
+            case (hint_chi)
+                6'd0:  hint_char = 6'd15;  // P
+                6'd1:  hint_char = 6'd37;  // :
+                6'd2:  hint_char = 6'd36;
+                6'd3:  hint_char = 6'd15;  // P
+                6'd4:  hint_char = 6'd0;   // A
+                6'd5:  hint_char = 6'd20;  // U
+                6'd6:  hint_char = 6'd18;  // S
+                6'd7:  hint_char = 6'd4;   // E
+                6'd8:  hint_char = 6'd36;
+                6'd9:  hint_char = 6'd36;
+                6'd10: hint_char = 6'd12;  // M
+                6'd11: hint_char = 6'd37;  // :
+                6'd12: hint_char = 6'd36;
+                6'd13: hint_char = 6'd12;  // M
+                6'd14: hint_char = 6'd14;  // O
+                6'd15: hint_char = 6'd3;   // D
+                6'd16: hint_char = 6'd4;   // E
+                6'd17: hint_char = 6'd36;
+                6'd18: hint_char = 6'd36;
+                6'd19: hint_char = 6'd19;  // T
+                6'd20: hint_char = 6'd0;   // A
+                6'd21: hint_char = 6'd1;   // B
+                6'd22: hint_char = 6'd37;  // :
+                6'd23: hint_char = 6'd36;
+                6'd24: hint_char = 6'd3;   // D
+                6'd25: hint_char = 6'd8;   // I
+                6'd26: hint_char = 6'd18;  // S
+                6'd27: hint_char = 6'd15;  // P
+                6'd28: hint_char = 6'd11;  // L
+                6'd29: hint_char = 6'd0;   // A
+                6'd30: hint_char = 6'd24;  // Y
+                default: hint_char = 6'd36;
+            endcase
+        end else if (in_hint2) begin
+            // "1-4: DIFFICULTY  ENTER: START"
+            case (hint_chi)
+                6'd0:  hint_char = 6'd27;  // 1
+                6'd1:  hint_char = 6'd40;  // -
+                6'd2:  hint_char = 6'd30;  // 4
+                6'd3:  hint_char = 6'd37;  // :
+                6'd4:  hint_char = 6'd36;
+                6'd5:  hint_char = 6'd3;   // D
+                6'd6:  hint_char = 6'd8;   // I
+                6'd7:  hint_char = 6'd5;   // F
+                6'd8:  hint_char = 6'd5;   // F
+                6'd9:  hint_char = 6'd8;   // I
+                6'd10: hint_char = 6'd2;   // C
+                6'd11: hint_char = 6'd20;  // U
+                6'd12: hint_char = 6'd11;  // L
+                6'd13: hint_char = 6'd19;  // T
+                6'd14: hint_char = 6'd24;  // Y
+                6'd15: hint_char = 6'd36;
+                6'd16: hint_char = 6'd36;
+                6'd17: hint_char = 6'd4;   // E
+                6'd18: hint_char = 6'd13;  // N
+                6'd19: hint_char = 6'd19;  // T
+                6'd20: hint_char = 6'd4;   // E
+                6'd21: hint_char = 6'd17;  // R
+                6'd22: hint_char = 6'd37;  // :
+                6'd23: hint_char = 6'd36;
+                6'd24: hint_char = 6'd18;  // S
+                6'd25: hint_char = 6'd19;  // T
+                6'd26: hint_char = 6'd0;   // A
+                6'd27: hint_char = 6'd17;  // R
+                6'd28: hint_char = 6'd19;  // T
+                default: hint_char = 6'd36;
+            endcase
+        end else begin
+            // "PRESS ENTER TO START"
+            case (hint_chi)
+                6'd0:  hint_char = 6'd15;  // P
+                6'd1:  hint_char = 6'd17;  // R
+                6'd2:  hint_char = 6'd4;   // E
+                6'd3:  hint_char = 6'd18;  // S
+                6'd4:  hint_char = 6'd18;  // S
+                6'd5:  hint_char = 6'd36;
+                6'd6:  hint_char = 6'd4;   // E
+                6'd7:  hint_char = 6'd13;  // N
+                6'd8:  hint_char = 6'd19;  // T
+                6'd9:  hint_char = 6'd4;   // E
+                6'd10: hint_char = 6'd17;  // R
+                6'd11: hint_char = 6'd36;
+                6'd12: hint_char = 6'd19;  // T
+                6'd13: hint_char = 6'd14;  // O
+                6'd14: hint_char = 6'd36;
+                6'd15: hint_char = 6'd18;  // S
+                6'd16: hint_char = 6'd19;  // T
+                6'd17: hint_char = 6'd0;   // A
+                6'd18: hint_char = 6'd17;  // R
+                6'd19: hint_char = 6'd19;  // T
+                default: hint_char = 6'd36;
+            endcase
+        end
     end
-    wire hint_hit = in_hint && char_bitmap[3'd7 - sx[2:0]];
+    wire hint_hit = (in_hint0 || in_hint1 || in_hint2 || in_hint3) && char_bitmap[3'd7 - sx[2:0]];
 
     //---------- Final hit and color assignment ----------
     wire menu_active = (game_state == `STATE_MENU);
@@ -312,5 +442,5 @@ module menu_render (
                        in_diff_val    ? diffv_char   :
                        in_mode_label  ? mode_char    :
                        in_mode_val    ? modev_char   :
-                       in_hint        ? hint_char    : 6'd36;
+                       (in_hint0 || in_hint1 || in_hint2 || in_hint3) ? hint_char : 6'd36;
 endmodule

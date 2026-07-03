@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Wed Jun 24 20:55:28 2026
+| Date         : Thu Jul  2 14:37:02 2026
 | Host         : LAPTOP-6STAFKCC running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file game_top_control_sets_placed.rpt
 | Design       : game_top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |   188 |
-|    Minimum number of control sets                        |   188 |
+| Total control sets                                       |    91 |
+|    Minimum number of control sets                        |    91 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |  1023 |
+| Unused register locations in slices containing registers |   436 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |   188 |
-| >= 0 to < 4        |     3 |
-| >= 4 to < 6        |    23 |
-| >= 6 to < 8        |    11 |
-| >= 8 to < 10       |    67 |
-| >= 10 to < 12      |    67 |
-| >= 12 to < 14      |     5 |
+| Total control sets |    91 |
+| >= 0 to < 4        |     2 |
+| >= 4 to < 6        |     3 |
+| >= 6 to < 8        |     5 |
+| >= 8 to < 10       |    32 |
+| >= 10 to < 12      |    28 |
+| >= 12 to < 14      |     4 |
 | >= 14 to < 16      |     1 |
-| >= 16              |    11 |
+| >= 16              |    16 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              92 |           48 |
-| No           | No                    | Yes                    |            1566 |          740 |
-| No           | Yes                   | No                     |              22 |            8 |
-| Yes          | No                    | No                     |             177 |           51 |
-| Yes          | No                    | Yes                    |            1442 |          707 |
-| Yes          | Yes                   | No                     |              14 |            7 |
+| No           | No                    | No                     |              75 |           29 |
+| No           | No                    | Yes                    |              94 |           58 |
+| No           | Yes                   | No                     |              22 |            9 |
+| Yes          | No                    | No                     |              92 |           24 |
+| Yes          | No                    | Yes                    |             829 |          354 |
+| Yes          | Yes                   | No                     |              20 |            9 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -73,194 +73,97 @@ Table of Contents
 +------------------------+----------------------------------------+-------------------------------------+------------------+----------------+--------------+
 |      Clock Signal      |              Enable Signal             |           Set/Reset Signal          | Slice Load Count | Bel Load Count | Bels / Slice |
 +------------------------+----------------------------------------+-------------------------------------+------------------+----------------+--------------+
-|  shift_reg[63]_i_3_n_0 | u_led/shift[0]_i_1__0_n_0              | u_led/oe                            |                1 |              1 |         1.00 |
-|  shift_reg[63]_i_3_n_0 | u_seg7/U2/shift[0]_i_1_n_0             | u_seg7/U2/oe                        |                1 |              1 |         1.00 |
-|  seg_scan_BUFG[1]      | gs[0].u/cnt[2]_i_1_n_0                 |                                     |                1 |              3 |         3.00 |
-|  seg_scan_BUFG[1]      | gs[3].u/cnt[3]_i_1__1_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[11].u/cnt[3]_i_1__9_n_0             |                                     |                1 |              4 |         4.00 |
-|  clkdiv_reg_BUFG[8]    | u_ps2/bit_cnt[3]_i_1_n_0               | u_game_logic/rstn                   |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[10].u/cnt[3]_i_1__8_n_0             |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gb[3].u/cnt[3]_i_1__17_n_0             |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gb[4].u/cnt[3]_i_1__18_n_0             |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gb[2].u/cnt[3]_i_1__16_n_0             |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[8].u/cnt[3]_i_1__6_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gb[0].u/cnt[3]_i_1__14_n_0             |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[9].u/cnt[3]_i_1__7_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[7].u/cnt[3]_i_1__5_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[6].u/cnt[3]_i_1__4_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[4].u/cnt[3]_i_1__2_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[5].u/cnt[3]_i_1__3_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[2].u/cnt[3]_i_1__0_n_0              |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gb[1].u/cnt[3]_i_1__15_n_0             |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[14].u/cnt[3]_i_1__12_n_0            |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[15].u/cnt[3]_i_1__13_n_0            |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[1].u/cnt[3]_i_1_n_0                 |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[12].u/cnt[3]_i_1__10_n_0            |                                     |                1 |              4 |         4.00 |
-|  seg_scan_BUFG[1]      | gs[13].u/cnt[3]_i_1__11_n_0            |                                     |                1 |              4 |         4.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pl_fire_cd[4]_i_1_n_0     | u_game_logic/rstn                   |                3 |              5 |         1.67 |
-|  clkdiv_reg_BUFG[8]    |                                        |                                     |                2 |              5 |         2.50 |
-|  u_vga_top/u_vgac/E[0] |                                        |                                     |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[62]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[15]_i_1_n_0        | u_game_logic/rstn                   |                5 |              7 |         1.40 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[6]_i_1_n_0     | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[69]_i_1_n_0        | u_game_logic/rstn                   |                5 |              7 |         1.40 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[22]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[14]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[30]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[38]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[54]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[46]_i_1_n_0    | u_game_logic/rstn                   |                4 |              7 |         1.75 |
-|  clkdiv_reg_BUFG[8]    | u_ps2/scan_code[7]_i_1_n_0             | u_game_logic/rstn                   |                2 |              8 |         4.00 |
-|  clkdiv_reg_BUFG[8]    | u_ps2/timeout_cnt[7]_i_1_n_0           | u_game_logic/rstn                   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG         | u_game_logic/total_kills[7]_i_1_n_0    | u_game_logic/rstn                   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG         | u_game_logic/pause_cooldown[7]_i_1_n_0 | u_game_logic/rstn                   |                3 |              8 |         2.67 |
+|  shift_reg[62]_i_2_n_0 | u_led/shift[0]_i_1__0_n_0              | u_led/oe                            |                1 |              1 |         1.00 |
+|  shift_reg[62]_i_2_n_0 | u_seg7/U2/shift_reg[20]_0              | u_seg7/U2/oe                        |                1 |              1 |         1.00 |
+|  clk_IBUF_BUFG         | u_keyboard/keyboard_drv/sampling       | u_game_logic/rstn                   |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG         | u_keyboard/keyboard_drv/E[0]           | u_game_logic/rstn                   |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/pl_fire_cd[4]_i_1_n_0     | u_game_logic/rstn                   |                2 |              5 |         2.50 |
+|  u_vga_top/u_vgac/E[0] |                                        |                                     |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[23]_i_1_n_0        | u_game_logic/rstn                   |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/en_spawn_timer[6]_i_1_n_0 | u_game_logic/rstn                   |                4 |              7 |         1.75 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[15]_i_1_n_0        | u_game_logic/rstn                   |                2 |              7 |         3.50 |
+|  clk_IBUF_BUFG         | u_game_logic/en_phase0_out[23]         | u_game_logic/rstn                   |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG         | u_game_logic/total_kills[7]_i_1_n_0    | u_game_logic/rstn                   |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG         | u_game_logic/pb_y_r[8]_i_1_n_0         | u_game_logic/rstn                   |                3 |              8 |         2.67 |
 |  clk_IBUF_BUFG         | u_game_logic/pl_inv[7]_i_1_n_0         | u_game_logic/rstn                   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[53]           | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[116]          | u_game_logic/rstn                   |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[8]            | u_game_logic/rstn                   |                7 |              9 |         1.29 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[125]          | u_game_logic/rstn                   |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[80]           | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[143]          | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[17]           | u_game_logic/rstn                   |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[35]           | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[44]           | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[71]           | u_game_logic/rstn                   |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[62]           | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[89]           | u_game_logic/rstn                   |                7 |              9 |         1.29 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[98]           | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[134]          | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[107]          | u_game_logic/rstn                   |                7 |              9 |         1.29 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[107]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[152]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[242]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[161]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[233]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[170]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[17]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[224]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[314]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[35]_i_1_n_0        | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[251]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[323]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[305]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[296]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[26]_i_1_n_0        | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[440]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[458]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[395]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[377]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[386]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[368]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[449]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[8]_i_1_n_0         | u_game_logic/rstn                   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[512]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
+|  clk_IBUF_BUFG         | u_game_logic/pb_y_r[17]_i_1_n_0        | u_game_logic/rstn                   |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG         | u_game_logic/pb_y_r[26]_i_1_n_0        | u_game_logic/rstn                   |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/pause_cooldown[7]_i_1_n_0 | u_game_logic/rstn                   |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG         | u_game_logic/en_fire_cd[23]_i_1_n_0    | u_game_logic/rstn                   |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG         | u_game_logic/en_phase0_out[15]         | u_game_logic/rstn                   |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG         | u_game_logic/en_phase0_out[31]         | u_game_logic/rstn                   |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/en_phase0_out[7]          | u_game_logic/rstn                   |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[521]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[377]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
 |  clk_IBUF_BUFG         | u_game_logic/eb_y_r[80]_i_1_n_0        | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[521]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[539]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[89]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[467]_i_1_n_0       | u_game_logic/rstn                   |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[530]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[449]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[440]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[512]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[89]_i_1_n_0        | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[8]_i_1_n_0         | u_game_logic/rstn                   |                3 |              9 |         3.00 |
 |  clk_IBUF_BUFG         | u_game_logic/eb_y_r[98]_i_1_n_0        | u_game_logic/rstn                   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[26]_i_1_n_0        | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[35]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[62]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[53]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[44]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/en_y_r[8]_i_1_n_0         | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[179]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[17]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[35]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[26]_i_1_n_0        | u_game_logic/rstn                   |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[44]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[71]_i_1_n_0        | u_game_logic/rstn                   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[53]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[62]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_y_r[8]_i_1_n_0         | u_game_logic/rstn                   |                5 |              9 |         1.80 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_y_r0_out[26]           | u_game_logic/rstn                   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[409]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[259]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/pb_x_r[29]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
+|  clk_IBUF_BUFG         | u_game_logic/pl_weapon[1]_i_1_n_0      | u_game_logic/rstn                   |                2 |              9 |         4.50 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[161]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[170]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[152]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[26]_i_1_n_0        | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[296]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[233]_i_1_n_0       | u_game_logic/rstn                   |                5 |              9 |         1.80 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[314]_i_1_n_0       | u_game_logic/rstn                   |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[224]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[305]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[368]_i_1_n_0       | u_game_logic/rstn                   |                3 |              9 |         3.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_y_r[17]_i_1_n_0        | u_game_logic/rstn                   |                5 |              9 |         1.80 |
+|  clk_IBUF_BUFG         | u_game_logic/pb_x_r[19]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
+|  vga_clk               |                                        | u_vga_top/u_vgac/h_count[9]_i_1_n_0 |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[339]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
 |  vga_clk               | u_vga_top/u_vgac/v_count               | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[179]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[109]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[199]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[119]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[169]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[189]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[19]_i_1_n_0        | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[49]           | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[499]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[29]_i_1_n_0        | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[509]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[569]_i_1_n_0       | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[339]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[39]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[59]           | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[79]           | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[89]           | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[519]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[9]            | u_game_logic/rstn                   |                7 |             10 |         1.43 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[109]          | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[129]          | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[19]           | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[139]          | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[159]          | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[99]           | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[149]          | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[39]           | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[119]          | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[69]           | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/pb_x_r0_out[29]           | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[9]_i_1_n_0         | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[79]_i_1_n_0        | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[9]_i_1_n_0         | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  vga_clk               |                                        | u_vga_top/u_vgac/h_count[9]_i_1_n_0 |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[49]_i_1_n_0        | u_game_logic/rstn                   |                9 |             10 |         1.11 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[69]_i_1_n_0        | u_game_logic/rstn                   |                7 |             10 |         1.43 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[49]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[59]_i_1_n_0        | u_game_logic/rstn                   |                8 |             10 |         1.25 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[19]_i_1_n_0        | u_game_logic/rstn                   |                9 |             10 |         1.11 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[29]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/ob_x_r[39]_i_1_n_0        | u_game_logic/rstn                   |                7 |             10 |         1.43 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[69]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[59]_i_1_n_0        | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[79]_i_1_n_0        | u_game_logic/rstn                   |                7 |             10 |         1.43 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[19]_i_1_n_0        | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/en_x_r[29]_i_1_n_0        | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[39]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[9]_i_1_n_0         | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/pl_y[8]_i_1_n_0           | u_game_logic/rstn                   |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[329]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
 |  clk_IBUF_BUFG         | u_game_logic/eb_x_r[99]_i_1_n_0        | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[599]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[579]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[89]_i_1_n_0        | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[589]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[429]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[279]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[269]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[409]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[29]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[109]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[179]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[89]_i_1_n_0        | u_game_logic/rstn                   |                6 |             10 |         1.67 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[419]_i_1_n_0       | u_game_logic/rstn                   |                6 |             10 |         1.67 |
+|  clk_IBUF_BUFG         | u_game_logic/en_x_r[29]_i_1_n_0        | u_game_logic/rstn                   |                8 |             10 |         1.25 |
 |  clk_IBUF_BUFG         | u_game_logic/eb_x_r[489]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[359]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[9]_i_1_n_0         | u_game_logic/rstn                   |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[569]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[579]_i_1_n_0       | u_game_logic/rstn                   |                2 |             10 |         5.00 |
+|  clk_IBUF_BUFG         | u_game_logic/en_x_r[59]_i_1_n_0        | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/pb_x_r[9]_i_1_n_0         | u_game_logic/rstn                   |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[499]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[19]_i_1_n_0        | u_game_logic/rstn                   |                5 |             10 |         2.00 |
 |  clk_IBUF_BUFG         | u_game_logic/eb_x_r[349]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[439]_i_1_n_0       | u_game_logic/rstn                   |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[249]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[419]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[329]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG         | u_game_logic/state_timer[10]_i_1_n_0   | u_game_logic/rstn                   |                6 |             11 |         1.83 |
-|  clkdiv_reg_BUFG[8]    |                                        | u_game_logic/rstn                   |                6 |             12 |         2.00 |
-|  shift_reg[63]_i_3_n_0 | u_seg7/U2/shift[63]_i_1_n_0            | u_seg7/U2/shift[64]_i_1_n_0         |                5 |             12 |         2.40 |
-|  shift_reg[63]_i_3_n_0 | u_led/shift[0]_i_1__0_n_0              |                                     |                3 |             12 |         4.00 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[259]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[189]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[169]_i_1_n_0       | u_game_logic/rstn                   |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG         | u_game_logic/eb_x_r[249]_i_1_n_0       | u_game_logic/rstn                   |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG         | u_game_logic/state_timer[10]_i_1_n_0   | u_game_logic/rstn                   |                4 |             11 |         2.75 |
+|  clk_IBUF_BUFG         | u_keyboard/keyboard_drv/p_0_in         |                                     |                2 |             12 |         6.00 |
+|  shift_reg[62]_i_2_n_0 | u_seg7/U2/shift_reg[20]_0              |                                     |                3 |             12 |         4.00 |
 |  vga_clk               |                                        | u_vga_top/u_vgac/rdn                |                5 |             12 |         2.40 |
-|  shift_reg[63]_i_3_n_0 | u_seg7/U2/shift[0]_i_1_n_0             |                                     |                3 |             12 |         4.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pl_flash_i_1_n_0          | u_game_logic/rstn                   |                5 |             14 |         2.80 |
-|  clk_IBUF_BUFG         | u_vga_top/tick                         | u_game_logic/rstn                   |                9 |             16 |         1.78 |
-|  shift_reg[63]_i_3_n_0 | u_led/shift[16]_i_1_n_0                |                                     |                6 |             17 |         2.83 |
-|  clk_IBUF_BUFG         | u_game_logic/en_spawn_timer[7]_i_1_n_0 | u_game_logic/rstn                   |                8 |             17 |         2.12 |
-|  clk_IBUF_BUFG         | u_game_logic/pl_x[9]_i_1_n_0           | u_game_logic/rstn                   |                9 |             18 |         2.00 |
-|  clk_IBUF_BUFG         | u_game_logic/pl_y[8]_i_1_n_0           | u_game_logic/rstn                   |               13 |             19 |         1.46 |
-|  clk_IBUF_BUFG         | u_game_logic/total_score[19]_i_1_n_0   | u_game_logic/rstn                   |                4 |             20 |         5.00 |
-|  seg_scan_BUFG[1]      |                                        |                                     |               18 |             22 |         1.22 |
-|  clk_IBUF_BUFG         |                                        |                                     |               14 |             29 |         2.07 |
-|  vga_clk               |                                        |                                     |               10 |             30 |         3.00 |
-|  shift_reg[63]_i_3_n_0 | u_seg7/U2/shift[63]_i_1_n_0            |                                     |               18 |             53 |         2.94 |
-|  clk_IBUF_BUFG         |                                        | u_game_logic/rstn                   |              734 |           1554 |         2.12 |
+|  shift_reg[62]_i_2_n_0 | u_led/shift[0]_i_1__0_n_0              |                                     |                3 |             12 |         4.00 |
+|  shift_reg[62]_i_2_n_0 | u_seg7/U2/shift[62]_i_1_n_0            | u_seg7/U2/shift[64]_i_1_n_0         |                6 |             14 |         2.33 |
+|  clk_IBUF_BUFG         | u_vga_top/tick                         | u_game_logic/rstn                   |                7 |             16 |         2.29 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[53]_i_1_n_0        | u_game_logic/rstn                   |                7 |             17 |         2.43 |
+|  shift_reg[62]_i_2_n_0 | u_led/shift[16]_i_1_n_0                |                                     |                4 |             17 |         4.25 |
+|  clk_IBUF_BUFG         | u_game_logic/en_x_r[19]_i_1_n_0        | u_game_logic/rstn                   |                7 |             18 |         2.57 |
+|  clk_IBUF_BUFG         | u_game_logic/pl_x[9]_i_1_n_0           | u_game_logic/rstn                   |                9 |             19 |         2.11 |
+|  clk_IBUF_BUFG         | u_game_logic/surv_cnt[7]_i_1_n_0       | u_game_logic/rstn                   |                8 |             19 |         2.38 |
+|  clk_IBUF_BUFG         | u_game_logic/total_score[19]_i_1_n_0   | u_game_logic/rstn                   |                7 |             20 |         2.86 |
+|  vga_clk               |                                        |                                     |                9 |             23 |         2.56 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[62]_i_1_n_0        | u_game_logic/rstn                   |               13 |             27 |         2.08 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[35]_i_1_n_0        | u_game_logic/rstn                   |               10 |             27 |         2.70 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[71]_i_1_n_0        | u_game_logic/rstn                   |               15 |             27 |         1.80 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[8]_i_1_n_0         | u_game_logic/rstn                   |               13 |             27 |         2.08 |
+|  clk_IBUF_BUFG         | u_game_logic/en_y_r[44]_i_1_n_0        | u_game_logic/rstn                   |               12 |             27 |         2.25 |
+|  clk_IBUF_BUFG         |                                        |                                     |               17 |             46 |         2.71 |
+|  shift_reg[62]_i_2_n_0 | u_seg7/U2/shift[62]_i_1_n_0            |                                     |               14 |             51 |         3.64 |
+|  clk_IBUF_BUFG         |                                        | u_game_logic/rstn                   |               58 |             94 |         1.62 |
 +------------------------+----------------------------------------+-------------------------------------+------------------+----------------+--------------+
 
 

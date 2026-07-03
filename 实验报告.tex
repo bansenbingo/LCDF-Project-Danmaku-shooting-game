@@ -1,0 +1,1276 @@
+% ============================================================
+%  数字逻辑设计课程设计实验报告
+%  题目：基于 FPGA 的弹幕射击游戏（Danmaku Shooting Game）
+%  平台：Sword Kintex-7 (XC7K160TFFG676-1)
+%  开发环境：Xilinx Vivado 2025.1
+% ============================================================
+
+\documentclass[12pt,a4paper]{ctexart}
+
+% ---------- 页面设置 ----------
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.5cm, headheight=14.5pt]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows.meta, shapes}
+
+% ---------- 代码高亮 ----------
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    tabsize=2,
+    language=Verilog
+}
+
+% ---------- 页眉页脚 ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{数字逻辑设计课程设计实验报告}
+\fancyhead[R]{弹幕射击游戏}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ---------- 标题格式 ----------
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\begin{document}
+
+% ==================== 封面 ====================
+\begin{titlepage}
+\centering
+
+\vspace*{3cm}
+
+{\Huge\bfseries 数字逻辑设计\\课程设计实验报告\\}
+
+\vspace{1.5cm}
+
+{\LARGE 基于 FPGA 的弹幕射击游戏\\}
+
+\vspace{0.8cm}
+
+{\Large Danmaku Shooting Game on FPGA\\}
+
+\vspace{2cm}
+
+\begin{tabular}{rl}
+\toprule
+\textbf{课程名称} & 数字逻辑设计 \\
+\textbf{实验平台} & Sword Kintex-7 (XC7K160TFFG676-1) \\
+\textbf{开发环境} & Xilinx Vivado 2025.1 \\
+\textbf{硬件描述语言} & Verilog HDL \\
+\textbf{提交日期} & 2026 年 7 月 \\
+\bottomrule
+\end{tabular}
+
+\vspace{2cm}
+
+% TODO: 填写组内成员信息
+\begin{tabular}{ccc}
+\toprule
+\textbf{学号} & \textbf{姓名} & \textbf{贡献比例} \\
+\midrule
+\multicolumn{1}{c}{\texttt{[学号1]}} & {[姓名1]} & x\% \\
+\multicolumn{1}{c}{\texttt{[学号2]}} & {[姓名2]} & y\% \\
+\multicolumn{1}{c}{\texttt{[学号3]}} & {[姓名3]} & z\% \\
+\bottomrule
+\end{tabular}
+
+\vfill
+
+\end{titlepage}
+
+% ==================== 目录 ====================
+\newpage
+\tableofcontents
+\newpage
+
+% ==================== 一、背景介绍 ====================
+\section{背景介绍}
+
+本课程设计基于 Sword Kintex-7 实验平台（主控芯片 XC7K160TFFG676-1），
+要求设计一个具有完整功能的时序电路，综合运用有限状态机、寄存器/存储器访问、
+人机交互 I/O 接口等数字电路设计要素。
+
+本小组选择设计一个基于 FPGA 的弹幕射击游戏。弹幕射击游戏（Danmaku Shooting）是一种经典的
+视频游戏类型：玩家控制飞行器在屏幕上移动，发射子弹攻击敌方单位，同时躲避敌方子弹。
+该选题兼具趣味性和技术挑战性，涵盖了 FSM 设计、VGA 显示控制、碰撞检测、
+伪随机数生成、优先级合成渲染等数字电路设计核心内容。
+
+本报告将详细介绍该游戏的设计思路、系统架构及各模块实现细节。
+
+% ==================== 二、设计说明 ====================
+\section{设计说明}
+
+\subsection{设计开发环境}
+
+\begin{itemize}
+    \item \textbf{实验平台}：Sword Kintex-7 开发板（XC7K160TFFG676-1）
+    \item \textbf{开发环境}：Xilinx Vivado 2025.1
+    \item \textbf{硬件描述语言}：Verilog HDL
+    \item \textbf{系统时钟}：100MHz（板载晶振，引脚 AC18）
+    \item \textbf{显示输出}：VGA 640$\times$480 @ 60Hz，12 位色深（RGB 各 4 位）
+    \item \textbf{输入设备}：板载按键（BTN[3:0] + BTNX4，共 5 个独立按键）、拨码开关 SW[15:0]
+    \item \textbf{辅助显示}：4 位 7 段数码管、8 位 LED
+\end{itemize}
+
+\subsection{输入输出交互选择}
+
+\subsubsection{板载输入}
+
+\begin{itemize}
+    \item \textbf{五个独立按键（BTN[3:0] + BTNX4）}：
+    经过消抖后，BTN[3:0] 作为方向移动输入，BTNX4 作为开火/开始输入
+    \item \textbf{16 个拨码开关 SW[15:0]}：
+    \begin{itemize}
+        \item SW[0]\~{}SW[3]：上/下/左/右移动（与按键并联，任一有效即触发）
+        \item SW[4]：开火/开始
+        \item SW[5]：暂停（上升沿触发，消费后清除）
+        \item SW[6]：切换 7 段数码管显示内容（上升沿触发）
+        \item SW[7]\~{}SW[10]：菜单中切换难度（EASY/NORMAL/HARD/HELL）
+        \item SW[11]：选择模式（0 = 积分模式，1 = 无尽模式）
+        \item SW[12]\~{}SW[15]：作弊模式激活（全为 1 时，玩家开局 HP = 7）
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{显示输出}
+
+\begin{itemize}
+    \item \textbf{VGA 显示器}：640$\times$480 @ 60Hz，12 位 BGR 色深，实时渲染游戏画面
+    \item \textbf{4 位 7 段数码管（直连模式）}：可切换显示击毁敌人数/玩家生命值/当前积分，
+    通过 \texttt{DispNum} 模块动态扫描驱动
+    \item \textbf{4 位 7 段数码管（串行 P2S 模式）}：通过 \texttt{Seg7Device} + \texttt{ShiftReg}
+    串行移位输出级联扩展
+    \item \textbf{8 位 LED}：积分高位溢出时用二进制表示高位部分；串行 P2S 扩展 LED
+\end{itemize}
+
+\subsection{系统总体架构}
+
+系统自顶向下分为三层，采用"逻辑引擎 → 状态数据 → 渲染管线"的数据流架构：
+
+\begin{enumerate}[label=(\arabic*)]
+    \item \textbf{顶层互连层（game\_top）}：
+    负责 32 位自由运行计数器（100MHz 递增）的时钟分频、16 路开关消抖 + 5 路按键消抖、
+    各子系统例化和 K7 引脚连接
+    \item \textbf{核心功能层}：
+    \begin{itemize}
+        \item VGA 渲染管线（vga\_top）：
+        由 25MHz VGA 时钟驱动 \texttt{vgac} 控制器产生扫描坐标 (row\_addr, col\_addr)；
+        所有渲染器并行接收坐标，纯组合逻辑输出该像素的 hit 和颜色；
+        优先级 MUX 合成最终像素；同时检测 vs 下降沿生成 60Hz frame\_tick 脉冲
+        \item 游戏逻辑引擎（game\_logic）：
+        运行于 60Hz frame\_tick 域，管理 5 状态 FSM、实体状态更新（玩家/敌机/子弹/障碍物）、
+        逐对 AABB 碰撞检测、LFSR 伪随机数生成、武器升级、计分系统
+    \end{itemize}
+    \item \textbf{外设驱动层}：
+    按键消抖（AntiJitter）、7 段数码管直连显示（DispNum + SegmentDecoder + Seg7Decode + Seg7Remap）、
+    7 段数码管串行 P2S（Seg7Device + ShiftReg）、LED 串行 P2S（ShiftReg）
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+% TODO: 在此插入系统总体架构框图
+% 建议生成方式：
+%   - 方案A：在 Vivado 中打开 RTL Analysis → Show Schematic，截取 game_top 的顶层 RTL 原理图
+%   - 方案B：使用 Visio/draw.io 绘制系统架构框图，
+%     体现 game_top → vga_top + game_logic 的数据流关系
+%     以及 AntiJitter × 21、DispNum、Seg7Device、ShiftReg 的外设连接
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：系统总体架构框图】\vspace{3cm}}}
+\caption{系统总体架构框图}
+\label{fig:arch}
+\end{figure}
+
+\subsection{引脚约束}
+
+系统通过 \texttt{K7.xdc} 文件定义所有 FPGA 引脚约束，包括：
+\begin{itemize}
+    \item \textbf{系统时钟}：100MHz 差分时钟，引脚 AC18（clk）
+    \item \textbf{全局复位}：低有效复位，引脚 W13（rstn）
+    \item \textbf{VGA 输出}：
+    R[3:0]（M17/N16/L16/K17）、G[3:0]（J19/J20/K19/K20）、B[3:0]（M20/M19/L17/L18）、HS（M22）、VS（M21）
+    \item \textbf{按键输入}：BTN[3:0]（W14/V14/V19/V18）、BTNX4（W16），均经过消抖处理
+    \item \textbf{拨码开关}：SW[15:0]，16 路消抖
+    \item \textbf{7 段数码管}：SEGMENT[7:0]、AN[3:0]
+    \item \textbf{串行输出}：SEG\_CLK/SEG\_DT/SEG\_EN/SEG\_CLR、LED\_CLK/LED\_DT/LED\_EN/LED\_CLR
+    \item \textbf{LED}：LED[7:0]
+\end{itemize}
+
+\subsection{时钟域设计}
+
+系统在 100MHz 主时钟下运行。关键时钟信号：
+
+\begin{itemize}
+    \item \textbf{vga\_clk = 25MHz}：2 位计数器 \texttt{cdiv[1:0]} 对 100MHz 进行 4 分频产生，
+    驱动 VGA 控制器和所有纯组合渲染器
+    \item \textbf{frame\_tick（约 60Hz）}：在 100MHz 域中通过三级同步器（\texttt{vs\_sync[2:0]}）
+    检测 vs 信号的下降沿（\texttt{vs\_sync[2] \&\& !vs\_sync[1]}），每个 V-blank 期间产生一个周期的脉冲，
+    驱动游戏逻辑状态更新
+    \item \textbf{消抖采样（约 1.5kHz）}：\texttt{clkdiv[15]}（100MHz$\div 2^{16} \approx 1.5$kHz）
+    用于所有 AntiJitter 模块的采样时钟
+    \item \textbf{数码管动态扫描（约 6.25MHz）}：\texttt{clkdiv[15:14]} 用于 DispNum 的扫描选择信号
+    \item \textbf{串行移位时钟}：\texttt{clkdiv[3]}（100MHz$\div 16 \approx 6.25$MHz）
+    用于 ShiftReg 的串行输出
+\end{itemize}
+
+
+% ==================== 三、模块结构 ====================
+\section{模块结构}
+
+\subsection{工程文件}
+
+工程源码共包含 18 个 Verilog 源文件（.v）和 1 个头文件（.vh），按功能分类如下：
+
+\begin{table}[H]
+\centering
+\caption{工程源文件列表}
+\label{tab:files}
+\begin{tabular}{llp{5.5cm}}
+\toprule
+\textbf{类别} & \textbf{文件名} & \textbf{功能} \\
+\midrule
+头文件 & \texttt{game\_defs.vh} & 全局宏定义（屏幕尺寸、颜色、状态编码、实体数量、游戏参数等） \\
+\midrule
+\multirow{2}{*}{顶层} & \texttt{game\_top.v} & FPGA 顶层（时钟分频、消抖、子系统互联、引脚映射） \\
+                       & \texttt{DispNum.v} & 4 位 7 段数码管动态扫描显示驱动（含 2-4 译码器、多路选择器、MC14495 兼容译码器） \\
+\midrule
+VGA 基础 & \texttt{vgac.v} & ZJU VGA 控制器（640$\times$480@60Hz，输出扫描坐标、同步信号、消隐） \\
+          & \texttt{vga\_top.v} & VGA 渲染管线顶层（25MHz 时钟分频、渲染器例化、优先级 MUX、frame\_tick 生成） \\
+\midrule
+\multirow{5}{*}{渲染器} & \texttt{player\_render.v} & 玩家三角形飞机渲染（纯组合逻辑） \\
+                        & \texttt{enemy\_render.v} & 敌机椭圆 UFO 渲染（8 实例，generate 展开） \\
+                        & \texttt{bullet\_render.v} & 子弹渲染（16 玩家菱形 + 64 敌弹方块，generate 展开） \\
+                        & \texttt{obstacle\_render.v} & 障碍物石头渲染（8 实例） \\
+                        & \texttt{menu\_render.v} & 菜单界面渲染（标题/装饰边框/难度/模式/操作提示文字） \\
+                        & \texttt{hud\_render.v} & HUD 渲染（分数/生命/暂停/GAMEOVER/YOU WIN 文字） \\
+\midrule
+游戏逻辑 & \texttt{game\_logic.v} & 核心逻辑（5 状态 FSM、实体管理、碰撞检测、LFSR、计分、武器升级） \\
+\midrule
+\multirow{6}{*}{外设驱动} & \texttt{AntiJitter.v} & 参数化按键消抖（16 路 SW + 5 路 BTN，4 帧稳定确认） \\
+                        & \texttt{SegmentDecoder.v} & 单 digit 十六进制→7 段译码（低有效） \\
+                        & \texttt{Seg7Decode.v} & 8 位 7 段译码 + 锁存使能（级联 8 个 SegmentDecoder） \\
+                        & \texttt{Seg7Remap.v} & 7 段引脚重映射（补偿 PCB 布线交叉） \\
+                        & \texttt{Seg7Device.v} & 7 段设备串行 P2S 输出（Seg7Decode + Seg7Remap + ShiftReg + 动态扫描） \\
+                        & \texttt{ShiftReg.v} & 参数化并转串移位寄存器（LED P2S 输出） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+注：Vivado 工程中还包含 \texttt{Keyboard.v}（PS/2 键盘驱动模块，支持 PS/2 Set 2 协议的 make/break 解码，
+以及扩展键码 E0 前缀处理），该模块已编写但当前未实例化到 \texttt{game\_top} 顶层中，
+所有输入通过板载按键和拨码开关完成。
+
+\subsection{各模块关系图}
+
+% TODO: 在此插入模块关系结构图
+% 建议方式：
+%   - 方案A：在 Vivado 中打开 RTL Analysis → Schematic，截取 game_top 的展开 RTL 原理图，
+%     图中应能清晰看到 vga_top、game_logic、AntiJitter × 21、DispNum、Seg7Device、ShiftReg 等子模块
+%   - 方案B：使用 Visio/draw.io 绘制模块连接关系图，体现以下层次：
+%     game_top
+%     ├── clkdiv (32位自由运行计数器)
+%     ├── AntiJitter ×16 (SW消抖) + AntiJitter ×5 (BTN消抖)
+%     ├── vga_top ─── vgac + 渲染器阵列 + 优先级MUX
+%     ├── game_logic ─── 5状态FSM + 实体管理 + 碰撞检测 + LFSR
+%     ├── DispNum ─── AN[3:0] + SEGMENT[7:0]
+%     ├── Seg7Device ─── Seg7Decode + Seg7Remap + ShiftReg → 串行P2S
+%     └── ShiftReg → LED 串行P2S
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：模块关系结构图 / game\_top RTL Schematic】\vspace{3cm}}}
+\caption{模块关系结构图}
+\label{fig:modules}
+\end{figure}
+
+\subsection{核心模块详细说明}
+
+\subsubsection{game\_top --- FPGA 顶层模块}
+
+\texttt{game\_top} 是 FPGA 顶层模块，端口与 \texttt{K7.xdc} 引脚约束一一对应：
+
+\begin{lstlisting}
+module game_top (
+    input  wire        clk,         // 100MHz 系统时钟
+    input  wire        rstn,        // 低有效复位
+    output wire [3:0]  r, g, b,     // VGA 色彩通道
+    output wire        hs, vs,      // VGA 行/场同步
+    input  wire [3:0]  BTN,         // BTN[3:0] 板载按键
+    input  wire        BTNX4,       // BTNX4 板载按键
+    input  wire [15:0] SW,          // 拨码开关
+    output wire [7:0]  SEGMENT,     // 7 段数码管段选（直连）
+    output wire [3:0]  AN,          // 7 段数码管位选（直连）
+    output wire        SEG_CLK, SEG_CLR, SEG_DT, SEG_EN,  // 7 段串行 P2S
+    output wire [7:0]  LED,         // LED 直连
+    output wire        LED_CLK, LED_CLR, LED_DT, LED_EN   // LED 串行 P2S
+);
+\end{lstlisting}
+
+顶层内部结构：
+\begin{itemize}
+    \item 32 位自由运行计数器 \texttt{clkdiv}（100MHz 递增），用于多级分频和消抖采样
+    \item 16 路 SW 消抖（\texttt{AntiJitter \#(4)}，采样时钟 = \texttt{clkdiv[15]} ≈ 1.5kHz）
+    \item 5 路 BTN 消抖（\texttt{AntiJitter \#(4)}），将 \texttt{\{BTNX4, BTN\}} 拼接为 5 位总线消抖后输出
+    \item 例化 \texttt{vga\_top}（VGA 渲染管线，输出 r/g/b/hs/vs 和 frame\_tick）
+    \item 例化 \texttt{game\_logic}（核心游戏逻辑，接收 frame\_tick/btn/sw，输出所有实体状态）
+    \item 例化 \texttt{DispNum}（4 位 7 段数码管直连动态扫描显示）
+    \item 例化 \texttt{Seg7Device} + \texttt{ShiftReg}（串行 7 段 P2S 和 LED P2S 输出）
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+% TODO: 在此插入 game_top 模块的 Vivado RTL Schematic 截图
+% 操作步骤：Vivado → Open Elaborated Design → RTL Analysis → Schematic → 选中 game_top → Show Hierarchy
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：game\_top 模块 RTL Schematic】\vspace{3cm}}}
+\caption{game\_top 模块 RTL Schematic}
+\label{fig:gametop_rtl}
+\end{figure}
+
+\subsubsection{vgac --- VGA 控制器}
+
+\texttt{vgac} 为标准 640$\times$480@60Hz VGA 时序控制器，驱动 ZJU VGA 接口。关键时序参数：
+
+\begin{itemize}
+    \item 水平时序：一行共计 800 像素时钟周期（h\_count 0$\sim$799），有效显示区 144$\sim$783（640 像素），行同步 h\_count $>$ 95 时输出高
+    \item 垂直时序：一帧共计 525 行（v\_count 0$\sim$524），有效显示区 35$\sim$514（480 行），场同步 v\_count $>$ 1 时输出高
+    \item 地址生成：row\_addr = v\_count $-$ 35（范围 0$\sim$479），col\_addr = h\_count $-$ 143（范围 0$\sim$639）
+    \item 消隐控制：有效显示区内 rdn = 0（读使能），消隐期间 rdn = 1 强制输出黑色
+    \item 颜色位序：\texttt{d\_in = \{B[3:0], G[3:0], R[3:0]\}}（BGR 序，非 RGB 序）
+\end{itemize}
+
+\subsubsection{vga\_top --- VGA 渲染管线顶层}
+
+\texttt{vga\_top} 负责将游戏数据转换为 VGA 视频信号，是整个渲染系统的顶层：
+
+\textbf{VGA 时钟}：通过 2 位计数器 \texttt{cdiv[1:0]} 对 100MHz 系统时钟 4 分频得到 25MHz 像素时钟。
+
+\textbf{帧同步脉冲生成}：通过三级同步器 \texttt{vs\_sync[2:0]} 在 100MHz 域中检测 vs 信号的下降沿（1→0），
+在 V-blank 期间产生一个周期的 \texttt{frame\_tick} 脉冲，频率约 60Hz。这一设计确保了游戏状态更新不会造成画面撕裂。
+
+\textbf{渲染器阵列}：所有渲染器均为纯组合逻辑，在同一 25MHz 像素时钟域中并行工作。
+每个渲染器接收扫描坐标 (sx, sy)，输出 hit（当前像素是否属于该实体）和 12 位 BGR 颜色信号。
+渲染器实例通过 \texttt{generate} 块展开：
+
+\begin{table}[H]
+\centering
+\caption{渲染器实例列表}
+\label{tab:renderers}
+\begin{tabular}{lccp{4cm}}
+\toprule
+\textbf{渲染器} & \textbf{实例数} & \textbf{展开方式} & \textbf{说明} \\
+\midrule
+player\_render & 1 & 单实例 & 玩家三角形飞机 \\
+enemy\_render & 8 & generate for & 敌人椭圆 UFO，每个独立坐标和 HP \\
+bullet\_render（玩家） & 16 & generate for & 玩家菱形子弹，is\_player=1 \\
+bullet\_render（敌方） & 64 & generate for & 敌方红色方块子弹，is\_player=0 \\
+obstacle\_render & 8 & generate for & 障碍物石头，含大小和形状参数 \\
+hud\_render & 1 & 单实例 & HUD 文字叠加层（分数/HP/暂停/结束） \\
+menu\_render & 1 & 单实例 & 菜单界面（仅在 STATE\_MENU 下有效） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{优先级多路选择器（Priority MUX）}：通过级联的 \texttt{if-else} 优先级链实现像素合成。
+消隐期间（rdn=1）强制输出黑色。其余层级按以下顺序从高到低：
+
+\begin{center}
+\small
+Menu（仅 MENU 状态）＞ HUD ＞ 玩家飞机 ＞ 玩家子弹 ＞ 敌方子弹 ＞ 敌人 ＞ 障碍物 ＞ 黑色背景
+\end{center}
+
+优先级 MUX 核心代码：
+\begin{lstlisting}
+always @(*) begin
+    if (rdn)                        vga_data = `COL_BLACK;
+    else if (hit_menu && game_state == `STATE_MENU) vga_data = col_menu;
+    else if (hit_hud)               vga_data = col_hud;
+    else if (hit_pl)                vga_data = col_pl;
+    else if (hit_pb)                vga_data = col_pb;
+    else if (hit_eb)                vga_data = col_eb;
+    else if (hit_en)                vga_data = col_en;
+    else if (hit_ob)                vga_data = col_ob;
+    else                            vga_data = `COL_BLACK;
+end
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+% TODO: 在此插入 vga_top 模块的 Vivado RTL Schematic 截图
+% 操作步骤：Vivado → Open Elaborated Design → RTL Analysis → Schematic → 选中 vga_top
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：vga\_top 模块 RTL Schematic】\vspace{3cm}}}
+\caption{vga\_top 模块 RTL Schematic}
+\label{fig:vgatop_rtl}
+\end{figure}
+
+\subsubsection{game\_logic --- 核心游戏逻辑}
+
+\texttt{game\_logic} 是整个游戏的核心模块，由 frame\_tick（约 60Hz）驱动，在 100MHz 时钟域中运行。
+
+\paragraph{游戏状态机}
+
+系统采用 5 状态 Moore 型有限状态机，状态编码定义于 \texttt{game\_defs.vh}：
+
+\begin{itemize}
+    \item \textbf{STATE\_MENU}（3'd0）：主菜单界面，允许选择难度和游戏模式，等待开始信号
+    \item \textbf{STATE\_PLAYING}（3'd1）：游戏进行中，实体状态更新、碰撞检测、计分
+    \item \textbf{STATE\_PAUSED}（3'd2）：暂停状态，画面冻结，约 4 秒冷却后允许恢复
+    \item \textbf{STATE\_GAMEOVER}（3'd3）：游戏结束（玩家生命值归零），显示 300 帧（5 秒）后返回 MENU
+    \item \textbf{STATE\_WIN}（3'd4）：通关（积分模式达到 500 分），显示 300 帧（5 秒）后返回 MENU
+\end{itemize}
+
+\textbf{状态转换条件：}
+
+\begin{enumerate}[label=(\arabic*)]
+    \item MENU $\rightarrow$ PLAYING：在 MENU 状态下检测到 start\_key（BTNX4 或 SW[4]）有效，
+    记录当前选择的难度和模式，初始化玩家 HP（默认为 3，HELL 难度为 2，作弊模式为 7），
+    设置 \texttt{state\_timer = GRACE\_PERIOD（300 帧，约 5 秒）}开局无敌保护期
+    \item PLAYING $\rightarrow$ PAUSED：在 PLAYING 状态下，检测到 pause\_key（SW[5] 上升沿）
+    且 \texttt{pause\_cooldown == 0} 时进入暂停。进入后设置 \texttt{pause\_cooldown = 250}（约 4 秒冷却）
+    \item PAUSED $\rightarrow$ PLAYING：在 PAUSED 状态下，检测到 pause\_key 或 fire\_key 且
+    \texttt{pause\_cooldown == 0} 时恢复游戏，同时设置冷却防止连按
+    \item PLAYING $\rightarrow$ GAMEOVER：在 PLAYING 状态下，\texttt{pl\_hp == 0}（玩家生命归零）时触发。
+    设置 \texttt{state\_timer = GAMEOVER\_DISPLAY（300 帧 = 5 秒）}
+    \item PLAYING $\rightarrow$ WIN：在 PLAYING 状态下，积分模式下 \texttt{total\_score >= SCORE\_WIN\_TARGET（500）}
+    且 \texttt{pl\_alive} 为真时触发。设置 \texttt{state\_timer = WIN\_DISPLAY（300 帧 = 5 秒）}
+    \item GAMEOVER $\rightarrow$ MENU：\texttt{state\_timer} 倒计时至 0 后自动返回，同时清除所有实体
+    \item WIN $\rightarrow$ MENU：\texttt{state\_timer} 倒计时至 0 后自动返回，同时清除所有实体
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    ->,
+    >=Stealth,
+    node distance = 2.8cm and 4cm,
+    every state/.style = {
+        draw = black,
+        thick,
+        fill = gray!10,
+        minimum size = 2.2cm,
+        font = \footnotesize,
+        align = center
+    },
+    every edge/.style = {
+        draw = black,
+        thick
+    }
+]
+
+% 五个状态节点
+\node[state] (MENU)     {MENU \\ \tiny 3'd0};
+\node[state, below = of MENU] (PLAYING)  {PLAYING \\ \tiny 3'd1};
+\node[state, right = of PLAYING] (PAUSED) {PAUSED \\ \tiny 3'd2};
+\node[state, below left = of PLAYING, xshift = -1.1cm] (GAMEOVER) {GAMEOVER \\ \tiny 3'd3};
+\node[state, below right = of PLAYING, xshift = 1.1cm] (WIN) {WIN \\ \tiny 3'd4};
+
+% 1. MENU → PLAYING : start_key
+\path (MENU)  edge node[right] {\footnotesize start\_key}  (PLAYING);
+
+% 2. PLAYING → PAUSED : pause_key (带冷却)
+\path (PLAYING) edge [bend left = 18]
+      node[above] {\footnotesize pause\_key (cooldown = 0)} (PAUSED);
+
+% 3. PAUSED → PLAYING : pause_key || fire_key
+\path (PAUSED) edge [bend left = 18]
+      node[below] {\footnotesize pause\_key $\|$ fire\_key} (PLAYING);
+
+% 4. PLAYING → GAMEOVER : pl_hp == 0
+\path (PLAYING) edge [bend right = 15]
+      node[above left] {\footnotesize pl\_hp\,$=$\,0} (GAMEOVER);
+
+% 5. PLAYING → WIN : score >= 500 && !mode
+\path (PLAYING) edge [bend left = 15]
+      node[above right] {\footnotesize score $\ge$ 500 \&\& mode\,$=$\,SCORE} (WIN);
+
+% 6. GAMEOVER → MENU : timer expired
+\path (GAMEOVER) edge [bend right = 35]
+      node[below left, align = center] {\footnotesize state\_timer\\\footnotesize 倒计时归零} (MENU);
+
+% 7. WIN → MENU : timer expired
+\path (WIN) edge [bend left = 35]
+      node[below right, align = center] {\footnotesize state\_timer\\\footnotesize 倒计时归零} (MENU);
+
+% 初始状态标记（复位后进入 MENU）
+\node[above = 0.2cm of MENU, font = \footnotesize\bfseries] {rstn 复位};
+
+\end{tikzpicture}
+\caption{游戏状态机状态转换图（Moore 型 FSM）}
+\label{fig:fsm}
+\end{figure}
+
+\paragraph{输入映射}
+
+\texttt{game\_logic} 内部将按键和开关合并为统一的逻辑输入信号：
+
+\begin{table}[H]
+\centering
+\caption{输入映射表}
+\label{tab:input}
+\begin{tabular}{llll}
+\toprule
+\textbf{逻辑信号} & \textbf{来源} & \textbf{类型} & \textbf{功能} \\
+\midrule
+move\_up    & BTN[0] $\parallel$ SW[0]  & 持续有效 & 上移 \\
+move\_down  & BTN[1] $\parallel$ SW[1]  & 持续有效 & 下移 \\
+move\_left  & BTN[2] $\parallel$ SW[2]  & 持续有效 & 左移 \\
+move\_right & BTN[3] $\parallel$ SW[3]  & 持续有效 & 右移 \\
+fire\_key   & BTNX4 $\parallel$ SW[4]   & 持续有效 & 开火/开始 \\
+start\_key  & BTNX4 $\parallel$ SW[4]   & 持续有效 & 开始游戏 \\
+pause\_key  & SW[5] 上升沿锁存       & 单次消费 & 暂停/恢复 \\
+btn\_cyc    & SW[6] 上升沿锁存       & 单次消费 & 切换 7 段显示 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+难度和模式选择在 MENU 状态下通过 SW 直接设定：
+SW[7]=EASY, SW[8]=NORMAL, SW[9]=HARD, SW[10]=HELL, SW[11]=模式（0=积分，1=无尽）。
+
+\paragraph{实体管理}
+
+采用固定槽位池设计，避免动态分配导致的复杂组合逻辑：
+
+\begin{itemize}
+    \item \textbf{敌机（8 槽，en\_active[7:0]）}：
+    轮转生成（en\_spawn\_idx 0$\rightarrow$7$\rightarrow$0），LFSR 随机 X 坐标（X = lfsr[5:0] $\times$ 10），
+    生成间隔由 \texttt{ENEMY\_SPAWN\_BASE（120 帧 = 2 秒）}控制。
+    每架敌机射出 2 发子弹到其专属子槽（敌机 0→槽 0-1，敌机 1→槽 8-9，以此类推，每敌机独占 8 槽的连续子槽），
+    仅前 4 架敌机（索引 0-3）具有完整的移动和射击逻辑。
+    敌机下移至屏幕底部（Y $>$ 470）时自动标注 inactive
+
+    \item \textbf{玩家子弹（16 槽，pb\_active[15:0]）}：
+    每次射击优先分配空闲槽。双发模式下分配槽 0 和 1（左右对称，偏移 $\pm$5px），
+    武器等级 $\ge$ 2 时增加槽 2（中央第三发）。槽 3-15 作为额外通道预留。
+    子弹以 5 像素/帧速度向上移动，出屏（Y $\le$ 10）标记 inactive
+
+    \item \textbf{敌方子弹（64 槽，eb\_active[63:0]）}：
+    每敌机分配专属 8 槽连续空间（敌机 N→槽 N*8$\sim$N*8+7），
+    射击时直接在专属槽写入，避免搜索空闲槽的深层组合逻辑。
+    子弹以 2 像素/帧速度向下移动，出屏（Y $>$ 470）标记 inactive
+
+    \item \textbf{障碍物（8 槽，ob\_active[7:0]）}：
+    轮转生成（ob\_spawn\_idx），LFSR 随机参数：坐标、尺寸（小/中/大，由 lfsr[15:14] 决定）、
+    形状（lfsr[1:0] 决定 4 种形状之一）、HP（lfsr[13:12] + 1，范围 1$\sim$4）。
+    生成间隔由 \texttt{OBSTACLE\_SPAWN\_BASE（300 帧 = 5 秒）}控制。
+    障碍物以每隔 32 帧 1 像素的速度缓慢下漂，出屏标注 inactive
+\end{itemize}
+
+\paragraph{碰撞检测}
+
+采用逐对 AABB（轴对齐包围盒）硬编码检测，无嵌套 \texttt{for} 循环，确保综合结果可预测：
+
+\begin{itemize}
+    \item 玩家子弹 vs 敌机（pb0/1/2 vs en0/1/2，共 9 对）：命中后敌机被击毁（1 HP 即死），子弹消失，
+    总分 +5，击杀数 +1
+    \item 玩家子弹 vs 障碍物（pb0/1 vs ob0/1/2/3，共 4 对）：命中后障碍物消失，子弹消失，不计分
+    \item 敌弹 vs 玩家（eb0/1/8/9，共 4 对，需 pl\_inv==0 且非作弊模式）：
+    命中后清除附近的敌弹，HP 减 1。若 HP $\le$ 1 则进入 GAMEOVER；否则回退至屏幕中央 (320,400)，
+    获得 180 帧无敌保护（约 3 秒）+ 清空所有敌弹
+    \item 玩家 vs 障碍物（ob0/1）：命中后障碍物消失，玩家 HP 归零，进入 GAMEOVER
+    \item 玩家 vs 敌机（en0/1）：命中后 HP 减 1，逻辑同敌弹伤害处理
+\end{itemize}
+
+\paragraph{计分与武器升级}
+
+\begin{itemize}
+    \item 击毁敌机：+5 分/架（与敌机 HP 无关）
+    \item 生存奖励：每 60 帧（1 秒）surv\_cnt 循环 +1 分
+    \item 积分模式目标：500 分通关
+    \item 武器升级：击杀数达到阈值（10/20/40...，每次翻倍）自动升级（最大 3 级），
+    提升子弹数量和缩短射击冷却
+\end{itemize}
+
+\paragraph{玩家属性}
+
+\begin{itemize}
+    \item 初始位置：(320, 400)（屏幕中央偏下）
+    \item 移动速度：2 像素/帧，边界限制 X $\in$ [20, 620]、Y $\in$ [20, 455]
+    \item 无敌时间：受伤后 180 帧（约 3 秒），期间 \texttt{pl\_flash} 按 \texttt{pl\_inv[2:1] != 0} 闪烁
+    \item 开火冷却：基础 8 帧，随武器等级缩短为 \texttt{FIRE\_RATE - weapon}
+    \item 武器升级：击杀 $\ge$ next\_kills\_upg（初始 10，每次翻倍）时触发
+    \item 作弊模式（SW[12:15] 全为 1）：HP = 7
+\end{itemize}
+
+\paragraph{LFSR 伪随机数生成器}
+
+LFSR 实现在 \texttt{game\_logic.v} 内部（未使用独立模块），
+16 位 Galois 型，多项式 $x^{16}+x^{14}+x^{13}+x^{11}+1$（反馈系数 16'hB400）。
+每个 game tick 更新一次，种子值 16'hACE1：
+
+\begin{lstlisting}
+if (tick)
+    lfsr <= {lfsr[14:0], 1'b0} ^ ({16{lfsr[15]}} & 16'hB400);
+\end{lstlisting}
+
+LFSR 输出用于：敌机 X 坐标随机化、敌机射击间隔随机扰动、敌机移动方向选择、
+障碍物大小/形状/HP 随机化。
+
+\subsubsection{字库实现}
+
+本工程在 \texttt{menu\_render.v} 和 \texttt{hud\_render.v} 中使用 Xilinx Distributed Memory Generator
+生成的 ROM IP（\texttt{ROM\_f}）实现 8$\times$8 字库，通过 \texttt{i.coe} 初始化文件（同目录下）
+提供位图数据。ROM 地址格式为 \texttt{\{char\_code[5:0], row[2:0]\}}（9 位，512 深度），
+8 位数据输出对应一行像素。
+
+该方案替代了旧版的 \texttt{case} 组合逻辑查找表方案，在面积和时序上均有优势。
+但 \texttt{hud\_render.v} 中仍保留了一组 \texttt{case} 查找表用于特定字符的 inline 字库。
+
+支持的字符包括 A$\sim$Z（编码 0$\sim$25）、0$\sim$9（编码 26$\sim$35）、
+空格（36）、冒号（37）、竖线（39）、短横（40）、大于号（41）、句点（42）。
+
+\subsubsection{渲染器模块族}
+
+所有渲染器（player\_render, enemy\_render, bullet\_render, obstacle\_render,
+hud\_render, menu\_render）均为纯组合逻辑（无 \texttt{posedge}），
+基于扫描坐标 (sx, sy) 实时判断每个像素是否属于对应实体。
+渲染器无时钟输入端，输出 hit（1 位）和 12 位 BGR 颜色信号（12 位）。
+
+各渲染器的主要几何特征：
+\begin{itemize}
+    \item \textbf{玩家（player\_render）}：向上等腰三角形飞机，顶点 (px, py-12)、底角 (px$\pm$16, py+12)。
+    细节分层：引擎发光（橙色）、驾驶舱（深蓝）、机翼（白色）、主体（青色）。
+    支持无敌闪烁（flash=0 时不可见）
+    \item \textbf{敌机（enemy\_render）}：椭圆 UFO，简化近似公式 $dx^2 + 2\cdot dy^2 \le 200$（a≈14, b≈10）。
+    细节：舷窗（小方形窗口）、穹顶（椭圆弧线）、边缘轮廓（2 像素宽环）。
+    HP 分级着色（3→品红、2→紫色、1→暗红），击中闪烁为白色
+    \item \textbf{子弹（bullet\_render）}：通过 \texttt{is\_player} 参数区分。
+    玩家弹：曼哈顿距离 $\le$ 2 的菱形（青色），敌弹：3$\times$3 方块（红色）
+    \item \textbf{障碍物（obstacle\_render）}：根据 size 和 shape 渲染不同大小的石头形状，
+    4 种几何造型 + 3 种尺寸组合
+    \item \textbf{菜单（menu\_render）}：双层装饰边框（彩虹色交替 + 浅灰细线）、
+    标题文字（AEROPLANE / DANMAKU SHOOTING）、START 提示框、难度和模式显示、操作说明
+    \item \textbf{HUD（hud\_render）}：右下角 SCORE 显示（14 字符）、左上角 HP 显示（4 字符）、
+    暂停 $\|$$\|$ 符号（黄色）、居中大号 GAME OVER（红色）/ YOU WIN（绿色）
+\end{itemize}
+
+
+% ==================== 四、程序流程 ====================
+\section{程序流程}
+
+\subsection{游戏主循环}
+
+系统在 100MHz 时钟域运行。\texttt{vga\_top} 通过三级同步器检测 vs 场同步的下降沿，
+在 V-blank 期间产生一个 100MHz 时钟周期的 \texttt{frame\_tick} 脉冲（约 60Hz）。
+\texttt{game\_logic} 在每个 frame\_tick 上升沿执行一帧游戏逻辑更新。
+这一机制确保了 VGA 画面渲染与游戏逻辑的严格同步，避免画面撕裂。
+
+每帧（frame\_tick 脉冲）执行以下步骤：
+
+\begin{enumerate}[label=(\arabic*)]
+    \item 更新 LFSR 伪随机数寄存器
+    \item 检测 SW[5]/SW[6] 上升沿，更新 pause\_key / btn\_cyc 锁存器
+    \item 处理 pause\_cooldown 递减
+    \item 根据当前 state 执行对应逻辑：
+    \begin{description}
+        \item[MENU 状态] 初始化所有实体寄存器→检测 SW[7:10] 设定难度→检测 SW[11] 设定模式→
+        等待 start\_key 进入 PLAYING（写入难度、模式、初始 HP，设置 GRACE\_PERIOD 开局保护）
+        \item[PLAYING 状态]\mbox{}
+        \begin{itemize}
+            \item game\_time 递增，state\_timer 递减
+            \item surv\_cnt 循环累计（60 帧 +1 生存分）
+            \item 玩家移动（受边界 20$\sim$620 / 20$\sim$455 限制，速度 2px/帧）
+            \item 无敌计时（pl\_inv 递减、pl\_flash 闪烁控制）
+            \item 玩家射击（空闲槽分配、冷却检查、武器等级决定子弹数）
+            \item 移动玩家子弹（向上 5px/帧，出屏标记 inactive）
+            \item 敌机生成（轮转空闲槽，LFSR 随机 X，生成间隔递减）
+            \item 敌机下漂 + 左右微移 + 敌机专属槽射击
+            \item 移动敌方子弹（向下 2px/帧，出屏标记 inactive）
+            \item 障碍物生成（轮转空闲槽，LFSR 随机参数）
+            \item 障碍物缓慢下漂（每 32 帧 1px）
+            \item 碰撞检测（逐对 AABB）→ 扣血/击毁/得分/无敌保护
+            \item 武器升级检查（total\_kills $\ge$ next\_kills\_upg）
+            \item 检查 GAMEOVER（HP=0）或 WIN（score $\ge$ 500 且积分模式）
+        \end{itemize}
+        \item[PAUSED 状态] 不更新时间，等待 pause\_key 或 fire\_key 恢复（带冷却）
+        \item[GAMEOVER/WIN 状态] state\_timer 倒计时（300 帧 → 5 秒）→ 返回 MENU，清除所有实体
+    \end{description}
+    \item 更新 7 段数码管显示数据（根据 seg\_cycle 选择击杀/生命/积分）
+    \item 更新 LED 溢出显示（积分 $\ge$ 10000 或击杀 $\ge$ 100 时点亮高位 LED）
+\end{enumerate}
+
+% TODO: 在此插入游戏整体流程图
+% 建议使用 Visio/draw.io 绘制流程图，包含：
+%   - frame_tick 到达判断
+%   - 5 状态分支（MENU/PLAYING/PAUSED/GAMEOVER/WIN）
+%   - PLAYING 内的实体更新、碰撞检测、状态转移子流程
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}
+【图：游戏主循环整体流程图】
+
+建议包含：
+\begin{itemize}
+    \item 主循环入口：frame\_tick 上升沿检测
+    \item LFSR 更新
+    \item 5 路状态分支的菱形判断框
+    \item MENU 子流程：初始化 → 难度/模式设定 → start\_key 检测
+    \item PLAYING 子流程展开：移动→射击→敌机生成→碰撞→状态转移检查
+    \item PAUSED/GAMEOVER/WIN 子流程
+\end{itemize}
+\vspace{3cm}}}
+\caption{游戏主循环整体流程图}
+\label{fig:flow}
+\end{figure}
+
+\subsection{VGA 渲染流程}
+
+VGA 渲染流程与游戏逻辑并行、流水线式运行：
+
+\begin{enumerate}[label=(\arabic*)]
+    \item vgac 在 25MHz 像素时钟驱动下产生 (row\_addr, col\_addr) 扫描坐标
+    \item 所有渲染器同步接收坐标，纯组合逻辑并行计算 hit 和 color
+    \item 优先级 MUX 按固定层级选择最高优先级的有效像素颜色
+    \item 输出 12 位 d\_in 到 vgac
+    \item vgac 按 VGA 时序驱动 R/G/B/HS/VS 引脚输出到显示器
+    \item 在 V-blank 期间，frame\_tick 脉冲驱动游戏逻辑更新一帧
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+% TODO: 在此插入 VGA 渲染管线流程图
+% 建议体现：100MHz → 25MHz 分频 → vgac → 扫描坐标 → 渲染器并行计算 → 优先级 MUX → VGA 输出
+%          同时展示 vs → frame_tick → game_logic 的帧同步通路
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：VGA 渲染管线流程图】\vspace{3cm}}}
+\caption{VGA 渲染管线流程图}
+\label{fig:vga_flow}
+\end{figure}
+
+
+% ==================== 五、调试过程分析 ====================
+\section{调试过程分析}
+
+\subsection{语法与综合调试}
+
+在 Vivado 中进行语法检查和综合（Synthesis），通过 Messages 窗口检查 Error 和 Warning，
+对变量位宽不匹配、未连接端口、多次驱动等问题逐一修正。
+
+\begin{figure}[H]
+\centering
+% TODO: 在此插入 Vivado Synthesis 完成截图，显示资源使用概览
+% 操作步骤：Vivado → Run Synthesis → 完成后截取 Project Summary 中的 Utilization 概览
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：Vivado Synthesis 完成截图 - 资源使用概览】\vspace{3cm}}}
+\caption{Vivado Synthesis 综合完成截图}
+\label{fig:synth}
+\end{figure}
+
+\subsection{主要调试问题与解决方案}
+
+\subsubsection{问题 1：玩家飞机位置与移动异常}
+
+\textbf{现象}：玩家飞机初始位置不在屏幕预期位置（中央偏下），移动范围异常。
+
+\textbf{原因}：玩家初始坐标设置错误，边界检查条件不完整。
+
+\textbf{解决方案}：将玩家初始位置设为 (320, 400)（对应 640$\times$480 屏幕中央偏下），
+移动边界限制为 X $\in$ [20, 620]、Y $\in$ [20, 455]，考虑飞机半宽（16px）和半高（12px）。
+
+\subsubsection{问题 2：敌机生成和显示不全}
+
+\textbf{现象}：仅有少数敌机槽（索引 0-3）被更新，其余槽位无响应。
+
+\textbf{原因}：敌机生成、移动和射击逻辑只针对前 4 个槽位硬编码，未覆盖全部 8 个槽位。
+
+\textbf{解决方案}：将敌机的生成（en\_spawn\_idx 轮转覆盖 0$\sim$7）、移动和射击逻辑
+扩展到全部 8 个敌机槽。前 4 槽保持完整 AI 逻辑，后 4 槽提供基础的生成和下移功能。
+
+\subsubsection{问题 3：子弹发射数量少}
+
+\textbf{现象}：玩家每次只能发射 1$\sim$2 颗子弹。
+
+\textbf{原因}：子弹分配仅检查固定槽位（0 和 1），未充分利用 16 个槽位，且未实现武器升级的第三发。
+
+\textbf{解决方案}：改为优先轮询空闲槽位分配。基础双发分配到槽 0 和 1（左右对称），
+武器等级 $\ge$ 2 时增加第三发到槽 2（中央发射）。槽 3-15 作为预留扩展通道。
+
+\subsubsection{问题 4：文字显示异常}
+
+\textbf{现象}：HUD 和菜单中部分字符（冒号、竖线等）显示为空白或乱码。
+
+\textbf{原因}：字符编码寄存器位宽为 [4:0]（5 位），数值 $\ge$ 32 的编码（如空格 36、冒号 37、竖线 39）被截断。
+
+\textbf{解决方案}：将字符编码变量位宽从 [4:0] 扩展为 [5:0]，相关常量从 5'dN 改为 6'dN。
+同时将字库从 inline \texttt{case} 查找表升级为 Xilinx Distributed Memory ROM IP，
+以 \texttt{i.coe} 初始化文件提供位图数据，提升综合效率。
+
+\subsubsection{问题 5：椭球体渲染鬼影点}
+
+\textbf{现象}：敌机 UFO 的椭圆渲染在距敌机约 256 像素处产生周期性鬼影点（伪像）。
+
+\textbf{原因}：椭圆距离平方计算 (\texttt{dx*dx + 2*dy*dy}) 的值在远离实体时超过位宽上限导致乘法溢出。
+具体为 \texttt{adx2} 和 \texttt{ady2} 使用 16 位宽，而 $\texttt{adx}^2$ 理论最大值为 $640^2 = 409600$（需 19 位）。
+
+\textbf{解决方案}：将 \texttt{adx2} 扩展为 22 位宽、\texttt{ady2} 为 22 位、\texttt{dist2} 为 23 位，
+阈值比较字面量统一为 23'd 宽度。
+
+\subsection{综合资源使用}
+
+\begin{table}[H]
+\centering
+\caption{资源使用情况（以 Vivado 综合报告为准）}
+\label{tab:util}
+\begin{tabular}{lccc}
+\toprule
+\textbf{资源} & \textbf{已使用} & \textbf{总量} & \textbf{利用率} \\
+\midrule
+Slice LUTs      & {[待填入]} & 101,400 & {[\%]} \\
+Slice Registers & {[待填入]} & 202,800 & {[\%]} \\
+Block RAM       & {[待填入]} & 325 & {[\%]} \\
+IO              & {[待填入]} & 400 & {[\%]} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% TODO: 将上表中的 [待填入] 替换为 Vivado Synthesis 的实际数据
+% 查看位置：Vivado → Synthesis → Project Summary → Utilization
+
+
+% ==================== 六、核心模块模拟仿真 ====================
+\section{核心模块模拟仿真结果}
+
+\subsection{按键消抖模块（AntiJitter）仿真}
+
+对 \texttt{AntiJitter} 模块进行仿真，验证 4 帧确认的去抖动逻辑：
+按键按下后需在 4 个连续采样周期（\texttt{clkdiv[15]} ≈ 1.5kHz）内保持稳定，
+才输出稳定的高电平。松开时同理，需 4 个采样周期归零。
+参数 \#(4) 表示 4 帧消抖窗宽。
+
+\begin{figure}[H]
+\centering
+% TODO: 插入 AntiJitter 仿真波形截图
+% 建议在 Vivado 中运行 Behavioral Simulation → 添加 AntiJitter 为仿真顶层 → 运行仿真 →
+% 截图展示：I（输入毛刺信号）、O（输出稳定信号）、clk、rstn 的时序关系
+% 应能观察到输入信号抖动被过滤，输出在稳定 4 个采样周期后才变化
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：AntiJitter 仿真波形 - 展示去抖动效果】\vspace{3cm}}}
+\caption{AntiJitter 模块仿真波形}
+\label{fig:sim_antijitter}
+\end{figure}
+
+\subsection{游戏逻辑模块（game\_logic）仿真}
+
+对 \texttt{game\_logic} 模块进行仿真，验证 FSM 状态转换、实体更新、碰撞检测、计分系统等。
+
+主要验证项：
+\begin{itemize}
+    \item MENU $\rightarrow$ PLAYING 状态转换（start\_key 触发）
+    \item PLAYING $\rightarrow$ PAUSED $\rightarrow$ PLAYING 暂停恢复循环
+    \item 玩家移动边界限制（X 20$\sim$620, Y 20$\sim$455）
+    \item 玩家子弹发射与槽位分配逻辑
+    \item 敌机轮转生成、移动与射击
+    \item AABB 碰撞检测判定
+    \item HP 扣减与无敌保护（pl\_inv 倒计时 + pl\_flash 闪烁）
+    \item GAMEOVER 触发条件（HP = 0）
+    \item WIN 触发条件（积分模式 score $\ge$ 500）
+    \item 武器升级检查（total\_kills $\ge$ next\_kills\_upg）
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+% TODO: 插入 game_logic 仿真波形截图
+% 建议展示以下信号：
+%   - game_state[2:0]：状态机当前状态
+%   - pl_hp[2:0]：玩家生命值变化
+%   - total_score[19:0]：积分累计
+%   - en_active[7:0]：敌机活跃状态
+%   - pb_active[15:0]：玩家子弹活跃状态
+%   重点截取一段包含状态转换（MENU→PLAYING→PAUSED→PLAYING→GAMEOVER）的波形
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：game\_logic 仿真波形 - 展示状态转换和关键信号】\vspace{3cm}}}
+\caption{game\_logic 模块仿真波形}
+\label{fig:sim_logic}
+\end{figure}
+
+\subsection{VGA 渲染管线仿真}
+
+上板实测为主，仿真时重点检查 \texttt{vga\_top} 的 RGB 数据时序和同步信号。
+
+\begin{figure}[H]
+\centering
+% TODO: 插入 vga_top 仿真波形截图
+% 建议展示以下信号：
+%   - row_addr[8:0], col_addr[9:0]：扫描坐标递进（应看到 0→479 / 0→639 的完整扫描）
+%   - rdn：有效区为低 / 消隐区为高
+%   - hs, vs：行/场同步脉冲
+%   - r[3:0], g[3:0], b[3:0]：像素颜色数据
+% 也可附上一段 hit_player / hit_hud 信号展示渲染器的像素命中情况
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：vga\_top 仿真波形 - 展示 VGA 时序和像素输出】\vspace{3cm}}}
+\caption{vga\_top VGA 渲染管线仿真波形}
+\label{fig:sim_vga}
+\end{figure}
+
+
+% ==================== 七、操作说明 ====================
+\section{操作说明}
+
+\subsection{游戏启动}
+\begin{enumerate}[label=(\arabic*)]
+    \item 将 .bit 文件通过 Vivado Hardware Manager 下载到 K7 FPGA 开发板
+    \item 连接 VGA 显示器到开发板 VGA 接口
+    \item 按下全局复位键（rstn），系统进入主菜单界面
+\end{enumerate}
+
+\subsection{菜单操作}
+\begin{itemize}
+    \item SW[7]$\sim$SW[10]：选择难度（EASY / NORMAL / HARD / HELL），仅一个有效
+    \item SW[11]：选择模式（0 = 积分模式，1 = 无尽模式）
+    \item 按下 BTNX4 或 SW[4]：开始游戏（前 5 秒为开局保护期，不刷新敌机和障碍物）
+    \item 作弊模式：SW[12]$\sim$SW[15] 全为 1 时激活，玩家开局 HP = 7
+\end{itemize}
+
+\subsection{游戏操作}
+\begin{itemize}
+    \item BTN[0]$\sim$[3] 或 SW[0]$\sim$[3]：上/下/左/右移动玩家飞机
+    \item BTNX4 或 SW[4]：发射子弹（按住连发，受冷却限制）
+    \item SW[5]（从 0 拨到 1）：暂停/继续（单次触发，约 4 秒冷却）
+    \item SW[6]（从 0 拨到 1）：切换 7 段数码管显示内容（击毁数→生命值→积分→循环）
+\end{itemize}
+
+\subsection{游戏机制}
+\begin{itemize}
+    \item 默认 3 条生命（HELL 难度为 2，作弊模式为 7）
+    \item 击毁敌机 +5 分，每秒生存奖励 +1 分
+    \item 积分模式达到 500 分显示 YOU WIN，5 秒后返回菜单
+    \item 无尽模式无通关条件，尽量延长存活时间
+    \item 生命归零显示 GAME OVER，5 秒后返回菜单
+    \item 受伤后 180 帧（约 3 秒）无敌保护，飞机闪烁提示
+    \item 击杀数达 10/20/40 依次升级武器（单发→双发→三发）
+\end{itemize}
+
+
+% ==================== 八、验证过程演示 ====================
+\section{验证过程演示}
+
+\subsection{上板验证流程}
+
+\begin{enumerate}[label=(\arabic*)]
+    \item Vivado 完成综合（Synthesis）→ 实现（Implementation）→ 生成 .bit 文件（Generate Bitstream）
+    \item 通过 Hardware Manager → Program Device 下载 .bit 到 K7 开发板
+    \item 连接 VGA 显示器，确认显示正常
+    \item 按下全局复位键（rstn），检查主菜单画面
+    \item 切换难度（SW[7:10]）和模式（SW[11]），验证菜单文字实时变化
+    \item 按下开始键进入游戏，验证：
+    \begin{itemize}
+        \item 前 5 秒不刷新敌机和障碍物
+        \item 玩家飞机移动范围和速度
+        \item 子弹发射（双发 + 武器升级后的三发）
+        \item 敌机生成、移动和射击
+        \item 障碍物生成和漂移
+        \item 碰撞检测：玩家子弹击中敌机（得分+5）、击中障碍物（消失）
+        \item 玩家受伤：HP-1、无敌闪烁、弹幕清空
+        \item HP 归零 → GAMEOVER 画面
+        \item 积分 $\ge$ 500（积分模式）→ YOU WIN 画面
+    \end{itemize}
+    \item 验证暂停/恢复（SW[5] 拨动 0→1）
+    \item 验证 7 段数码管显示切换（SW[6]）
+    \item 验证作弊模式（SW[12:15] 全上拨 + 复位 + 进入游戏 → HP=7）
+\end{enumerate}
+
+\subsection{上板测试结果}
+
+\begin{figure}[H]
+\centering
+% TODO: 在此插入上板验证照片（共 6-7 张）
+% 建议拍摄以下画面（拍摄时确保画面清晰、反光最小）：
+%   1. 主菜单界面（展示标题 AEROPLANE DANMAKU SHOOTING、START 框、难度和模式文字）
+%   2. 游戏进行中画面（展示玩家飞机 + 敌机 UFO + 子弹 + 障碍物 + HUD SCORE/HP）
+%   3. 暂停界面（展示 || 符号）
+%   4. GAMEOVER 界面（展示红色 GAME OVER 大字）
+%   5. YOU WIN 界面（展示绿色 YOU WIN 大字）
+%   6. 7 段数码管特写（展示 KILLS/LIVES/SCORE 三种模式）
+%   7. 整体实验环境照片（K7 开发板 + VGA 显示器 + 电源接线，展示完整实验环境）
+%
+% 插入方式：每张图使用 subfigure 环境排版，示例：
+% \begin{subfigure}{0.48\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{figs/menu.jpg}
+%     \caption{主菜单界面}
+% \end{subfigure}
+%
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{4cm}
+【图：上板验证照片合集】
+
+1. 主菜单界面
+2. 游戏进行中画面
+3. 暂停界面
+4. GAMEOVER 界面
+5. YOU WIN 界面
+6. 7 段数码管特写
+7. 整体实验环境
+\vspace{4cm}}}
+\caption{上板验证结果}
+\label{fig:verify}
+\end{figure}
+
+
+% ==================== 九、程序代码（关键部分） ====================
+\section{程序代码（关键部分）}
+
+% 完整源码见工程文件，以下仅列出关键模块的核心逻辑。
+
+\subsection{game\_top --- 顶层互联}
+
+\begin{lstlisting}
+// 32 位自由运行计数器（100MHz 时钟分频源）
+reg [31:0] clkdiv;
+always @(posedge clk) clkdiv <= clkdiv + 1'b1;
+
+// 16 路拨码开关消抖
+wire [15:0] SW_OK;
+genvar si;
+generate
+    for (si = 0; si < 16; si = si + 1) begin : gen_sw_debounce
+        AntiJitter #(4) u_sw_aj (
+            .clk(clkdiv[15]), .I(SW[si]), .O(SW_OK[si])
+        );
+    end
+endgenerate
+
+// 5 路按键消抖（BTNX4 + BTN[3:0]）
+wire [4:0] btn_raw = {BTNX4, BTN};
+wire [4:0] btn_db;
+genvar bi;
+generate
+    for (bi = 0; bi < 5; bi = bi + 1) begin : gen_btn_debounce
+        AntiJitter #(4) u_btn_aj (
+            .clk(clkdiv[15]), .I(btn_raw[bi]), .O(btn_db[bi])
+        );
+    end
+endgenerate
+\end{lstlisting}
+
+\subsection{game\_logic --- 状态机与输入映射}
+
+\begin{lstlisting}
+// 按键映射：5 个独立按键 {BTNX4, BTN[3:0]} = btn[4:0]
+wire btn_up    = btn[0];    wire btn_down  = btn[1];
+wire btn_left  = btn[2];    wire btn_right = btn[3];
+wire btn_fire  = btn[4];
+
+// 合并输入（按键 OR 开关，任一有效即触发）
+wire move_up    = btn_up    || sw[0];
+wire move_down  = btn_down  || sw[1];
+wire move_left  = btn_left  || sw[2];
+wire move_right = btn_right || sw[3];
+wire fire_key   = btn_fire  || sw[4];
+wire start_key  = btn_fire  || sw[4];
+wire pause_key  = sw5_latch;     // SW[5] 上升沿锁存
+wire btn_cyc    = sw6_latch;     // SW[6] 上升沿锁存
+
+// 作弊模式：SW[12:15] 全部为 1 时激活
+wire cheat_ok = sw[12] && sw[13] && sw[14] && sw[15];
+\end{lstlisting}
+
+\subsection{game\_logic --- FSM 状态转换}
+
+\begin{lstlisting}
+case (state)
+`STATE_MENU: begin
+    // 初始化所有实体寄存器
+    pl_alive <= 1'b1;  pl_x <= 10'd320;  pl_y <= 9'd400;
+    total_score <= 20'd0;  total_kills <= 8'd0;
+    en_act <= 8'd0;  pb_act <= 16'd0;  eb_act <= 64'd0;  ob_act <= 8'd0;
+
+    // 难度与模式选择
+    if (sw[7])  sel_diff <= `DIFF_EASY;
+    if (sw[8])  sel_diff <= `DIFF_NORMAL;
+    if (sw[9])  sel_diff <= `DIFF_HARD;
+    if (sw[10]) sel_diff <= `DIFF_HELL;
+    sel_mode <= sw[11];
+
+    if (start_key) begin
+        state       <= `STATE_PLAYING;
+        state_timer <= `GRACE_PERIOD;  // 300 帧 = 5 秒开局保护
+        difficulty  <= sel_diff;
+        mode        <= sel_mode;
+        pl_hp       <= cheat_ok ? 3'd7 :
+                       (sel_diff == `DIFF_EASY)  ? 3'd3 :
+                       (sel_diff == `DIFF_HELL)  ? 3'd2 : 3'd3;
+    end
+end
+
+`STATE_PLAYING: begin
+    // 暂停检测（带冷却）
+    if (pause_key && pause_cooldown == 8'd0) begin
+        state <= `STATE_PAUSED;
+        pause_cooldown <= 8'd250;  // 约 4 秒冷却
+    end
+
+    // …… 实体更新、碰撞检测、计分 ……
+
+    // 状态转移检测
+    if (pl_hp == 0) begin
+        state <= `STATE_GAMEOVER;
+        state_timer <= `GAMEOVER_DISPLAY;
+    end else if (!mode && total_score >= `SCORE_WIN_TARGET) begin
+        state <= `STATE_WIN;
+        state_timer <= `WIN_DISPLAY;
+    end
+end
+
+`STATE_PAUSED: begin
+    if ((pause_key || fire_key) && pause_cooldown == 8'd0) begin
+        state <= `STATE_PLAYING;
+        pause_cooldown <= 8'd250;
+    end
+end
+
+`STATE_GAMEOVER: begin
+    if (state_timer > 0) state_timer <= state_timer - 11'd1;
+    else state <= `STATE_MENU;  // 5 秒后返回菜单
+end
+
+`STATE_WIN: begin
+    if (state_timer > 0) state_timer <= state_timer - 11'd1;
+    else state <= `STATE_MENU;  // 5 秒后返回菜单
+end
+endcase
+\end{lstlisting}
+
+\subsection{LFSR 伪随机数生成}
+
+\begin{lstlisting}
+// 16 位 Galois LFSR，多项式 x^16 + x^14 + x^13 + x^11 + 1
+// 反馈系数：16'hB400 = 16'b1011_0100_0000_0000
+// 种子值：16'hACE1
+if (tick)
+    lfsr <= {lfsr[14:0], 1'b0} ^ ({16{lfsr[15]}} & 16'hB400);
+\end{lstlisting}
+
+\subsection{hud\_render --- 内联字库（部分）}
+
+\begin{lstlisting}
+// 字符 ROM 综合为 Distributed Memory ROM IP（ROM_f）
+// 地址格式：{char_code[5:0], sy[2:0]} = 9 位，512 深度
+// 数据位宽：8 位（一行像素的位图）
+ROM_f u_font_rom (
+    .a  ({char_code[5:0], sy[2:0]}),
+    .spo(char_bitmap)
+);
+// 字库初始化文件：i.coe（项目根目录）
+\end{lstlisting}
+
+
+% ==================== 十、组内成员分工说明及贡献比例 ====================
+\section{组内成员分工说明及贡献比例}
+
+\subsection{成员分工}
+
+% TODO: 根据实际情况填写分工
+
+\begin{table}[H]
+\centering
+\caption{成员分工表}
+\label{tab:division}
+\begin{tabular}{lp{4.5cm}p{5cm}}
+\toprule
+\textbf{姓名} & \textbf{负责内容} & \textbf{具体工作} \\
+\midrule
+{[姓名1]}（组长） & 系统架构、VGA 渲染管线 &
+    整体架构设计、game\_top 顶层互联、VGA 渲染管线（vga\_top + vgac + 优先级 MUX）、
+    渲染器族（player/enemy/bullet/menu/hud\_render）、字库 ROM、报告撰写 \\
+\midrule
+{[姓名2]} & 游戏逻辑、外设驱动 &
+    game\_logic 核心 FSM、实体管理与碰撞检测、LFSR 随机数、
+    按键消抖（AntiJitter）、7 段数码管驱动、上板调试 \\
+\midrule
+{[姓名3]} & 仿真验证、操作说明 &
+    各模块单元仿真、上板验证测试、操作说明书编写、实验报告排版 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{贡献比例}
+
+% TODO: 根据实际情况填写比例
+\begin{itemize}
+    \item {[姓名1]}（组长）：34\%
+    \item {[姓名2]}：33\%
+    \item {[姓名3]}：33\%
+\end{itemize}
+
+
+% ==================== 十一、总结与展望 ====================
+\section{总结与展望}
+
+\subsection{项目总结}
+
+本工程在 Sword Kintex-7 FPGA 平台上实现了一个完整的弹幕射击游戏，涵盖以下数字逻辑设计要点：
+
+\begin{enumerate}[label=(\arabic*)]
+    \item \textbf{有限状态机（FSM）设计}：5 状态 Moore 型状态机（MENU/PLAYING/PAUSED/GAMEOVER/WIN），
+    完整的状态转换条件判断、边沿触发锁存消费机制和冷却保护
+    \item \textbf{VGA 显示控制}：640$\times$480 @ 60Hz，12 位 BGR 色深，纯组合逻辑渲染器族 + 优先级合成管线，
+    多实体并行渲染无帧缓冲设计
+    \item \textbf{人机交互接口}：5 个独立按键 + 16 个拨码开关输入（全部消抖处理），
+    VGA 视频 + 7 段数码管（直连 + 串行 P2S）+ LED 多种输出
+    \item \textbf{实体系统管理}：8 敌机 + 16 玩家子弹 + 64 敌方子弹 + 8 障碍物，
+    固定槽位池管理 + 专属子槽分配，通过扁平化高位宽总线与 generate 展开在综合层面优化
+    \item \textbf{碰撞检测}：逐对 AABB 轴对齐包围盒硬编码检测，无嵌套 for 循环，
+    多类型交互（玩家子弹 $\times$ 敌机、玩家子弹 $\times$ 障碍物、敌弹 $\times$ 玩家、玩家 $\times$ 敌机、玩家 $\times$ 障碍物）
+    \item \textbf{伪随机数生成}：16 位 Galois LFSR，多项式 $x^{16}+x^{14}+x^{13}+x^{11}+1$，
+    驱动敌机坐标、射击间隔、移动方向、障碍物参数的随机化
+    \item \textbf{消抖处理}：参数化 AntiJitter 模块（\#(4)），16 路开关 + 5 路按键统一 4 帧消抖确认
+    \item \textbf{时钟域设计}：100MHz 系统时钟 → 25MHz VGA 时钟 + 60Hz frame\_tick + 1.5kHz 消抖采样，
+    通过三级同步器实现跨时钟域 vs 下降沿检测
+    \item \textbf{字库与 ROM}：Xilinx Distributed Memory ROM IP 实现 8$\times$8 字库，
+    i.coe 初始化文件提供位图数据，支持 A-Z、0-9 和标点共 40+ 字符
+\end{enumerate}
+
+\subsection{改进方向}
+
+\begin{enumerate}[label=(\arabic*)]
+    \item \textbf{PS/2 键盘支持}：工程中已有 \texttt{Keyboard.v} 模块（PS/2 Set 2 协议 make/break 解码 + 扩展键码处理），
+    可接入 \texttt{game\_top} 实现键盘 WASD 移动、J/Space 开火、P 暂停、1-4 难度切换等完整键盘操作，
+    替换当前的拨码开关操作方式
+    \item \textbf{音效系统}：开发板蜂鸣器（Buzzer）可接入简单 PWM 驱动，
+    实现射击音效、爆炸音效、背景音乐（BGM）等音频反馈
+    \item \textbf{曲线弹道}：当前敌方子弹均为直线弹道（BTYPE\_STRAIGHT），
+    \texttt{game\_defs.vh} 已预留抛物线（BTYPE\_PARABOLA）、顺时针圆弧（BTYPE\_CIRCLE\_CW）、
+    逆时针圆弧（BTYPE\_CIRCLE\_CCW）三种曲线类型编码，可在 \texttt{game\_logic} 中实现对应的运动方程更新
+    \item \textbf{敌机 AI 多样化}：当前仅前 4 个敌机槽有差异化行为（下漂 + 左右微移），
+    可在全部 8 个槽位实现不同 AI 策略（悬停射击、S 形移动、追踪玩家、弹幕散布等）
+    \item \textbf{图形质量提升}：当前玩家飞机和敌机 UFO 为几何图形（三角形/椭圆），
+    可通过 Block RAM 存储精灵位图（sprite）实现更精细的飞机和 UFO 造型
+    \item \textbf{难度动态调整}：\texttt{game\_defs.vh} 已定义难度系数（DMUL\_EASY = 1.0、
+    DMUL\_NORMAL = 1.5、DMUL\_HARD = 2.0、DMUL\_HELL = 3.0）和时间增长函数 T(t) 的框架，
+    可在 \texttt{game\_logic} 中实现随时间动态调整敌机刷新间隔、HP 和子弹密度
+\end{enumerate}
+
+
+% ==================== 参考资料 ====================
+\section{参考资料}
+
+\begin{enumerate}[label={[\arabic*]}]
+    \item NJU 数字逻辑设计实验讲义，PS/2 键盘输入实验，
+          \url{https://nju-projectn.github.io/dlco-lecture-note/exp/07.html}
+    \item YooLc/FPGA-STG：基于 FPGA 的 STG 射击游戏，
+          \url{https://github.com/YooLc/FPGA-STG}
+    \item Xilinx, ``Vivado Design Suite User Guide: Synthesis,'' UG901
+    \item Xilinx, ``7 Series FPGAs Data Sheet: Overview,'' DS180
+    \item Xilinx, ``Vivado Design Suite User Guide: I/O and Clock Planning,'' UG899
+    \item J. Bhasker 著，徐振林等译，``Verilog HDL 硬件描述语言''，机械工业出版社，2000
+    \item 夏宇闻，``Verilog 数字系统设计教程''，北京航空航天大学出版社
+\end{enumerate}
+
+\end{document}
