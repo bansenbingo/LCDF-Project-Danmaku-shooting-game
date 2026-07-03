@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    08:38:45 03/05/2016
-// Design Name:
-// Module Name:    Seg7Decode
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module Seg7Decode(
 	input [31:0] hex, input [7:0] point, input [7:0] LE,
 	output [63:0] pattern

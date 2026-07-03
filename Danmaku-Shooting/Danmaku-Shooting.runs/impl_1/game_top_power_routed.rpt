@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date             : Thu Jul  2 14:37:35 2026
+| Date             : Fri Jul  3 11:56:41 2026
 | Host             : LAPTOP-6STAFKCC running 64-bit major release  (build 9200)
 | Command          : report_power -file game_top_power_routed.rpt -pb game_top_power_summary_routed.pb -rpx game_top_power_routed.rpx
 | Design           : game_top
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.161        |
+| Total On-Chip Power (W)  | 0.167        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.046        |
+| Dynamic (W)              | 0.052        |
 | Device Static (W)        | 0.115        |
 | Effective TJA (C/W)      | 1.9          |
 | Max Ambient (C)          | 84.7         |
@@ -53,19 +53,19 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |     0.006 |        3 |       --- |             --- |
-| Slice Logic              |     0.011 |     8618 |       --- |             --- |
-|   LUT as Logic           |     0.009 |     5114 |    101400 |            5.04 |
-|   CARRY4                 |     0.002 |      877 |     25350 |            3.46 |
+| Slice Logic              |     0.011 |     8939 |       --- |             --- |
+|   LUT as Logic           |     0.009 |     5396 |    101400 |            5.32 |
+|   CARRY4                 |     0.001 |      865 |     25350 |            3.41 |
 |   BUFG                   |    <0.001 |        2 |        32 |            6.25 |
-|   Register               |    <0.001 |     1132 |    202800 |            0.56 |
-|   F7/F8 Muxes            |    <0.001 |       23 |    101400 |            0.02 |
+|   Register               |    <0.001 |     1140 |    202800 |            0.56 |
 |   LUT as Distributed RAM |    <0.001 |        6 |     35000 |            0.02 |
-|   Others                 |     0.000 |       98 |       --- |             --- |
-| Signals                  |     0.011 |     5541 |       --- |             --- |
-| DSPs                     |     0.010 |       16 |       600 |            2.67 |
-| I/O                      |     0.008 |       46 |       400 |           11.50 |
+|   F7/F8 Muxes            |    <0.001 |       34 |    101400 |            0.03 |
+|   Others                 |     0.000 |       96 |       --- |             --- |
+| Signals                  |     0.012 |     5907 |       --- |             --- |
+| DSPs                     |     0.016 |       24 |       600 |            4.00 |
+| I/O                      |     0.007 |       46 |       400 |           11.50 |
 | Static Power             |     0.115 |          |           |                 |
-| Total                    |     0.161 |          |           |                 |
+| Total                    |     0.167 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -75,7 +75,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.079 |       0.039 |      0.040 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.085 |       0.045 |      0.040 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.018 |       0.000 |      0.018 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.003 |       0.002 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -145,19 +145,19 @@ Table of Contents
 +-----------------------+-----------+
 | Name                  | Power (W) |
 +-----------------------+-----------+
-| game_top              |     0.046 |
-|   u_game_logic        |     0.008 |
-|   u_vga_top           |     0.030 |
-|     gen_enemy[0].u_er |     0.002 |
-|     gen_enemy[1].u_er |     0.002 |
-|     gen_enemy[2].u_er |     0.002 |
-|     gen_enemy[3].u_er |     0.002 |
-|     gen_enemy[4].u_er |     0.002 |
-|     gen_enemy[5].u_er |     0.002 |
-|     gen_enemy[6].u_er |     0.002 |
-|     gen_enemy[7].u_er |     0.002 |
+| game_top              |     0.052 |
+|   u_game_logic        |     0.007 |
+|   u_vga_top           |     0.036 |
+|     gen_enemy[0].u_er |     0.003 |
+|     gen_enemy[1].u_er |     0.003 |
+|     gen_enemy[2].u_er |     0.003 |
+|     gen_enemy[3].u_er |     0.003 |
+|     gen_enemy[4].u_er |     0.003 |
+|     gen_enemy[5].u_er |     0.003 |
+|     gen_enemy[6].u_er |     0.003 |
+|     gen_enemy[7].u_er |     0.003 |
 |     u_pr              |     0.001 |
-|     u_vgac            |     0.007 |
+|     u_vgac            |     0.008 |
 +-----------------------+-----------+
 
 

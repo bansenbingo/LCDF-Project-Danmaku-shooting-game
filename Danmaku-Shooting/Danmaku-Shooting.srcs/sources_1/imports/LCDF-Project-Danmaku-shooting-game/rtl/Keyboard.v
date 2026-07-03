@@ -1,21 +1,14 @@
-//==============================================================================
-// Keyboard.v — PS/2 keyboard interface for Aeroplane Danmaku Shooting
-// Based on reference FPGA-STG-main danmaku keyboard module.
-// Key mapping: W=Up A=Left S=Down D=Right  J/Space/Enter=Fire/Start
-//              K=WeaponUpgrade  P=Pause  Shift=Slow  1-4=difficulty
-//              M=ModeToggle  Tab=CycleDisplay
-//==============================================================================
 module Keyboard (
     input  wire        clk,
     input  wire        rstn,
     input  wire        ps2_clk,
     input  wire        ps2_data,
-    output wire [7:0]  status,       // [0]=Up [1]=Down [2]=Left [3]=Right
-                                     // [4]=Fire [5]=Upgrade [6]=Pause [7]=Shift
-    output wire [3:0]  diff_key,     // one-hot: diff_key[0]=Easy(1), [1]=Normal(2),
-                                     //           [2]=Hard(3), [3]=Hell(4)
-    output wire        mode_key,     // M key held = mode toggle
-    output wire        cycle_key     // Tab key held = display cycle
+    output wire [7:0]  status,
+
+    output wire [3:0]  diff_key,
+
+    output wire        mode_key,
+    output wire        cycle_key
 );
 
     reg rdn = 1'b1;
@@ -30,13 +23,12 @@ module Keyboard (
     localparam STATE_RESET      = 3'b000;
     localparam STATE_READ       = 3'b001;
     localparam STATE_BREAK      = 3'b010;
-    localparam STATE_EXT        = 3'b011;   // Extended key (E0 prefix)
-    localparam STATE_EXT_BREAK  = 3'b100;   // Extended break (E0 F0)
+    localparam STATE_EXT        = 3'b011;
+    localparam STATE_EXT_BREAK  = 3'b100;
 
     localparam BREAK_CODE = 8'hF0;
     localparam EXT_CODE   = 8'hE0;
 
-    //--- Normal key scan codes (PS/2 Set 2) ---
     localparam KEY_W     = 8'h1D;
     localparam KEY_A     = 8'h1C;
     localparam KEY_S     = 8'h1B;
@@ -54,7 +46,6 @@ module Keyboard (
     localparam KEY_M     = 8'h3A;
     localparam KEY_TAB   = 8'h0D;
 
-    //--- Key status bitmap indices ---
     localparam BIT_UP      = 4'd0;
     localparam BIT_DOWN    = 4'd1;
     localparam BIT_LEFT    = 4'd2;
@@ -94,7 +85,7 @@ module Keyboard (
 
                 STATE_READ: begin
                     if (rdy) begin
-                        //--- Process normal key make codes ---
+
                         case (data)
                             KEY_W:     key_pressed[BIT_UP]      <= 1'b1;
                             KEY_S:     key_pressed[BIT_DOWN]    <= 1'b1;
@@ -113,7 +104,7 @@ module Keyboard (
                             KEY_TAB:   cycle_pressed <= 1'b1;
                             default:   begin end
                         endcase
-                        //--- State transitions ---
+
                         case (data)
                             BREAK_CODE: state <= STATE_BREAK;
                             EXT_CODE:   state <= STATE_EXT;
@@ -186,10 +177,6 @@ module Keyboard (
 
 endmodule
 
-//==============================================================================
-// ps2_drive — PS/2 physical layer receiver with 8-entry FIFO buffer
-// Reference: https://nju-projectn.github.io/dlco-lecture-note/exp/07.html
-//==============================================================================
 module ps2_drive (
     input  wire        clk,
     input  wire        clrn,

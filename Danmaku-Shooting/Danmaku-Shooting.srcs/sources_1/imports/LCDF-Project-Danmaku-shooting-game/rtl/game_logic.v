@@ -1,22 +1,15 @@
-//==============================================================================
-// game_logic.v ??Core game state machine, entity management, collision detection
-// Runs at 60Hz on frame_tick from vga_top. Keyboard-only input (no SW/BTN).
-// Synthesis-optimized with fixed slot allocation to minimize combinational depth.
-//==============================================================================
 `include "game_defs.vh"
 
 module game_logic (
     input  wire        clk,
     input  wire        rstn,
-    input  wire        frame_tick,  // 60Hz game update pulse
+    input  wire        frame_tick,
 
-    input  wire [7:0]  key_data,    // PS/2 keyboard status
-                                    // [0]=Up(W) [1]=Down(S) [2]=Left(A) [3]=Right(D)
-                                    // [4]=Fire/Start(J/Space/Enter) [5]=Upgrade(K)
-                                    // [6]=Pause(P) [7]=Shift(slow)
-    input  wire [3:0]  key_diff,    // PS/2 difficulty keys: [0]=1(Easy)...[3]=4(Hell)
-    input  wire        key_mode,    // M key held = mode toggle request
-    input  wire        key_cycle,   // Tab key held = display cycle request
+    input  wire [7:0]  key_data,
+
+    input  wire [3:0]  key_diff,
+    input  wire        key_mode,
+    input  wire        key_cycle,
 
     output reg  [9:0]  pl_x,
     output reg  [8:0]  pl_y,
@@ -34,7 +27,7 @@ module game_logic (
     output reg  [79:0] en_x,
     output reg  [71:0] en_y,
     output reg  [15:0] en_hp,
-    output reg  [7:0]  en_flash,   // hit-flash bitmap per enemy
+    output reg  [7:0]  en_flash,
 
     output reg  [15:0] pb_active,
     output reg  [159:0] pb_x,
@@ -50,13 +43,11 @@ module game_logic (
     output reg  [1:0]  seg_mode,
     output reg  [7:0]  led
 );
-    //==========================================================================
-    // Keyboard edge detection ??latch events until tick consumes them
-    //==========================================================================
+
     reg keyP_d, keyK_d, keyM_d, keyC_d;
     always @(posedge clk) begin
-        keyP_d <= key_data[6];  // Pause(P)
-        keyK_d <= key_data[5];  // Upgrade(K)
+        keyP_d <= key_data[6];
+        keyK_d <= key_data[5];
         keyM_d <= key_mode;
         keyC_d <= key_cycle;
     end
@@ -65,9 +56,6 @@ module game_logic (
     wire keyM_pos = key_mode   && !keyM_d;
     wire keyC_pos = key_cycle  && !keyC_d;
 
-    //==========================================================================
-    // Frame tick edge detection (must be before latch block that uses tick)
-    //==========================================================================
     reg ft_d; always @(posedge clk) ft_d <= frame_tick;
     wire tick = frame_tick && !ft_d;
 
@@ -86,26 +74,19 @@ module game_logic (
         end
     end
 
-    //==========================================================================
-    // Keyboard-only control inputs
-    //==========================================================================
-    wire move_up    = key_data[0];   // W
-    wire move_down  = key_data[1];   // S
-    wire move_left  = key_data[2];   // A
-    wire move_right = key_data[3];   // D
-    wire fire_key   = key_data[4];   // J / Space / Enter
-    wire start_key  = key_data[4];   // J / Space / Enter
-    wire slow_key   = key_data[7];   // Shift (slow mode)
+    wire move_up    = key_data[0];
+    wire move_down  = key_data[1];
+    wire move_left  = key_data[2];
+    wire move_right = key_data[3];
+    wire fire_key   = key_data[4];
+    wire start_key  = key_data[4];
+    wire slow_key   = key_data[7];
 
-    // Edge-triggered keys (latched until tick consumes)
-    wire pause_key   = key_pause_latch;   // P
-    wire upgrade_key = key_upg_latch;     // K
-    wire mode_toggle = key_mode_latch;    // M
-    wire cyc_toggle  = key_cyc_latch;     // Tab
+    wire pause_key   = key_pause_latch;
+    wire upgrade_key = key_upg_latch;
+    wire mode_toggle = key_mode_latch;
+    wire cyc_toggle  = key_cyc_latch;
 
-    //==========================================================================
-    // Registers
-    //==========================================================================
     reg [2:0]  state;
     reg [10:0] state_timer;
     reg [10:0] game_time;
@@ -126,35 +107,26 @@ module game_logic (
     reg [15:0] lfsr;
     reg [1:0]  seg_cycle;
 
-    // Enemy registers (8 enemies)
     reg [7:0]  en_act;
     reg [79:0] en_x_r;
     reg [71:0] en_y_r;
     reg [15:0] en_hp_r;
-    reg [7:0]  en_flash_r;     // hit flash flag (auto-clears in 2 frames)
+    reg [7:0]  en_flash_r;
     reg [7:0]  en_dir;
     reg [63:0] en_fire_cd;
-    reg [63:0] en_phase;       // sinusoidal movement phase per enemy (8 ? 8 bits)
+    reg [63:0] en_phase;
 
-    // Player bullet registers (16 bullets)
     reg [15:0] pb_act;
     reg [159:0] pb_x_r;
     reg [143:0] pb_y_r;
 
-    // Enemy bullet registers (64 bullets)
     reg [63:0] eb_act;
     reg [639:0] eb_x_r;
     reg [575:0] eb_y_r;
 
-    //==========================================================================
-    // Helpers for extracting packed fields
-    //==========================================================================
     function [9:0] get_en_x; input [2:0] i; begin get_en_x = en_x_r[i*10 +: 10]; end endfunction
     function [8:0] get_en_y; input [2:0] i; begin get_en_y = en_y_r[i*9 +: 9]; end endfunction
 
-    //==========================================================================
-    // Main Game Logic
-    //==========================================================================
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
             state         <= `STATE_MENU;
@@ -163,6 +135,8 @@ module game_logic (
             pause_cooldown<= 8'd0;
             sel_diff      <= `DIFF_NORMAL;
             sel_mode      <= 1'b0;
+            difficulty    <= `DIFF_NORMAL;
+            mode          <= 1'b0;
             pl_x          <= 10'd320;
             pl_y          <= 9'd400;
             pl_hp         <= 3'd3;
@@ -201,28 +175,19 @@ module game_logic (
             seg_mode      <= 2'd0;
             led           <= 8'd0;
         end else begin
-            //==================================================================
-            // LFSR advances every game tick
-            //==================================================================
+
             if (tick)
                 lfsr <= {lfsr[14:0], 1'b0} ^ ({16{lfsr[15]}} & 16'hB400);
 
-            // Hit-flash auto-decay (clear after 2 frames)
             if (tick && game_time[0]) en_flash_r <= 8'd0;
 
-            // Display cycle (Tab key)
             if (cyc_toggle && tick) seg_cycle <= seg_cycle + 2'd1;
 
-            //==================================================================
-            // Game tick: all gameplay logic
-            //==================================================================
             if (tick) begin
                 if (pause_cooldown > 0) pause_cooldown <= pause_cooldown - 8'd1;
 
                 case (state)
-                //==============================================================
-                // MENU
-                //==============================================================
+
                 `STATE_MENU: begin
                     pl_alive   <= 1'b1;
                     pl_hp      <= (sel_diff == `DIFF_EASY)  ? 3'd3 :
@@ -244,14 +209,12 @@ module game_logic (
                     pl_weapon      <= 2'd0;
                     next_kills_upg <= 8'd10;
 
-                    // Difficulty select via keyboard 1-4
-                    if (key_diff[0]) sel_diff <= `DIFF_EASY;
-                    if (key_diff[1]) sel_diff <= `DIFF_NORMAL;
-                    if (key_diff[2]) sel_diff <= `DIFF_HARD;
-                    if (key_diff[3]) sel_diff <= `DIFF_HELL;
+                    if (key_diff[0]) begin sel_diff <= `DIFF_EASY;  difficulty <= `DIFF_EASY;  end
+                    if (key_diff[1]) begin sel_diff <= `DIFF_NORMAL; difficulty <= `DIFF_NORMAL; end
+                    if (key_diff[2]) begin sel_diff <= `DIFF_HARD;   difficulty <= `DIFF_HARD;   end
+                    if (key_diff[3]) begin sel_diff <= `DIFF_HELL;   difficulty <= `DIFF_HELL;   end
 
-                    // Mode toggle via keyboard M
-                    if (mode_toggle) sel_mode <= ~sel_mode;
+                    if (mode_toggle) begin sel_mode <= ~sel_mode; mode <= ~mode; end
 
                     if (start_key) begin
                         state       <= `STATE_PLAYING;
@@ -263,27 +226,21 @@ module game_logic (
                     end
                 end
 
-                //==============================================================
-                // PLAYING
-                //==============================================================
                 `STATE_PLAYING: begin
                     if (state_timer > 0) state_timer <= state_timer - 11'd1;
                     game_time <= game_time + 11'd1;
 
-                    // Survival score: +1 per second
                     surv_cnt <= surv_cnt + 8'd1;
                     if (surv_cnt == 8'd59) begin
                         surv_cnt <= 8'd0;
                         total_score <= total_score + 20'd1;
                     end
 
-                    //--- Pause ---
                     if (pause_key && pause_cooldown == 8'd0) begin
                         state <= `STATE_PAUSED;
                         pause_cooldown <= 8'd250;
                     end
 
-                    //--- Player Movement ---
                     if (pl_alive) begin
                         if (move_up    && pl_y > 9'd40)  pl_y <= pl_y - `PLAYER_SPEED;
                         if (move_down  && pl_y < 9'd430) pl_y <= pl_y + `PLAYER_SPEED;
@@ -291,7 +248,6 @@ module game_logic (
                         if (move_right && pl_x < 10'd600)pl_x <= pl_x + `PLAYER_SPEED;
                     end
 
-                    //--- Invincibility ---
                     if (pl_inv > 0) begin
                         pl_inv <= pl_inv - 8'd1;
                         pl_flash <= (pl_inv[2:1] != 2'b00);
@@ -299,7 +255,6 @@ module game_logic (
                         pl_flash <= 1'b1;
                     end
 
-                    //--- Player Shooting ---
                     if (pl_fire_cd > 0) pl_fire_cd <= pl_fire_cd - 5'd1;
                     if (fire_key && pl_fire_cd == 5'd0 && pl_alive && pl_inv == 8'd0) begin
                         if (!pb_act[0]) begin
@@ -320,7 +275,6 @@ module game_logic (
                         pl_fire_cd <= (`PLAYER_FIRE_RATE - {3'd0, pl_weapon});
                     end
 
-                    //--- Move Player Bullets ---
                     if (pb_act[0]) begin
                         if (pb_y_r[8:0] <= 9'd10) pb_act[0] <= 1'b0;
                         else pb_y_r[8:0] <= pb_y_r[8:0] - `PLAYER_BULLET_SPD;
@@ -339,21 +293,21 @@ module game_logic (
                     if (pb_act[6])  begin if (pb_y_r[62:54]<=9'd10) pb_act[6]<=0; else pb_y_r[62:54]<=pb_y_r[62:54]-`PLAYER_BULLET_SPD; end
                     if (pb_act[7])  begin if (pb_y_r[71:63]<=9'd10) pb_act[7]<=0; else pb_y_r[71:63]<=pb_y_r[71:63]-`PLAYER_BULLET_SPD; end
 
-                    //--- Enemy Spawning (difficulty-scaled HP) ---
                     if (state_timer == 11'd0) begin
                         if (en_spawn_timer > 0) begin
                             en_spawn_timer <= en_spawn_timer - 9'd1;
                         end else begin
                             if (!en_act[en_spawn_idx]) begin
                                 en_act[en_spawn_idx] <= 1'b1;
-                                en_x_r[en_spawn_idx*10 +: 10] <= {4'd0, lfsr[5:0]} * 10'd10;
+                                en_x_r[en_spawn_idx*10 +: 10] <= (lfsr[9:0] < 10'd20) ? 10'd20 :
+                                                                     (lfsr[9:0] > 10'd620) ? 10'd620 : lfsr[9:0];
                                 en_y_r[en_spawn_idx*9 +: 9]   <= 9'd15;
-                                // Difficulty-based HP: Easy=1, Normal=1, Hard=1~2, Hell=2~3
+
                                 en_hp_r[en_spawn_idx*2 +: 2]  <=
                                     (difficulty == `DIFF_EASY)  ? 2'd1 :
                                     (difficulty == `DIFF_NORMAL)? 2'd1 :
                                     (difficulty == `DIFF_HARD)  ? (lfsr[5] ? 2'd2 : 2'd1) :
-                                    (lfsr[4:3] == 2'd0 ? 2'd3 : 2'd2);  // Hell: mostly 2, some 3
+                                    (lfsr[4:3] == 2'd0 ? 2'd3 : 2'd2);
                                 en_fire_cd[en_spawn_idx*8 +: 8] <= `ENEMY_FIRE_BASE + {3'd0, lfsr[11:7]};
                                 en_dir[en_spawn_idx] <= lfsr[6];
                                 en_phase[en_spawn_idx*8 +: 8] <= lfsr[7:0];
@@ -363,7 +317,6 @@ module game_logic (
                         end
                     end
 
-                    //--- Enemy Phase / Animation (phase increments every 2 frames) ---
                     if (game_time[1:0] == 2'd0) begin
                         if (en_act[0]) en_phase[ 7: 0] <= en_phase[ 7: 0] + 8'd1;
                         if (en_act[1]) en_phase[15: 8] <= en_phase[15: 8] + 8'd3;
@@ -375,10 +328,6 @@ module game_logic (
                         if (en_act[7]) en_phase[63:56] <= en_phase[63:56] + 8'd2;
                     end
 
-                    //--- Enemy Movement (oscillating patterns + varied behavior) ---
-                    // Direction bit from phase[7]; speed from phase[6:4]
-
-                    // Enemy 0: Fast descent + wide oscillation
                     if (en_act[0]) begin
                         en_y_r[8:0] <= en_y_r[8:0] + (game_time[0] ? 9'd1 : 9'd0);
                         if (en_y_r[8:0] < 9'd80) begin
@@ -391,7 +340,7 @@ module game_logic (
                         if (en_x_r[9:0] <= 10'd32)  en_x_r[9:0] <= 10'd33;
                         if (en_x_r[9:0] >= 10'd608) en_x_r[9:0] <= 10'd607;
                         if (en_y_r[8:0] > 9'd470) en_act[0] <= 1'b0;
-                        // Fire: 3-way spread
+
                         if (en_fire_cd[7:0] > 0) en_fire_cd[7:0] <= en_fire_cd[7:0] - 8'd1;
                         else begin
                             if (!eb_act[0]) begin eb_act[0]<=1; eb_x_r[9:0]<=en_x_r[9:0]-6; eb_y_r[8:0]<=en_y_r[8:0]; end
@@ -401,7 +350,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 1: Stop at Y=80, narrow oscillation, 3-way spread
                     if (en_act[1]) begin
                         if (en_y_r[17:9] < 9'd80 && game_time[0]) en_y_r[17:9] <= en_y_r[17:9] + 9'd1;
                         en_x_r[19:10] <= en_phase[15] ?
@@ -418,7 +366,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 2: Stop at Y=60, drift toward player, 3-way aimed
                     if (en_act[2]) begin
                         if (en_y_r[26:18] < 9'd60 && game_time[0]) en_y_r[26:18] <= en_y_r[26:18] + 9'd1;
                         if (game_time[3:0] == 4'd0) begin
@@ -430,7 +377,7 @@ module game_logic (
                         if (game_time[9:0] > 10'd550) en_act[2] <= 1'b0;
                         if (en_fire_cd[23:16] > 0) en_fire_cd[23:16] <= en_fire_cd[23:16] - 8'd1;
                         else begin
-                            // Aim toward player: fire left if player is left, right if player is right
+
                             if (!eb_act[16]) begin eb_act[16]<=1; eb_x_r[169:160]<=en_x_r[29:20]; eb_y_r[152:144]<=en_y_r[26:18]; end
                             if (!eb_act[17]) begin
                                 eb_act[17]<=1;
@@ -446,7 +393,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 3: Diagonal entry + oscillation, fast fire
                     if (en_act[3]) begin
                         en_y_r[35:27] <= en_y_r[35:27] + (game_time[0] ? 9'd1 : 9'd0);
                         if (en_y_r[35:27] < 9'd60) begin
@@ -466,7 +412,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 4: Fast descent + oscillation, 3-way spread
                     if (en_act[4]) begin
                         en_y_r[44:36] <= en_y_r[44:36] + (game_time[0] ? 9'd1 : 9'd0);
                         en_x_r[49:40] <= en_phase[7] ?
@@ -483,7 +428,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 5: Slow descent + jitter drift
                     if (en_act[5]) begin
                         en_y_r[53:45] <= en_y_r[53:45] + (game_time[0] ? 9'd1 : 9'd0);
                         if (game_time[3:0] == 4'd5) begin
@@ -500,7 +444,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 6: Medium descent + oscillation
                     if (en_act[6]) begin
                         en_y_r[62:54] <= en_y_r[62:54] + (game_time[0] ? 9'd1 : 9'd0);
                         en_x_r[69:60] <= en_phase[15] ?
@@ -516,7 +459,6 @@ module game_logic (
                         end
                     end
 
-                    // Enemy 7: Fast entry from side, diagonal then reverse
                     if (en_act[7]) begin
                         en_y_r[71:63] <= en_y_r[71:63] + (game_time[0] ? 9'd1 : 9'd0);
                         if (en_y_r[71:63] < 9'd80) begin
@@ -535,7 +477,6 @@ module game_logic (
                         end
                     end
 
-                    //--- Move Enemy Bullets (all 64 slots, 16 explicitly handled) ---
                     if (eb_act[0])  begin if (eb_y_r[8:0]  >9'd470) eb_act[0]<=0;  else eb_y_r[8:0]  <=eb_y_r[8:0] +2; end
                     if (eb_act[1])  begin if (eb_y_r[17:9] >9'd470) eb_act[1]<=0;  else eb_y_r[17:9] <=eb_y_r[17:9]+2; end
                     if (eb_act[2])  begin if (eb_y_r[26:18]>9'd470) eb_act[2]<=0;  else eb_y_r[26:18]<=eb_y_r[26:18]+2; end
@@ -557,12 +498,6 @@ module game_logic (
                     if (eb_act[56]) begin if (eb_y_r[512:504]>9'd470) eb_act[56]<=0; else eb_y_r[512:504]<=eb_y_r[512:504]+2; end
                     if (eb_act[57]) begin if (eb_y_r[521:513]>9'd470) eb_act[57]<=0; else eb_y_r[521:513]<=eb_y_r[521:513]+2; end
 
-                    //==========================================================
-                    // COLLISION DETECTION (HP-based multi-hit)
-                    //==========================================================
-
-                    //--- Player bullets vs enemies (damage HP, kill at 0) ---
-                    // PB0 vs Enemy 0
                     if (pb_act[0] && en_act[0] &&
                         pb_x_r[9:0] >= en_x_r[9:0]-14 && pb_x_r[9:0] <= en_x_r[9:0]+14 &&
                         pb_y_r[8:0] >= en_y_r[8:0]-10 && pb_y_r[8:0] <= en_y_r[8:0]+10) begin
@@ -573,7 +508,7 @@ module game_logic (
                             en_hp_r[1:0] <= en_hp_r[1:0] - 2'd1; en_flash_r[0] <= 1'b1;
                         end
                     end
-                    // PB0 vs Enemy 1
+
                     if (pb_act[0] && en_act[1] &&
                         pb_x_r[9:0] >= en_x_r[19:10]-14 && pb_x_r[9:0] <= en_x_r[19:10]+14 &&
                         pb_y_r[8:0] >= en_y_r[17:9]-10 && pb_y_r[8:0] <= en_y_r[17:9]+10) begin
@@ -584,7 +519,7 @@ module game_logic (
                             en_hp_r[3:2] <= en_hp_r[3:2] - 2'd1; en_flash_r[1] <= 1'b1;
                         end
                     end
-                    // PB0 vs Enemy 2
+
                     if (pb_act[0] && en_act[2] &&
                         pb_x_r[9:0] >= en_x_r[29:20]-14 && pb_x_r[9:0] <= en_x_r[29:20]+14 &&
                         pb_y_r[8:0] >= en_y_r[26:18]-10 && pb_y_r[8:0] <= en_y_r[26:18]+10) begin
@@ -595,7 +530,7 @@ module game_logic (
                             en_hp_r[5:4] <= en_hp_r[5:4] - 2'd1; en_flash_r[2] <= 1'b1;
                         end
                     end
-                    // PB1 vs Enemy 0
+
                     if (pb_act[1] && en_act[0] &&
                         pb_x_r[19:10] >= en_x_r[9:0]-14 && pb_x_r[19:10] <= en_x_r[9:0]+14 &&
                         pb_y_r[17:9] >= en_y_r[8:0]-10 && pb_y_r[17:9] <= en_y_r[8:0]+10) begin
@@ -606,7 +541,7 @@ module game_logic (
                             en_hp_r[1:0] <= en_hp_r[1:0] - 2'd1; en_flash_r[0] <= 1'b1;
                         end
                     end
-                    // PB1 vs Enemy 1
+
                     if (pb_act[1] && en_act[1] &&
                         pb_x_r[19:10] >= en_x_r[19:10]-14 && pb_x_r[19:10] <= en_x_r[19:10]+14 &&
                         pb_y_r[17:9] >= en_y_r[17:9]-10 && pb_y_r[17:9] <= en_y_r[17:9]+10) begin
@@ -617,7 +552,7 @@ module game_logic (
                             en_hp_r[3:2] <= en_hp_r[3:2] - 2'd1; en_flash_r[1] <= 1'b1;
                         end
                     end
-                    // PB2 vs Enemy 0
+
                     if (pb_act[2] && en_act[0] &&
                         pb_x_r[29:20] >= en_x_r[9:0]-14 && pb_x_r[29:20] <= en_x_r[9:0]+14 &&
                         pb_y_r[26:18] >= en_y_r[8:0]-10 && pb_y_r[26:18] <= en_y_r[8:0]+10) begin
@@ -628,7 +563,7 @@ module game_logic (
                             en_hp_r[1:0] <= en_hp_r[1:0] - 2'd1; en_flash_r[0] <= 1'b1;
                         end
                     end
-                    // PB0 vs Enemy 3
+
                     if (pb_act[0] && en_act[3] &&
                         pb_x_r[9:0] >= en_x_r[39:30]-14 && pb_x_r[9:0] <= en_x_r[39:30]+14 &&
                         pb_y_r[8:0] >= en_y_r[35:27]-10 && pb_y_r[8:0] <= en_y_r[35:27]+10) begin
@@ -639,7 +574,7 @@ module game_logic (
                             en_hp_r[7:6] <= en_hp_r[7:6] - 2'd1; en_flash_r[3] <= 1'b1;
                         end
                     end
-                    // PB0 vs Enemy 4
+
                     if (pb_act[0] && en_act[4] &&
                         pb_x_r[9:0] >= en_x_r[49:40]-14 && pb_x_r[9:0] <= en_x_r[49:40]+14 &&
                         pb_y_r[8:0] >= en_y_r[44:36]-10 && pb_y_r[8:0] <= en_y_r[44:36]+10) begin
@@ -650,7 +585,7 @@ module game_logic (
                             en_hp_r[9:8] <= en_hp_r[9:8] - 2'd1; en_flash_r[4] <= 1'b1;
                         end
                     end
-                    // PB1 vs Enemy 2
+
                     if (pb_act[1] && en_act[2] &&
                         pb_x_r[19:10] >= en_x_r[29:20]-14 && pb_x_r[19:10] <= en_x_r[29:20]+14 &&
                         pb_y_r[17:9] >= en_y_r[26:18]-10 && pb_y_r[17:9] <= en_y_r[26:18]+10) begin
@@ -661,50 +596,49 @@ module game_logic (
                             en_hp_r[5:4] <= en_hp_r[5:4] - 2'd1; en_flash_r[2] <= 1'b1;
                         end
                     end
-                    // PB0 vs Enemy 5
+
                     if (pb_act[0] && en_act[5] &&
                         pb_x_r[9:0] >= en_x_r[59:50]-14 && pb_x_r[9:0] <= en_x_r[59:50]+14 &&
                         pb_y_r[8:0] >= en_y_r[53:45]-10 && pb_y_r[8:0] <= en_y_r[53:45]+10) begin
                         pb_act[0]<=0; en_act[5]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
-                    // PB0 vs Enemy 6
+
                     if (pb_act[0] && en_act[6] &&
                         pb_x_r[9:0] >= en_x_r[69:60]-14 && pb_x_r[9:0] <= en_x_r[69:60]+14 &&
                         pb_y_r[8:0] >= en_y_r[62:54]-10 && pb_y_r[8:0] <= en_y_r[62:54]+10) begin
                         pb_act[0]<=0; en_act[6]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
-                    // PB0 vs Enemy 7
+
                     if (pb_act[0] && en_act[7] &&
                         pb_x_r[9:0] >= en_x_r[79:70]-14 && pb_x_r[9:0] <= en_x_r[79:70]+14 &&
                         pb_y_r[8:0] >= en_y_r[71:63]-10 && pb_y_r[8:0] <= en_y_r[71:63]+10) begin
                         pb_act[0]<=0; en_act[7]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
-                    // PB1 vs Enemy 3
+
                     if (pb_act[1] && en_act[3] &&
                         pb_x_r[19:10] >= en_x_r[39:30]-14 && pb_x_r[19:10] <= en_x_r[39:30]+14 &&
                         pb_y_r[17:9] >= en_y_r[35:27]-10 && pb_y_r[17:9] <= en_y_r[35:27]+10) begin
                         pb_act[1]<=0; en_act[3]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
-                    // PB1 vs Enemy 4
+
                     if (pb_act[1] && en_act[4] &&
                         pb_x_r[19:10] >= en_x_r[49:40]-14 && pb_x_r[19:10] <= en_x_r[49:40]+14 &&
                         pb_y_r[17:9] >= en_y_r[44:36]-10 && pb_y_r[17:9] <= en_y_r[44:36]+10) begin
                         pb_act[1]<=0; en_act[4]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
-                    // PB2 vs Enemy 1
+
                     if (pb_act[2] && en_act[1] &&
                         pb_x_r[29:20] >= en_x_r[19:10]-14 && pb_x_r[29:20] <= en_x_r[19:10]+14 &&
                         pb_y_r[26:18] >= en_y_r[17:9]-10 && pb_y_r[26:18] <= en_y_r[17:9]+10) begin
                         pb_act[2]<=0; en_act[1]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
-                    // PB2 vs Enemy 2
+
                     if (pb_act[2] && en_act[2] &&
                         pb_x_r[29:20] >= en_x_r[29:20]-14 && pb_x_r[29:20] <= en_x_r[29:20]+14 &&
                         pb_y_r[26:18] >= en_y_r[26:18]-10 && pb_y_r[26:18] <= en_y_r[26:18]+10) begin
                         pb_act[2]<=0; en_act[2]<=0; total_score<=total_score+5; total_kills<=total_kills+1;
                     end
 
-                    //--- Enemy bullets vs player (check ALL fired bullet slots) ---
                     if (pl_alive && pl_inv==0) begin
                         if ((eb_act[0] && eb_x_r[9:0]>=pl_x-8 && eb_x_r[9:0]<=pl_x+8 &&
                              eb_y_r[8:0]>=pl_y-10 && eb_y_r[8:0]<=pl_y+10) ||
@@ -756,7 +690,6 @@ module game_logic (
                         end
                     end
 
-                    //--- Player vs enemies (contact damage, all 8 enemies) ---
                     if (pl_alive && pl_inv==0) begin
                         if ((en_act[0] && pl_x>=en_x_r[9:0]-12 && pl_x<=en_x_r[9:0]+12 &&
                              pl_y>=en_y_r[8:0]-8 && pl_y<=en_y_r[8:0]+8) ||
@@ -778,21 +711,16 @@ module game_logic (
                         end
                     end
 
-                    //--- Weapon upgrade check ---
                     if (total_kills >= next_kills_upg && pl_weapon < 2'd3) begin
                         pl_weapon <= pl_weapon + 2'd1;
                         next_kills_upg <= next_kills_upg << 1;
                     end
 
-                    //--- Win condition (score mode) ---
                     if (!mode && total_score >= `SCORE_WIN_TARGET && pl_alive) begin
                         state <= `STATE_WIN; state_timer <= `WIN_DISPLAY;
                     end
                 end
 
-                //==============================================================
-                // PAUSED
-                //==============================================================
                 `STATE_PAUSED: begin
                     if ((pause_key || fire_key) && pause_cooldown == 8'd0) begin
                         state <= `STATE_PLAYING;
@@ -800,9 +728,6 @@ module game_logic (
                     end
                 end
 
-                //==============================================================
-                // GAME OVER
-                //==============================================================
                 `STATE_GAMEOVER: begin
                     if (state_timer > 0) state_timer <= state_timer - 11'd1;
                     else begin
@@ -811,9 +736,6 @@ module game_logic (
                     end
                 end
 
-                //==============================================================
-                // WIN
-                //==============================================================
                 `STATE_WIN: begin
                     if (state_timer > 0) state_timer <= state_timer - 11'd1;
                     else begin
@@ -824,11 +746,8 @@ module game_logic (
 
                 default: state <= `STATE_MENU;
                 endcase
-            end // tick
+            end
 
-            //==================================================================
-            // 7-Segment display (updated every cycle for scan multiplexing)
-            //==================================================================
             case (seg_cycle)
                 `SEGMODE_KILLS: seg_data <= {8'd0, total_kills};
                 `SEGMODE_LIVES: seg_data <= {13'd0, pl_hp};
@@ -842,12 +761,9 @@ module game_logic (
                 led <= {6'd0, total_kills[7:6]};
             else
                 led <= 8'd0;
-        end // !rstn
-    end // always
+        end
+    end
 
-    //==========================================================================
-    // Output assignments
-    //==========================================================================
     assign lives = pl_hp;
 
     always @* begin

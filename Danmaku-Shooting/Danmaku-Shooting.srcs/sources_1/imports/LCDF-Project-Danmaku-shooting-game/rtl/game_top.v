@@ -1,51 +1,35 @@
-//==============================================================================
-// game_top.v ??Top-level FPGA module for Aeroplane Danmaku Shooting
-// Integrates VGA, PS/2 keyboard, game logic, and peripheral I/O for K7 board
-// Port names match K7.xdc constraints file exactly
-//==============================================================================
 `include "game_defs.vh"
 
 module game_top (
-    //--- 100MHz System Clock & Reset ---
-    input  wire        clk,         // 100MHz from AC18
-    input  wire        rstn,        // active-low reset from W13
 
-    //--- VGA Outputs ---
+    input  wire        clk,
+    input  wire        rstn,
+
     output wire [3:0]  r, g, b,
     output wire        hs, vs,
 
-    //--- PS/2 Keyboard ---
     input  wire        ps2_clk,
     input  wire        ps2_data,
 
-    //--- 7-Segment Display (direct connection) ---
-    output wire [7:0]  SEGMENT,     // segments a-g + dp
-    output wire [3:0]  AN,          // anodes (active-low)
+    output wire [7:0]  SEGMENT,
+    output wire [3:0]  AN,
 
-    //--- 7-Segment P2S (serial chain) ---
     output wire        SEG_CLK,
     output wire        SEG_CLR,
     output wire        SEG_DT,
     output wire        SEG_EN,
 
-    //--- LED Outputs (direct) ---
-    output wire [7:0]  LED,         // LED[7:0] for score overflow
+    output wire [7:0]  LED,
 
-    //--- LED P2S (serial chain) ---
     output wire        LED_CLK,
     output wire        LED_CLR,
     output wire        LED_DT,
     output wire        LED_EN
 );
-    //==========================================================================
-    // Clock Divider (32-bit free-running counter at 100MHz)
-    //==========================================================================
+
     reg [31:0] clkdiv;
     always @(posedge clk) clkdiv <= clkdiv + 1'b1;
 
-    //==========================================================================
-    // PS/2 Keyboard
-    //==========================================================================
     wire [7:0] key_data;
     wire [3:0] key_diff;
     wire       key_mode;
@@ -61,10 +45,6 @@ module game_top (
         .cycle_key (key_cycle)
     );
 
-    //==========================================================================
-    // VGA Top (rendering pipeline)
-    //==========================================================================
-    // Entity state wires (driven by game_logic, read by vga_top)
     wire [2:0]  game_state;
     wire [19:0] score;
     wire [7:0]  kills;
@@ -121,9 +101,6 @@ module game_top (
         .frame_tick (frame_tick)
     );
 
-    //==========================================================================
-    // Game Logic
-    //==========================================================================
     wire [15:0] seg_data;
     wire [1:0]  seg_mode;
     wire [7:0]  led_data;
@@ -164,9 +141,6 @@ module game_top (
         .led        (led_data)
     );
 
-    //==========================================================================
-    // 7-Segment Display ??Direct Connection via DispNum
-    //==========================================================================
     wire [1:0] seg_scan = clkdiv[15:14];
 
     wire [3:0] seg_point = (seg_mode == `SEGMODE_SCORE) ? 4'b0001 : 4'b0000;
@@ -181,9 +155,6 @@ module game_top (
         .SEGMENT(SEGMENT)
     );
 
-    //==========================================================================
-    // 7-Segment P2S (serial chain)
-    //==========================================================================
     wire [31:0] seg32_data = {seg_data, 16'd0};
     wire [3:0]  sout_seg;
     Seg7Device u_seg7 (
@@ -202,12 +173,8 @@ module game_top (
     assign SEG_EN  = sout_seg[1];
     assign SEG_CLR = sout_seg[0];
 
-    //==========================================================================
-    // LED Outputs
-    //==========================================================================
     assign LED = led_data;
 
-    // LED P2S (serial chain)
     wire [3:0] sout_led;
     ShiftReg #(.WIDTH(16)) u_led (
         .clk  (clkdiv[3]),

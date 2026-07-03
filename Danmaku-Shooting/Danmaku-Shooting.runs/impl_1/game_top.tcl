@@ -121,6 +121,7 @@ OPTRACE "set parameters" START { }
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
   add_files -quiet Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.runs/synth_1/game_top.dcp
+  read_ip -quiet Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/ip/ROM_f/ROM_f.xci
 OPTRACE "read constraints: implementation" START { }
   read_xdc Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/constrs_1/imports/LCDF-Project-Danmaku-shooting-game/K7.xdc
 OPTRACE "read constraints: implementation" END { }

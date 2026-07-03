@@ -65,6 +65,7 @@ create_project -in_memory -part xc7k160tffg676-1
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
+set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
 set_property webtalk.parent_dir Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.cache/wt [current_project]
 set_property parent.project_path Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
@@ -73,6 +74,7 @@ set_property ip_output_repo z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooti
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
+add_files Z:/LCDF-Project-Danmaku-shooting-game/i.coe
 read_verilog Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/rtl/game_defs.vh
 read_verilog -library xil_defaultlib {
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/DispNum.v
@@ -92,6 +94,9 @@ read_verilog -library xil_defaultlib {
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/vgac.v
   Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/imports/LCDF-Project-Danmaku-shooting-game/rtl/game_top.v
 }
+read_ip -quiet Z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.srcs/sources_1/ip/ROM_f/ROM_f.xci
+set_property used_in_implementation false [get_files -all z:/LCDF-Project-Danmaku-shooting-game/Danmaku-Shooting/Danmaku-Shooting.gen/sources_1/ip/ROM_f/ROM_f_ooc.xdc]
+
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the

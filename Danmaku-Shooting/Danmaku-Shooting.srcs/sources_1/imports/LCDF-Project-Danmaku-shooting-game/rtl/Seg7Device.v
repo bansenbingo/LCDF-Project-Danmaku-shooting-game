@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date: 07/05/2016 12:26:15 AM
-// Design Name:
-// Module Name: Seg7Device
-// Project Name:
-// Target Devices:
-// Tool Versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module Seg7Device(
 	input clkIO, input [1:0] clkScan, input clkBlink,
 	input [31:0] data, input [7:0] point, input [7:0] LES,
@@ -39,6 +21,5 @@ module Seg7Device(
 		2'b10: begin segment <= ~dispPattern[23:16]; anode <= 4'b1011; end
 		2'b11: begin segment <= ~dispPattern[31:24]; anode <= 4'b0111; end
 		endcase
-
 
 endmodule
