@@ -47,7 +47,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{数字逻辑设计课程设计实验报告}
-\fancyhead[R]{弹幕射击游戏}
+\fancyhead[R]{浙江大学}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -94,9 +94,7 @@
 \toprule
 \textbf{学号} & \textbf{姓名} & \textbf{贡献比例} \\
 \midrule
-\multicolumn{1}{c}{\texttt{[学号1]}} & {[姓名1]} & x\% \\
-\multicolumn{1}{c}{\texttt{[学号2]}} & {[姓名2]} & y\% \\
-\multicolumn{1}{c}{\texttt{[学号3]}} & {[姓名3]} & z\% \\
+\multicolumn{1}{c}{\texttt{3210104669}} & {姜快快} & 100\% \\
 \bottomrule
 \end{tabular}
 
@@ -147,9 +145,8 @@
     和 4 位难度选择 one-hot 信号。
     按键映射如下：
     \begin{itemize}
-        \item W/A/S/D：上/左/下/右移动
-        \item J/Space/Enter：开火/开始游戏
-        \item K：武器升级
+        \item W/S/A/D：上/下/左/右移动
+        \item J：开火/开始游戏
         \item P：暂停/恢复
         \item 1/2/3/4：选择难度（EASY/NORMAL/HARD/HELL）
         \item M：切换模式（积分/无尽）
@@ -195,108 +192,108 @@
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-    node distance = 0.8cm and 1.0cm,
+    node distance = 0.8cm,
+    % 竖排文字：窄 text width 令中文逐字换行
     block/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.4cm, minimum height = 0.8cm,
-        align = center, font = \footnotesize, rounded corners = 2pt
+        text width = 1.1cm,
+        align = center, font = \footnotesize, rounded corners = 2pt,
+        inner sep = 3pt
     },
     wideblock/.style = {
         rectangle, draw = black, very thick,
-        minimum width = 13.0cm, minimum height = 0.9cm,
+        minimum width = 17.0cm, minimum height = 1.0cm,
         align = center, font = \small\bfseries, rounded corners = 3pt,
         fill = blue!8
     },
     ioblock/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.8cm, minimum height = 0.8cm,
+        text width = 1.1cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = yellow!12
+        fill = yellow!12, inner sep = 3pt
     },
     coreblock/.style = {
         rectangle, draw = black, thick,
-        minimum width = 4.0cm, minimum height = 0.9cm,
+        text width = 1.3cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = red!10
+        fill = red!10, inner sep = 3pt
     },
     vgablock/.style = {
         rectangle, draw = black, thick,
-        minimum width = 4.0cm, minimum height = 0.9cm,
+        text width = 1.3cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = green!10
+        fill = green!10, inner sep = 3pt
     },
     subblock/.style = {
         rectangle, draw = black, thin,
-        minimum width = 2.8cm, minimum height = 0.6cm,
-        align = center, font = \scriptsize, rounded corners = 2pt
+        text width = 1.1cm,
+        align = center, font = \scriptsize, rounded corners = 2pt,
+        inner sep = 3pt
     },
     arr/.style = {->, >=Stealth, thick},
     bidi/.style = {<->, >=Stealth, thick},
 ]
 
-% ---- 第一层：输入 ----
-\node[ioblock] (PS2) at (0, 0) {PS/2 键盘};
-
-\node[block, fill=orange!10, right=1.5cm of PS2] (KBD) {Keyboard 模块\\(PS/2 Set 2 解码)};
-
+% ===== 第一层：输入 =====
+\node[ioblock] (PS2) at (0, 0) {PS/2\\键\\盘};
+\node[block, fill=orange!10] (KBD) at (3.0, 0)
+    {Key-\\board\\PS/2\\Set2\\解码};
 \draw[arr] (PS2) -- (KBD);
 
-% ---- 第二层：game_top ----
-\node[wideblock, below=0.8cm of KBD, xshift=-1.5cm] (TOP)
-    {game\_top（FPGA 顶层模块）};
-
+% ===== 第二层：game_top（宽横条）=====
+\node[wideblock] (TOP) at (1.5, -3.0) {game\_top（FPGA 顶层模块）};
 \draw[arr] (KBD.south) -- (KBD |- TOP.north);
 
-% ---- 第三层：核心子系统 ----
-\node[coreblock, below=0.8cm of TOP, xshift=-3.2cm] (LOGIC)
-    {\textbf{game\_logic}\\游戏逻辑引擎};
-\node[vgablock, below=0.8cm of TOP, xshift=3.2cm] (VTOP)
-    {\textbf{vga\_top}\\VGA 渲染管线};
-\node[block, fill=orange!10, below=0.8cm of TOP, xshift=8.5cm] (CLKDIV)
-    {clkdiv[31:0]\\时钟分频};
+% ===== 第三层：核心子系统（大幅拉开水平间距）=====
+\node[coreblock] (LOGIC) at (-6.0, -6.0)
+    {\textbf{game}\\\textbf{logic}\\游戏\\逻辑\\引擎};
+\node[vgablock] (VTOP) at (3.0, -6.0)
+    {\textbf{vga}\\\textbf{top}\\VGA\\渲染\\管线};
+\node[block, fill=orange!10] (CLKDIV) at (10.0, -6.0)
+    {clkdiv\\{}[31:0]\\时钟\\分频};
 
-\draw[arr] (TOP.south) -- ++(0,-0.2) -| (LOGIC.north);
-\draw[arr] (TOP.south) -- ++(0,-0.2) -| (VTOP.north);
-\draw[arr] (TOP.south) -- ++(0,-0.2) -| (CLKDIV.north);
+\draw[arr] (TOP.south) -- ++(0,-0.4) -| (LOGIC.north);
+\draw[arr] (TOP.south) -- ++(0,-0.4) -| (VTOP.north);
+\draw[arr] (TOP.south) -- ++(0,-0.4) -| (CLKDIV.north);
 
-% ---- game_logic 子模块 ----
-\node[subblock, fill=red!6, below left=0.6cm and -0.5cm of LOGIC] (FSM)  {5 状态 FSM};
-\node[subblock, fill=red!6, below right=0.6cm and -0.5cm of LOGIC] (ENT)  {实体管理};
-\node[subblock, fill=red!6, below=0.5cm of FSM] (COL)  {碰撞检测};
-\node[subblock, fill=red!6, below=0.5cm of ENT] (LFSR) {LFSR 随机数};
-\node[subblock, fill=red!6, below=0.5cm of COL, xshift=1.2cm] (SCR) {计分 \& 武器升级};
+% ===== game_logic 子模块（x=-8 与 x=-4 两列）=====
+\node[subblock, fill=red!6] (FSM)  at (-8.0, -10.0) {5状\\态\\FSM};
+\node[subblock, fill=red!6] (ENT)  at (-4.0, -10.0) {实\\体\\管理};
+\node[subblock, fill=red!6] (COL)  at (-8.0, -13.0) {碰\\撞\\检测};
+\node[subblock, fill=red!6] (LFSR) at (-4.0, -13.0) {LFSR\\随\\机数};
+\node[subblock, fill=red!6] (SCR)  at (-6.0, -16.0) {计分\\武器\\升级};
 
-\draw[arr, shorten >=2pt] (LOGIC.south) -- ++(0,-0.1) -| (FSM.north);
-\draw[arr, shorten >=2pt] (LOGIC.south) -- ++(0,-0.1) -| (ENT.north);
+\draw[arr, shorten >=2pt] (LOGIC.south) -- ++(0,-0.3) -| (FSM.north);
+\draw[arr, shorten >=2pt] (LOGIC.south) -- ++(0,-0.3) -| (ENT.north);
 \draw[arr] (FSM) -- (COL);
 \draw[arr] (ENT) -- (LFSR);
-\draw[arr] (COL) -- (SCR);
+\draw[arr] (COL.south) -- ++(0,-0.3) -| (SCR.north);
 
-% ---- vga_top 子模块 ----
-\node[subblock, fill=green!6, below left=0.6cm and -0.5cm of VTOP] (VGAC)  {vgac 控制器};
-\node[subblock, fill=green!6, below right=0.6cm and -0.5cm of VTOP] (REND)  {渲染器阵列};
-\node[subblock, fill=green!6, below=0.5cm of VGAC] (MUX)   {优先级 MUX};
-\node[subblock, fill=green!6, below=0.5cm of REND] (FTICK) {frame\_tick 生成};
+% ===== vga_top 子模块（x=1 与 x=5 两列）=====
+\node[subblock, fill=green!6] (VGAC)  at (1.0, -10.0) {vgac\\控\\制器};
+\node[subblock, fill=green!6] (REND)  at (5.0, -10.0) {渲\\染器\\阵列};
+\node[subblock, fill=green!6] (MUX)   at (1.0, -13.0) {优先\\级\\MUX};
+\node[subblock, fill=green!6] (FTICK) at (5.0, -13.0) {frame\\tick\\生成};
 
-\draw[arr, shorten >=2pt] (VTOP.south) -- ++(0,-0.1) -| (VGAC.north);
-\draw[arr, shorten >=2pt] (VTOP.south) -- ++(0,-0.1) -| (REND.north);
+\draw[arr, shorten >=2pt] (VTOP.south) -- ++(0,-0.3) -| (VGAC.north);
+\draw[arr, shorten >=2pt] (VTOP.south) -- ++(0,-0.3) -| (REND.north);
 \draw[arr] (VGAC) -- (MUX);
 \draw[arr] (REND) -- (FTICK);
 
-% ---- 双向数据总线 ----
+% ===== 双向数据总线 =====
 \draw[bidi, thick, color=red!70!black]
     (LOGIC.east) -- node[above, font=\footnotesize, text=red!70!black] {实体状态总线} (VTOP.west);
 
-% ---- 第四层：输出设备 ----
-\node[ioblock, below=1.2cm of SCR] (VGA)  {VGA 显示器\\(640×480@60Hz)};
-\node[ioblock, below=1.2cm of COL, xshift=1.2cm] (SEG7) {7 段数码管};
-\node[ioblock, below=1.2cm of LFSR, xshift=1.2cm] (LED)  {LED 指示灯};
-\node[ioblock, below=1.2cm of FTICK] (P2S)  {串行 P2S 输出};
+% ===== 第四层：输出设备 =====
+\node[ioblock] (VGA)  at (1.0, -17.0) {VGA\\显示\\器\\640\\×480};
+\node[ioblock] (SEG7) at (-2.0, -17.0) {7段\\数\\码管};
+\node[ioblock] (LED)  at (-4.5, -17.0) {LED\\指\\示灯};
+\node[ioblock] (P2S)  at (5.0, -17.0) {串行\\P2S\\输出};
 
-\draw[arr, dashed] (MUX.south) -- ++(0,-0.3) -| (VGA.north);
-\draw[arr, dashed] (SCR.south) -- ++(0,-0.3) -| (SEG7.north);
-\draw[arr, dashed] (SCR.south) -- ++(0,-0.3) -| (LED.north);
-\draw[arr, dashed] (FTICK.south) -- ++(0,-0.3) -| (P2S.north);
+\draw[arr, dashed] (MUX.south) -- ++(0,-0.4) -| (VGA.north);
+\draw[arr, dashed] (SCR.south) -- ++(0,-0.4) -| (SEG7.north);
+\draw[arr, dashed] (SCR.south) -- ++(0,-0.4) -| (LED.north);
+\draw[arr, dashed] (FTICK.south) -- ++(0,-0.4) -| (P2S.north);
 
 \end{tikzpicture}%
 }
@@ -342,14 +339,23 @@
 
 工程源码共包含 18 个 Verilog 源文件（.v）和 1 个头文件（.vh），按功能分类如下：
 
-\begin{table}[H]
-\centering
+\begin{longtable}{llp{5.5cm}}
 \caption{工程源文件列表}
-\label{tab:files}
-\begin{tabular}{llp{5.5cm}}
+\label{tab:files} \\
 \toprule
 \textbf{类别} & \textbf{文件名} & \textbf{功能} \\
 \midrule
+\endfirsthead
+\multicolumn{3}{c}{\tablename\ \thetable{}（续）} \\
+\toprule
+\textbf{类别} & \textbf{文件名} & \textbf{功能} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\footnotesize 接下页} \\
+\endfoot
+\bottomrule
+\endlastfoot
 头文件 & \texttt{game\_defs.vh} & 全局宏定义（屏幕尺寸、颜色、状态编码、实体数量、游戏参数等） \\
 \midrule
 \multirow{2}{*}{顶层} & \texttt{game\_top.v} & FPGA 顶层（时钟分频、PS/2 键盘接入、子系统互联、引脚映射） \\
@@ -359,11 +365,10 @@ VGA 基础 & \texttt{vgac.v} & ZJU VGA 控制器（640$\times$480@60Hz，输出�
           & \texttt{vga\_top.v} & VGA 渲染管线顶层（25MHz 时钟分频、渲染器例化、优先级 MUX、frame\_tick 生成） \\
 \midrule
 \multirow{5}{*}{渲染器} & \texttt{player\_render.v} & 玩家三角形飞机渲染（纯组合逻辑） \\
-                        & \texttt{enemy\_render.v} & 敌机椭圆 UFO 渲染（8 实例，generate 展开） \\
-                        & \texttt{bullet\_render.v} & 子弹渲染（16 玩家菱形 + 64 敌弹方块，generate 展开） \\
-                        & \texttt{obstacle\_render.v} & 障碍物石头渲染（8 实例） \\
-                        & \texttt{menu\_render.v} & 菜单界面渲染（标题/装饰边框/难度/模式/操作提示文字） \\
-                        & \texttt{hud\_render.v} & HUD 渲染（分数/生命/暂停/GAMEOVER/YOU WIN 文字） \\
+                         & \texttt{enemy\_render.v} & 敌机椭圆 UFO 渲染（8 实例，generate 展开） \\
+                         & \texttt{bullet\_render.v} & 子弹渲染（16 玩家菱形 + 64 敌弹方块，generate 展开） \\
+                         & \texttt{menu\_render.v} & 菜单界面渲染（标题/装饰边框/难度/模式/操作提示文字） \\
+                         & \texttt{hud\_render.v} & HUD 渲染（分数/生命/暂停/GAMEOVER/YOU WIN 文字） \\
 \midrule
 游戏逻辑 & \texttt{game\_logic.v} & 核心逻辑（5 状态 FSM、实体管理、碰撞检测、LFSR、计分、武器升级） \\
 \midrule
@@ -373,9 +378,7 @@ VGA 基础 & \texttt{vgac.v} & ZJU VGA 控制器（640$\times$480@60Hz，输出�
                         & \texttt{Seg7Remap.v} & 7 段引脚重映射（补偿 PCB 布线交叉） \\
                         & \texttt{Seg7Device.v} & 7 段设备串行 P2S 输出（Seg7Decode + Seg7Remap + ShiftReg + 动态扫描） \\
                         & \texttt{ShiftReg.v} & 参数化并转串移位寄存器（LED P2S 输出） \\
-\bottomrule
-\end{tabular}
-\end{table}
+\end{longtable}
 
 注：\texttt{Keyboard.v} 已实例化到 \texttt{game\_top} 顶层中，
 所有输入通过 PS/2 键盘完成。
@@ -386,127 +389,132 @@ VGA 基础 & \texttt{vgac.v} & ZJU VGA 控制器（640$\times$480@60Hz，输出�
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-    node distance = 0.7cm and 0.6cm,
+    node distance = 0.7cm,
+    % 竖排文字：窄 text width 令中文逐字换行
     root/.style = {
         rectangle, draw = black, very thick,
-        minimum width = 4.5cm, minimum height = 0.85cm,
+        text width = 1.6cm,
         align = center, font = \small\bfseries, rounded corners = 3pt,
-        fill = blue!10
+        fill = blue!10, inner sep = 4pt
     },
     branch/.style = {
         rectangle, draw = black, thick,
-        minimum width = 4.0cm, minimum height = 0.7cm,
+        text width = 1.2cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = orange!10
+        fill = orange!10, inner sep = 3pt
     },
     leaf/.style = {
         rectangle, draw = black, thin,
-        minimum width = 3.8cm, minimum height = 0.6cm,
+        text width = 1.1cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = gray!5
+        fill = gray!5, inner sep = 3pt
     },
     subleaf/.style = {
         rectangle, draw = black, thin,
-        minimum width = 3.2cm, minimum height = 0.55cm,
+        text width = 1.1cm,
         align = center, font = \scriptsize, rounded corners = 2pt,
-        fill = gray!3
+        fill = gray!3, inner sep = 3pt
     },
     vleaf/.style = {
         rectangle, draw = black, thin,
-        minimum width = 3.8cm, minimum height = 0.6cm,
+        text width = 1.1cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = green!8
+        fill = green!8, inner sep = 3pt
     },
     subvleaf/.style = {
         rectangle, draw = black, thin,
-        minimum width = 3.2cm, minimum height = 0.55cm,
+        text width = 1.1cm,
         align = center, font = \scriptsize, rounded corners = 2pt,
-        fill = green!4
+        fill = green!4, inner sep = 3pt
     },
     gleaf/.style = {
         rectangle, draw = black, thin,
-        minimum width = 3.8cm, minimum height = 0.6cm,
+        text width = 1.1cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = red!8
+        fill = red!8, inner sep = 3pt
     },
     subgleaf/.style = {
         rectangle, draw = black, thin,
-        minimum width = 3.2cm, minimum height = 0.55cm,
+        text width = 1.1cm,
         align = center, font = \scriptsize, rounded corners = 2pt,
-        fill = red!4
+        fill = red!4, inner sep = 3pt
     },
     arr/.style = {-, draw=black, thick},
 ]
 
-\node[root] (TOP) {game\_top（FPGA 顶层）};
+\node[root] (TOP) at (0, 0) {game\\top\\FPGA\\顶层};
 
-\node[branch, below left=1.0cm and -2.0cm of TOP] (CLK)  {clkdiv[31:0]（时钟分频）};
-\node[branch, below right=1.0cm and -2.0cm of TOP] (KBD)  {Keyboard（PS/2 键盘驱动）};
+% 两大分支
+\node[branch] (CLK)  at (-5.0, -3.5) {clkdiv\\{}[31:0]\\时钟\\分频};
+\node[branch] (KBD)  at (6.0, -3.5)  {Key-\\board\\PS/2\\驱动};
 
-\node[gleaf, below=1.0cm of CLK, xshift=-1.8cm] (LOGIC)
-    {\textbf{game\_logic}（核心游戏逻辑）};
-\node[vleaf, below=1.0cm of CLK, xshift=2.4cm] (VT)
-    {\textbf{vga\_top}（VGA 渲染管线）};
+% game_logic / vga_top（逻辑与渲染）
+\node[gleaf] (LOGIC) at (-9.0, -7.0)
+    {\textbf{game}\\\textbf{logic}\\核心\\逻辑};
+\node[vleaf] (VT)    at (-2.0, -7.0)
+    {\textbf{vga}\\\textbf{top}\\渲染\\管线};
 
-\node[leaf, below=1.0cm of KBD, xshift=-1.8cm] (DISP)  {DispNum（直连 7 段）};
-\node[leaf, below=1.0cm of KBD, xshift=2.4cm] (SEGDEV) {Seg7Device（串行 P2S）};
+% DispNum / Seg7Device（外设）
+\node[leaf] (DISP)   at (3.0, -7.0)  {Disp-\\Num\\直连\\7段};
+\node[leaf] (SEGDEV) at (9.0, -7.0)  {Seg7\\Device\\串行\\P2S};
 
-\node[subgleaf, below=0.8cm of LOGIC, xshift=-1.5cm] (FSM)   {5 状态 Moore FSM};
-\node[subgleaf, below=0.8cm of LOGIC, xshift=1.5cm] (ENTS)   {实体管理};
-\node[subgleaf, below=0.6cm of FSM] (COLL)   {逐对 AABB 碰撞检测};
-\node[subgleaf, below=0.6cm of ENTS] (RNG)    {16-bit Galois LFSR};
-\node[subgleaf, below=0.6cm of COLL, xshift=1.5cm] (SCORE) {计分 \& 武器升级};
+% game_logic 子模块
+\node[subgleaf] (FSM)   at (-11.0, -11.0) {5状\\态\\FSM};
+\node[subgleaf] (ENTS)  at (-8.0, -11.0)  {实\\体\\管理};
+\node[subgleaf] (COLL)  at (-11.0, -14.0) {AABB\\碰撞\\检测};
+\node[subgleaf] (RNG)   at (-8.0, -14.0)  {Galois\\LFSR};
+\node[subgleaf] (SCORE) at (-9.5, -17.0)  {计分\\武器\\升级};
 
-\node[subvleaf, below=0.8cm of VT, xshift=-1.5cm] (VG)   {vgac（640×480@60Hz）};
-\node[subvleaf, below=0.8cm of VT, xshift=1.5cm] (RENDERS) {渲染器阵列（generate 展开）};
-\node[subvleaf, below=0.6cm of VG] (PRIO)    {优先级 MUX（if-else 链）};
-\node[subvleaf, below=0.6cm of RENDERS] (FT) {frame\_tick（三级同步器）};
-\node[subvleaf, font=\tiny, below=0.6cm of FT] (RPL) {player\_render ×1};
-\node[subvleaf, font=\tiny, below=0.1cm of RPL] (REN)  {enemy\_render ×8};
-\node[subvleaf, font=\tiny, below=0.1cm of REN]  (RPB)  {bullet\_render ×80};
-\node[subvleaf, font=\tiny, below=0.1cm of RPB]  (ROB)  {obstacle\_render ×8};
-\node[subvleaf, font=\tiny, below=0.1cm of ROB]  (RHU)  {hud\_render + menu\_render};
+% vga_top 子模块
+\node[subvleaf] (VG)      at (-4.0, -11.0) {vgac\\640\\×480};
+\node[subvleaf] (RENDERS) at (-0.5, -11.0) {渲染\\器\\阵列};
+\node[subvleaf] (PRIO)    at (-4.0, -14.0) {优先\\级\\MUX};
+\node[subvleaf] (FT)      at (-0.5, -14.0) {frame\\tick\\同步};
+\node[subvleaf, font=\tiny] (RPL) at (-0.5, -16.6) {player\\render\\×1};
+\node[subvleaf, font=\tiny] (REN) at (-0.5, -18.6) {enemy\\render\\×8};
+\node[subvleaf, font=\tiny] (RPB) at (-0.5, -20.6) {bullet\\render\\×80};
+\node[subvleaf, font=\tiny] (RHU) at (-0.5, -22.6) {hud+\\menu\\render};
 
-\node[subleaf, below=0.8cm of DISP] (SEGDEC)   {SegmentDecoder ×8};
-\node[subleaf, below=0.8cm of SEGDEV] (SEGRMP) {Seg7Decode + Seg7Remap};
-\node[subleaf, below=0.6cm of SEGRMP] (SHIFT)  {ShiftReg（并转串）};
+% 外设子模块
+\node[subleaf] (SEGDEC)  at (3.0, -11.0) {Seg-\\ment\\Dec\\×8};
+\node[subleaf] (SEGRMP)  at (9.0, -11.0) {Seg7\\Decode\\+Remap};
+\node[subleaf] (SHIFT)   at (9.0, -14.0) {Shift\\Reg\\并转\\串};
 
 \draw[arr] (TOP) -| (CLK);
 \draw[arr] (TOP) -| (KBD);
-\draw[arr] (CLK.south) -- ++(0,-0.3) -| (LOGIC.north);
-\draw[arr] (CLK.south) -- ++(0,-0.3) -| (VT.north);
-\draw[arr] (KBD.south) -- ++(0,-0.3) -| (DISP.north);
-\draw[arr] (KBD.south) -- ++(0,-0.3) -| (SEGDEV.north);
+\draw[arr] (CLK.south) -- ++(0,-0.4) -| (LOGIC.north);
+\draw[arr] (CLK.south) -- ++(0,-0.4) -| (VT.north);
+\draw[arr] (KBD.south) -- ++(0,-0.4) -| (DISP.north);
+\draw[arr] (KBD.south) -- ++(0,-0.4) -| (SEGDEV.north);
 
-\draw[arr] (LOGIC.south) -- ++(0,-0.2) -| (FSM.north);
-\draw[arr] (LOGIC.south) -- ++(0,-0.2) -| (ENTS.north);
+\draw[arr] (LOGIC.south) -- ++(0,-0.3) -| (FSM.north);
+\draw[arr] (LOGIC.south) -- ++(0,-0.3) -| (ENTS.north);
 \draw[arr] (FSM) -- (COLL);
 \draw[arr] (ENTS) -- (RNG);
-\draw[arr] (COLL.south) -- ++(0,-0.15) -| (SCORE.north);
+\draw[arr] (COLL.south) -- ++(0,-0.3) -| (SCORE.north);
 
-\draw[arr] (VT.south) -- ++(0,-0.2) -| (VG.north);
-\draw[arr] (VT.south) -- ++(0,-0.2) -| (RENDERS.north);
+\draw[arr] (VT.south) -- ++(0,-0.3) -| (VG.north);
+\draw[arr] (VT.south) -- ++(0,-0.3) -| (RENDERS.north);
 \draw[arr] (VG) -- (PRIO);
 \draw[arr] (RENDERS) -- (FT);
 \draw[arr] (FT) -- (RPL);
 \draw[arr] (RPL) -- (REN);
 \draw[arr] (REN) -- (RPB);
-\draw[arr] (RPB) -- (ROB);
-\draw[arr] (ROB) -- (RHU);
+\draw[arr] (RPB) -- (RHU);
 
 \draw[arr] (DISP) -- (SEGDEC);
 \draw[arr] (SEGDEV) -- (SEGRMP);
 \draw[arr] (SEGRMP) -- (SHIFT);
 
 \draw[<->, >=Stealth, draw=red!70!black, thick]
-    (LOGIC.east) -- node[midway, above, font=\footnotesize, text=red!70!black, rotate=90] {实体状态总线} (VT.west);
+    (LOGIC.east) -- node[midway, above, font=\footnotesize, text=red!70!black] {实体状态总线} (VT.west);
 
 \begin{scope}[on background layer]
 \node[draw=red!50, dashed, thick, inner sep=8pt,
       fit=(LOGIC)(FSM)(COLL)(SCORE)(ENTS)(RNG),
       label=above:{\scriptsize\color{red!60} 逻辑引擎层}] {};
 \node[draw=green!50!black, dashed, thick, inner sep=8pt,
-      fit=(VT)(VG)(RENDERS)(PRIO)(FT)(RPL)(REN)(RPB)(ROB)(RHU),
+      fit=(VT)(VG)(RENDERS)(PRIO)(FT)(RPL)(REN)(RPB)(RHU),
       label=above:{\scriptsize\color{green!50!black} 渲染管线层}] {};
 \node[draw=orange!60!black, dashed, thick, inner sep=8pt,
       fit=(KBD)(DISP)(SEGDEV)(SEGDEC)(SEGRMP)(SHIFT),
@@ -597,7 +605,6 @@ player\_render & 1 & 单实例 & 玩家三角形飞机 \\
 enemy\_render & 8 & generate for & 敌人椭圆 UFO，每个独立坐标和 HP \\
 bullet\_render（玩家） & 16 & generate for & 玩家菱形子弹，is\_player=1 \\
 bullet\_render（敌方） & 64 & generate for & 敌方红色方块子弹，is\_player=0 \\
-obstacle\_render & 8 & generate for & 障碍物石头，含大小和形状参数 \\
 hud\_render & 1 & 单实例 & HUD 文字叠加层（分数/HP/暂停/结束） \\
 menu\_render & 1 & 单实例 & 菜单界面（仅在 STATE\_MENU 下有效） \\
 \bottomrule
@@ -609,7 +616,7 @@ menu\_render & 1 & 单实例 & 菜单界面（仅在 STATE\_MENU 下有效） \\
 
 \begin{center}
 \small
-Menu（仅 MENU 状态）＞ HUD ＞ 玩家飞机 ＞ 玩家子弹 ＞ 敌方子弹 ＞ 敌人 ＞ 障碍物 ＞ 黑色背景
+Menu（仅 MENU 状态）＞ HUD ＞ 玩家飞机 ＞ 玩家子弹 ＞ 敌方子弹 ＞ 敌人 ＞ 黑色背景
 \end{center}
 
 优先级 MUX 核心代码：
@@ -672,16 +679,17 @@ end
 
 \begin{figure}[H]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     ->,
     >=Stealth,
-    node distance = 2.8cm and 4cm,
+    node distance = 5.0cm and 10.0cm,
     every state/.style = {
         draw = black,
         thick,
         fill = gray!10,
-        minimum size = 2.2cm,
-        font = \footnotesize,
+        minimum size = 2.0cm,
+        font = \small,
         align = center
     },
     every edge/.style = {
@@ -690,44 +698,45 @@ end
     }
 ]
 
-% 五个状态节点
-\node[state] (MENU)     {MENU \\ \tiny 3'd0};
-\node[state, below = of MENU] (PLAYING)  {PLAYING \\ \tiny 3'd1};
-\node[state, right = of PLAYING] (PAUSED) {PAUSED \\ \tiny 3'd2};
-\node[state, below left = of PLAYING, xshift = -1.1cm] (GAMEOVER) {GAMEOVER \\ \tiny 3'd3};
-\node[state, below right = of PLAYING, xshift = 1.1cm] (WIN) {WIN \\ \tiny 3'd4};
+% 五个状态节点（水平间距大幅拉开，纵向拉长）
+\node[state] (MENU)     at (0, 0)       {MENU\\[-2pt] \scriptsize 3'd0};
+\node[state] (PLAYING)  at (0, -7.0)    {PLAY-\\ING\\[-2pt] \scriptsize 3'd1};
+\node[state] (PAUSED)   at (11.0, -7.0) {PAU-\\SED\\[-2pt] \scriptsize 3'd2};
+\node[state] (GAMEOVER) at (-9.0, -14.0){GAME\\OVER\\[-2pt] \scriptsize 3'd3};
+\node[state] (WIN)      at (9.0, -14.0) {WIN\\[-2pt] \scriptsize 3'd4};
 
-% 1. MENU → PLAYING : start_key
-\path (MENU)  edge node[right] {\footnotesize start\_key}  (PLAYING);
+% 1. MENU → PLAYING
+\path (MENU)  edge node[right, font=\footnotesize] {start\_key (J)}  (PLAYING);
 
-% 2. PLAYING → PAUSED : pause_key (带冷却)
+% 2. PLAYING → PAUSED
+\path (PLAYING) edge [bend left = 12]
+      node[above, font=\footnotesize] {P 键 \& cooldown=0} (PAUSED);
+
+% 3. PAUSED → PLAYING
+\path (PAUSED) edge [bend left = 12]
+      node[below, font=\footnotesize] {P $\|$ J \& cooldown=0} (PLAYING);
+
+% 4. PLAYING → GAMEOVER
+\path (PLAYING) edge [bend right = 18]
+      node[above left, font=\footnotesize, xshift=-0.3cm] {pl\_hp\,$=$\,0} (GAMEOVER);
+
+% 5. PLAYING → WIN
 \path (PLAYING) edge [bend left = 18]
-      node[above] {\footnotesize pause\_key (cooldown = 0)} (PAUSED);
+      node[above right, font=\footnotesize, xshift=0.3cm] {score $\ge$ 500 \& !mode} (WIN);
 
-% 3. PAUSED → PLAYING : pause_key || fire_key
-\path (PAUSED) edge [bend left = 18]
-      node[below] {\footnotesize pause\_key $\|$ fire\_key} (PLAYING);
-
-% 4. PLAYING → GAMEOVER : pl_hp == 0
-\path (PLAYING) edge [bend right = 15]
-      node[above left] {\footnotesize pl\_hp\,$=$\,0} (GAMEOVER);
-
-% 5. PLAYING → WIN : score >= 500 && !mode
-\path (PLAYING) edge [bend left = 15]
-      node[above right] {\footnotesize score $\ge$ 500 \&\& mode\,$=$\,SCORE} (WIN);
-
-% 6. GAMEOVER → MENU : timer expired
+% 6. GAMEOVER → MENU
 \path (GAMEOVER) edge [bend right = 35]
-      node[below left, align = center] {\footnotesize state\_timer\\\footnotesize 倒计时归零} (MENU);
+      node[left, font=\footnotesize, align=center, xshift=-0.3cm] {timer=0\\(300 帧后)} (MENU);
 
-% 7. WIN → MENU : timer expired
+% 7. WIN → MENU
 \path (WIN) edge [bend left = 35]
-      node[below right, align = center] {\footnotesize state\_timer\\\footnotesize 倒计时归零} (MENU);
+      node[right, font=\footnotesize, align=center, xshift=0.3cm] {timer=0\\(300 帧后)} (MENU);
 
-% 初始状态标记（复位后进入 MENU）
-\node[above = 0.2cm of MENU, font = \footnotesize\bfseries] {rstn 复位};
+% 初始状态标记
+\node[above = 0.3cm of MENU, font = \small\bfseries] {rstn 复位 $\to$ MENU};
 
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \caption{游戏状态机状态转换图（Moore 型 FSM）}
 \label{fig:fsm}
 \end{figure}
@@ -744,18 +753,18 @@ end
 \toprule
 \textbf{按键} & \textbf{功能} & \textbf{类型} \\
 \midrule
-W/A/S/D  & 上/左/下/右移动    & 持续有效 \\
-J / Space / Enter & 开火 / 开始游戏   & 持续有效 \\
-K        & 武器升级（达到击杀阈值时） & 持续有效 \\
-P        & 暂停 / 恢复        & 上升沿触发 \\
+W / S / A / D  & 上 / 下 / 左 / 右移动    & 持续有效 \\
+J        & 开火 / 开始游戏   & 持续有效 \\
+P        & 暂停 / 恢复        & 上升沿锁存 \\
 1/2/3/4  & 选择难度（EASY/NORMAL/HARD/HELL） & 即时生效 \\
-M        & 切换模式（积分/无尽）  & 上升沿触发 \\
-Tab      & 切换 7 段显示内容    & 上升沿触发 \\
+M        & 切换模式（积分/无尽）  & 上升沿锁存 \\
+Tab      & 切换 7 段显示内容    & 上升沿锁存 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-难度和模式选择在 MENU 状态下通过按键 1-4 和 M 键设定。
+难度和模式选择在 MENU 状态下通过按键 1-4 和 M 键设定。武器升级为自动触发，
+无需按 K 键：当击杀数达到 10/20/40... 时自动升级武器等级（最多 3 级）。
 
 \paragraph{实体管理}
 
@@ -763,27 +772,18 @@ Tab      & 切换 7 段显示内容    & 上升沿触发 \\
 
 \begin{itemize}
     \item \textbf{敌机（8 槽，en\_active[7:0]）}：
-    轮转生成（en\_spawn\_idx 0$\rightarrow$7$\rightarrow$0），LFSR 随机 X 坐标（X = lfsr[5:0] $\times$ 10），
+    轮转生成（en\_spawn\_idx 0$\rightarrow$7$\rightarrow$0），LFSR 随机 X 坐标（10 位），
     生成间隔由 \texttt{ENEMY\_SPAWN\_BASE（120 帧 = 2 秒）}控制。
-    每架敌机射出 2 发子弹到其专属子槽（敌机 0→槽 0-1，敌机 1→槽 8-9，以此类推，每敌机独占 8 槽的连续子槽），
-    仅前 4 架敌机（索引 0-3）具有完整的移动和射击逻辑。
+    每架敌机有独立的移动 AI 和射击模式（共 8 种行为模式），
+    子弹写入其专属子槽（敌机 N 对应 eb 槽位 N×8 + 0$\sim$2）。
     敌机下移至屏幕底部（Y $>$ 470）时自动标注 inactive
-
     \item \textbf{玩家子弹（16 槽，pb\_active[15:0]）}：
-    每次射击优先分配空闲槽。双发模式下分配槽 0 和 1（左右对称，偏移 $\pm$5px），
-    武器等级 $\ge$ 2 时增加槽 2（中央第三发）。槽 3-15 作为额外通道预留。
-    子弹以 5 像素/帧速度向上移动，出屏（Y $\le$ 10）标记 inactive
-
+    每次射击以 J 键（key\_data[4]）触发。双发模式下分配槽 0 和 1（左右对称，偏移 $\pm$5px），
+    武器等级 $\ge$ 2 时增加槽 2（中央第三发）。槽 3-7 实现独立更新。
+    子弹以 8 像素/帧速度向上移动，出屏（Y $\le$ 10）标记 inactive
     \item \textbf{敌方子弹（64 槽，eb\_active[63:0]）}：
-    每敌机分配专属 8 槽连续空间（敌机 N→槽 N*8$\sim$N*8+7），
-    射击时直接在专属槽写入，避免搜索空闲槽的深层组合逻辑。
+    每敌机专属 8 槽连续空间。槽 0-7 归敌机 0，槽 8-15 归敌机 1，以此类推。
     子弹以 2 像素/帧速度向下移动，出屏（Y $>$ 470）标记 inactive
-
-    \item \textbf{障碍物（8 槽，ob\_active[7:0]）}：
-    轮转生成（ob\_spawn\_idx），LFSR 随机参数：坐标、尺寸（小/中/大，由 lfsr[15:14] 决定）、
-    形状（lfsr[1:0] 决定 4 种形状之一）、HP（lfsr[13:12] + 1，范围 1$\sim$4）。
-    生成间隔由 \texttt{OBSTACLE\_SPAWN\_BASE（300 帧 = 5 秒）}控制。
-    障碍物以每隔 32 帧 1 像素的速度缓慢下漂，出屏标注 inactive
 \end{itemize}
 
 \paragraph{碰撞检测}
@@ -791,14 +791,12 @@ Tab      & 切换 7 段显示内容    & 上升沿触发 \\
 采用逐对 AABB（轴对齐包围盒）硬编码检测，无嵌套 \texttt{for} 循环，确保综合结果可预测：
 
 \begin{itemize}
-    \item 玩家子弹 vs 敌机（pb0/1/2 vs en0/1/2，共 9 对）：命中后敌机被击毁（1 HP 即死），子弹消失，
+    \item 玩家子弹 vs 敌机（pb0/1/2 vs en0/1/2/3/4/5/6/7，共约 20 对）：命中后敌机被击毁（HP $\le$ 1 即死），子弹消失，
     总分 +5，击杀数 +1
-    \item 玩家子弹 vs 障碍物（pb0/1 vs ob0/1/2/3，共 4 对）：命中后障碍物消失，子弹消失，不计分
-    \item 敌弹 vs 玩家（eb0/1/8/9，共 4 对，需 pl\_inv==0 且非作弊模式）：
-    命中后清除附近的敌弹，HP 减 1。若 HP $\le$ 1 则进入 GAMEOVER；否则回退至屏幕中央 (320,400)，
+    \item 敌弹 vs 玩家（eb0/1/2/8/9/10/16/17/18...，共约 19 对，需 pl\_inv==0）：
+    命中后 HP 减 1。若 HP $\le$ 1 则进入 GAMEOVER；否则回退至屏幕中央 (320,400)，
     获得 180 帧无敌保护（约 3 秒）+ 清空所有敌弹
-    \item 玩家 vs 障碍物（ob0/1）：命中后障碍物消失，玩家 HP 归零，进入 GAMEOVER
-    \item 玩家 vs 敌机（en0/1）：命中后 HP 减 1，逻辑同敌弹伤害处理
+    \item 玩家 vs 敌机（en0/1/2/3/4）：命中后 HP 减 1，逻辑同敌弹伤害处理
 \end{itemize}
 
 \paragraph{计分与武器升级}
@@ -850,7 +848,7 @@ LFSR 输出用于：敌机 X 坐标随机化、敌机射击间隔随机扰动、
 
 \subsubsection{渲染器模块族}
 
-所有渲染器（player\_render, enemy\_render, bullet\_render, obstacle\_render,
+所有渲染器（player\_render, enemy\_render, bullet\_render,
 hud\_render, menu\_render）均为纯组合逻辑（无 \texttt{posedge}），
 基于扫描坐标 (sx, sy) 实时判断每个像素是否属于对应实体。
 渲染器无时钟输入端，输出 hit（1 位）和 12 位 BGR 颜色信号（12 位）。
@@ -865,8 +863,6 @@ hud\_render, menu\_render）均为纯组合逻辑（无 \texttt{posedge}），
     HP 分级着色（3→品红、2→紫色、1→暗红），击中闪烁为白色
     \item \textbf{子弹（bullet\_render）}：通过 \texttt{is\_player} 参数区分。
     玩家弹：曼哈顿距离 $\le$ 2 的菱形（青色），敌弹：3$\times$3 方块（红色）
-    \item \textbf{障碍物（obstacle\_render）}：根据 size 和 shape 渲染不同大小的石头形状，
-    4 种几何造型 + 3 种尺寸组合
     \item \textbf{菜单（menu\_render）}：双层装饰边框（彩虹色交替 + 浅灰细线）、
     标题文字（AEROPLANE / DANMAKU SHOOTING）、START 提示框、难度和模式显示、操作说明
     \item \textbf{HUD（hud\_render）}：右下角 SCORE 显示（14 字符）、左上角 HP 显示（4 字符）、
@@ -901,14 +897,12 @@ hud\_render, menu\_render）均为纯组合逻辑（无 \texttt{posedge}），
             \item 玩家移动（受边界 20$\sim$620 / 20$\sim$455 限制，速度 2px/帧）
             \item 无敌计时（pl\_inv 递减、pl\_flash 闪烁控制）
             \item 玩家射击（空闲槽分配、冷却检查、武器等级决定子弹数）
-            \item 移动玩家子弹（向上 5px/帧，出屏标记 inactive）
-            \item 敌机生成（轮转空闲槽，LFSR 随机 X，生成间隔递减）
+            \item 移动玩家子弹（向上 8px/帧，出屏标记 inactive）
+            \item 敌机生成（轮转空闲槽，LFSR 随机 X，生成间隔 120 帧）
             \item 敌机下漂 + 左右微移 + 敌机专属槽射击
             \item 移动敌方子弹（向下 2px/帧，出屏标记 inactive）
-            \item 障碍物生成（轮转空闲槽，LFSR 随机参数）
-            \item 障碍物缓慢下漂（每 32 帧 1px）
             \item 碰撞检测（逐对 AABB）→ 扣血/击毁/得分/无敌保护
-            \item 武器升级检查（total\_kills $\ge$ next\_kills\_upg）
+            \item 武器升级检查（total\_kills $\ge$ next\_kills\_upg，自动升级无需按键）
             \item 检查 GAMEOVER（HP=0）或 WIN（score $\ge$ 500 且积分模式）
         \end{itemize}
         \item[PAUSED 状态] 不更新时间，等待 pause\_key 或 fire\_key 恢复（带冷却）
@@ -922,143 +916,145 @@ hud\_render, menu\_render）均为纯组合逻辑（无 \texttt{posedge}），
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-    node distance = 0.7cm and 1.0cm,
+    node distance = 0.7cm,
+    % 竖排文字：窄 text width 令中文逐字换行，纵向排列
     proc/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.8cm, minimum height = 0.65cm,
+        text width = 1.0cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = blue!8
+        fill = blue!8, inner sep = 3pt
     },
     decision/.style = {
         diamond, draw = black, thick,
-        minimum width = 2.6cm, minimum height = 0.9cm,
+        aspect = 1.6,
         align = center, font = \footnotesize, fill = yellow!15,
-        aspect = 2.5
+        inner sep = 1pt
     },
     term/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.4cm, minimum height = 0.6cm,
+        text width = 1.1cm,
         align = center, font = \footnotesize, rounded corners = 10pt,
-        fill = gray!12
+        fill = gray!12, inner sep = 3pt
     },
     stproc/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.8cm, minimum height = 0.6cm,
+        text width = 1.1cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
-        fill = red!10
-    },
-    cmt/.style = {
-        font = \footnotesize, text = gray, align = left
+        fill = red!10, inner sep = 3pt
     },
     arr/.style = {->, >=Stealth, thick},
     larr/.style = {->, >=Stealth, thick, draw=blue!60},
 ]
 
-% ---- 主流程 ----
-\node[term] (START) {frame\_tick 脉冲};
-\node[proc, below=0.7cm of START] (LFSR) {更新 LFSR};
-\node[proc, below=0.7cm of LFSR] (INPUT) {检测 P/Tab 键边沿};
-\node[proc, below=0.7cm of INPUT] (DEC) {cooldown/timer 递减};
-\node[decision, below=0.7cm of DEC] (CHKSTATE) {state?};
-
-% ---- MENU 分支（左） ----
-\node[stproc, below left=0.8cm and -4.0cm of CHKSTATE] (MENU_INIT)
-    {初始化实体寄存器};
-\node[proc, below=0.6cm of MENU_INIT] (MENU_DIFF)
-    {按键 1-4→难度\\M 键→模式};
-\node[decision, below=0.6cm of MENU_DIFF] (MENU_START)
-    {start\_key?};
-\node[stproc, right=2.0cm of MENU_START] (MENU_WAIT)
-    {等待开始};
+% ===== 主流程（中央列 x=0）=====
+\node[term] (START) at (0, 0) {frame\\tick\\脉冲};
+\node[proc] (LFSR)   at (0, -2.2) {更\\新\\LFSR};
+\node[proc] (INPUT)  at (0, -4.4) {P/Tab\\键\\边沿\\锁存};
+\node[proc] (DEC)    at (0, -6.6) {cool-\\down\\timer\\递减};
+\node[decision] (CHKSTATE) at (0, -8.9) {state?};
 
 \draw[arr] (START) -- (LFSR);
 \draw[arr] (LFSR) -- (INPUT);
 \draw[arr] (INPUT) -- (DEC);
 \draw[arr] (DEC) -- (CHKSTATE);
 
-\draw[larr] (CHKSTATE) -| node[pos=0.25, fill=white, font=\footnotesize] {MENU} (MENU_INIT);
+% ===== 分支总线（从 CHKSTATE 向下引出，避免箭头交叠）=====
+\draw[thick] (CHKSTATE.south) -- ++(0,-0.9) coordinate (BUSA);
+\draw[thick] (BUSA) -- ++(0,-1.6) coordinate (BUSB);
+
+% ===== MENU（最左 x=-12）=====
+\node[stproc] (MENU_INIT) at (-12, -12.5)
+    {实\\体\\初\\始\\化};
+\node[proc] (MENU_DIFF) at (-12, -15.2)
+    {1-4\\选\\难度\\M\\切换\\模式};
+\node[decision] (MENU_START) at (-12, -18.0)
+    {J\\键?};
+\node[stproc] (MENU_WAIT) at (-9.2, -18.0) {等\\待};
+
+\draw[larr] (CHKSTATE.west) -| node[pos=0.25, fill=white, font=\small] {MENU} (MENU_INIT.north);
 \draw[arr] (MENU_INIT) -- (MENU_DIFF);
 \draw[arr] (MENU_DIFF) -- (MENU_START);
 \draw[arr] (MENU_START) -- node[above, font=\footnotesize] {否} (MENU_WAIT);
-\draw[arr] (MENU_WAIT) |- ($(MENU_INIT.north -| MENU_WAIT.west)$) -- (MENU_INIT.north);
+\draw[arr, rounded corners=6pt] (MENU_WAIT.north) -- ++(0,1.6) -| (MENU_INIT.north east);
+\draw[arr, blue!60, thick] (MENU_START.south) -- node[right, font=\footnotesize] {是$\to$PLAY} ++(0,-1.8);
 
-% ---- PLAYING 分支（右） ----
-\node[stproc, below right=0.8cm and -4.5cm of CHKSTATE] (PLAY_MOVE)
-    {玩家移动 (WASD)};
-\node[proc, below=0.6cm of PLAY_MOVE] (PLAY_SHOOT)
-    {玩家射击 (J/Space)};
-\node[proc, below=0.6cm of PLAY_SHOOT] (PLAY_PBMOVE)
-    {更新玩家子弹};
-\node[proc, below=0.6cm of PLAY_PBMOVE] (PLAY_ENEMY)
-    {敌机生成/移动/射击};
-\node[proc, below=0.6cm of PLAY_ENEMY] (PLAY_EBMOVE)
-    {更新敌方子弹};
-\node[proc, below=0.6cm of PLAY_EBMOVE] (PLAY_OBSTACLE)
-    {障碍物生成/下漂};
-\node[proc, below=0.6cm of PLAY_OBSTACLE] (PLAY_COLLISION)
-    {\textbf{碰撞检测} (AABB)};
-\node[proc, below=0.6cm of PLAY_COLLISION] (PLAY_UPG)
-    {计分/武器升级检查};
+% ===== PLAYING（中偏左 x=-2）=====
+\node[stproc] (PLAY_MOVE) at (-2, -12.5)
+    {玩\\家\\移动\\WSAD\\无敌\\计时};
+\node[proc] (PLAY_SHOOT) at (-2, -15.4)
+    {玩家\\射击\\J\\冷却\\4-级};
+\node[proc] (PLAY_PBMOVE) at (-2, -18.0)
+    {玩家\\子弹\\上移\\8px};
+\node[proc] (PLAY_ENEMY) at (-2, -20.6)
+    {敌机\\生成\\移动\\射击\\8槽};
+\node[proc] (PLAY_EBMOVE) at (-2, -23.4)
+    {敌方\\子弹\\下移\\2px};
+\node[stproc] (PLAY_COLLISION) at (-2, -26.0)
+    {\textbf{碰}\\\textbf{撞}\\检测\\逐对\\AABB};
+\node[proc] (PLAY_UPG) at (-2, -28.8)
+    {计分\\武器\\升级\\kills\\阈值};
+\node[decision] (PLAY_CHKEND) at (-2, -31.6)
+    {HP=0?\\score\\$\ge$500?};
 
-\node[decision, below=0.6cm of PLAY_UPG] (PLAY_CHKEND)
-    {HP=0?\\或 score$\ge$500?};
-
-\draw[larr] (CHKSTATE) -| node[pos=0.25, fill=white, font=\footnotesize] {PLAYING} (PLAY_MOVE);
+\draw[larr] (BUSA) -| node[pos=0.12, fill=white, font=\small] {PLAYING} (PLAY_MOVE.north);
 \draw[arr] (PLAY_MOVE) -- (PLAY_SHOOT);
 \draw[arr] (PLAY_SHOOT) -- (PLAY_PBMOVE);
 \draw[arr] (PLAY_PBMOVE) -- (PLAY_ENEMY);
 \draw[arr] (PLAY_ENEMY) -- (PLAY_EBMOVE);
-\draw[arr] (PLAY_EBMOVE) -- (PLAY_OBSTACLE);
-\draw[arr] (PLAY_OBSTACLE) -- (PLAY_COLLISION);
+\draw[arr] (PLAY_EBMOVE) -- (PLAY_COLLISION);
 \draw[arr] (PLAY_COLLISION) -- (PLAY_UPG);
 \draw[arr] (PLAY_UPG) -- (PLAY_CHKEND);
 
-% ---- PAUSED 分支 ----
-\node[stproc, right=3.0cm of CHKSTATE] (PAUSED_WAIT)
-    {冻结游戏时间};
-\node[decision, below=0.7cm of PAUSED_WAIT] (PAUSED_CHK)
-    {P 键或开火键?};
-\node[stproc, below=0.7cm of PAUSED_CHK] (PAUSED_RES)
-    {恢复 PLAYING\\(250 帧冷却)};
+\draw[arr, blue!60, thick] (PLAY_CHKEND.west) -- ++(-1.8,0)
+    node[font=\footnotesize, above, text=red!70!black] {\scriptsize HP=0$\to$GO};
+\draw[arr, blue!60, thick] (PLAY_CHKEND.east) -- ++(1.8,0)
+    node[font=\footnotesize, above, text=green!50!black] {\scriptsize score$\ge$500$\to$WIN};
 
-\draw[larr] (CHKSTATE) -- node[above, font=\footnotesize] {PAUSED} (PAUSED_WAIT);
+% ===== PAUSED（右侧 x=6）=====
+\node[stproc] (PAUSED_WAIT) at (6, -12.5)
+    {冻结\\不更\\新\\实体};
+\node[decision] (PAUSED_CHK) at (6, -15.4)
+    {P/J键?\\cool-\\down=0?};
+\node[stproc] (PAUSED_RES) at (6, -18.2)
+    {恢复\\PLAY\\250帧\\冷却};
+
+\draw[larr] (CHKSTATE.east) -| node[pos=0.25, fill=white, font=\small] {PAUSED} (PAUSED_WAIT.north);
 \draw[arr] (PAUSED_WAIT) -- (PAUSED_CHK);
 \draw[arr] (PAUSED_CHK) -- node[right, font=\footnotesize] {是} (PAUSED_RES);
 
-% ---- GAMEOVER 分支 ----
-\node[stproc, below=1.2cm of DEC, xshift=-2.2cm] (GOVER_SHOW)
-    {GAMEOVER\\显示 300 帧};
-\node[decision, below=0.7cm of GOVER_SHOW] (GOVER_CHK)
-    {timer=0?};
-\node[stproc, below=0.7cm of GOVER_CHK] (GOVER_BACK)
-    {清除实体\\返回 MENU};
+% ===== GAMEOVER（左下 x=-6.5）=====
+\node[stproc] (GOVER_SHOW) at (-6.5, -21)
+    {GAME\\OVER\\300帧\\显示};
+\node[decision] (GOVER_CHK) at (-6.5, -24.0)
+    {timer\\=0?};
+\node[stproc] (GOVER_BACK) at (-6.5, -26.8)
+    {清\\实体\\$\to$\\MENU};
 
-\draw[arr] (CHKSTATE.south) -- ++(0,-0.5) -| node[pos=0.6, fill=white, font=\footnotesize, xshift=-0.7cm] {GAMEOVER} (GOVER_SHOW.north);
+\draw[arr] (BUSB) -| node[pos=0.28, fill=white, font=\small] {GAMEOVER} (GOVER_SHOW.north);
 \draw[arr] (GOVER_SHOW) -- (GOVER_CHK);
 \draw[arr] (GOVER_CHK) -- node[right, font=\footnotesize] {是} (GOVER_BACK);
 
-% ---- WIN 分支 ----
-\node[stproc, below=1.2cm of DEC, xshift=2.2cm] (WIN_SHOW)
-    {YOU WIN\\显示 300 帧};
-\node[decision, below=0.7cm of WIN_SHOW] (WIN_CHK)
-    {timer=0?};
-\node[stproc, below=0.7cm of WIN_CHK] (WIN_BACK)
-    {清除实体\\返回 MENU};
+% ===== WIN（右下 x=10）=====
+\node[stproc] (WIN_SHOW) at (10, -21)
+    {YOU\\WIN\\300帧\\显示};
+\node[decision] (WIN_CHK) at (10, -24.0)
+    {timer\\=0?};
+\node[stproc] (WIN_BACK) at (10, -26.8)
+    {清\\实体\\$\to$\\MENU};
 
-\draw[arr] (CHKSTATE.south) -- ++(0,-0.5) -| node[pos=0.6, fill=white, font=\footnotesize, xshift=0.7cm] {WIN} (WIN_SHOW.north);
+\draw[arr] (BUSB) -| node[pos=0.28, fill=white, font=\small] {WIN} (WIN_SHOW.north);
 \draw[arr] (WIN_SHOW) -- (WIN_CHK);
 \draw[arr] (WIN_CHK) -- node[right, font=\footnotesize] {是} (WIN_BACK);
 
-% ---- 循环返回 ----
-\node[term, below=1.5cm of WIN_BACK] (END) {更新 7 段/LED\\等待下一 tick};
-\draw[arr, dashed] (MENU_WAIT.east) -- ++(1.0,0) |- (END.east);
-\draw[arr, dashed] (PLAY_CHKEND.east) -- ++(0.8,0) |- node[font=\footnotesize, right] {否} (END.east);
-\draw[arr, dashed] (PAUSED_CHK.east) -- ++(0.8,0) |- node[font=\footnotesize, right] {否} (END.east);
-\draw[arr, dashed] (GOVER_CHK.east) -- ++(0.8,0) |- node[font=\footnotesize, right] {否} (END.east);
-\draw[arr, dashed] (WIN_CHK.east) -- ++(0.8,0) |- node[font=\footnotesize, right] {否} (END.east);
+% ===== 循环返回 =====
+\node[term] (END) at (-2, -35.5) {更新\\7段\\LED\\等下\\一tick};
 
-\node[cmt, right=0.3cm of PLAY_CHKEND, text=red!70!black]
-    {HP=0 → GAMEOVER};
+\draw[arr, dashed] (MENU_WAIT.south) |- (END.west);
+\draw[arr, dashed] (PLAY_CHKEND.south) -- ++(0,-1.5) -|
+    node[font=\footnotesize, pos=0.6, above] {否} (END.north);
+\draw[arr, dashed] (PAUSED_CHK.east) -- ++(6.0,0) |- (END.east);
+\draw[arr, dashed] (GOVER_CHK.west) -- ++(-3.0,0) |- (END.west);
+\draw[arr, dashed] (WIN_CHK.east) -- ++(3.0,0) |- (END.east);
 
 \end{tikzpicture}%
 }
@@ -1083,46 +1079,46 @@ VGA 渲染流程与游戏逻辑并行、流水线式运行：
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-    node distance = 0.6cm and 0.8cm,
+    node distance = 0.5cm and 0.6cm,
     proc/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.6cm, minimum height = 0.65cm,
+        minimum width = 2.2cm, minimum height = 0.55cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
         fill = green!10
     },
     hproc/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.8cm, minimum height = 0.65cm,
+        minimum width = 2.6cm, minimum height = 0.6cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
         fill = blue!10
     },
     vgac_box/.style = {
         rectangle, draw = black, very thick,
-        minimum width = 3.2cm, minimum height = 0.8cm,
+        minimum width = 2.8cm, minimum height = 0.65cm,
         align = center, font = \footnotesize\bfseries, rounded corners = 3pt,
         fill = green!20
     },
     mux_box/.style = {
         rectangle, draw = black, very thick,
-        minimum width = 3.5cm, minimum height = 0.85cm,
+        minimum width = 4.2cm, minimum height = 1.4cm,
         align = center, font = \footnotesize, rounded corners = 3pt,
         fill = orange!15
     },
     sync_box/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.8cm, minimum height = 0.65cm,
+        minimum width = 2.8cm, minimum height = 0.6cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
         fill = red!12
     },
     io_box/.style = {
         rectangle, draw = black, thick,
-        minimum width = 2.2cm, minimum height = 0.65cm,
+        minimum width = 2.0cm, minimum height = 0.55cm,
         align = center, font = \footnotesize, rounded corners = 2pt,
         fill = yellow!15
     },
     render_box/.style = {
         rectangle, draw = black, thin,
-        minimum width = 2.6cm, minimum height = 0.55cm,
+        minimum width = 2.4cm, minimum height = 0.45cm,
         align = center, font = \scriptsize, rounded corners = 2pt,
         fill = green!5
     },
@@ -1133,65 +1129,62 @@ VGA 渲染流程与游戏逻辑并行、流水线式运行：
 
 % ---- 上行：VGA 像素渲染管线 ----
 \node[io_box] (CLK) {100MHz\\系统时钟};
-\node[proc, right=0.8cm of CLK] (DIV) {cdiv[1:0] ÷4\\25MHz vga\_clk};
-\node[vgac_box, right=0.8cm of DIV] (VGAC) {\textbf{vgac}\\VGA 控制器};
+\node[proc, right=0.5cm of CLK] (DIV) {${\div}4$\\25MHz vga\_clk};
+\node[vgac_box, right=0.5cm of DIV] (VGAC) {\textbf{vgac}\\VGA 控制器};
 
-\node[proc, above=0.6cm of VGAC, fill=yellow!12] (SCAN) {row\_addr[8:0]\\col\_addr[9:0]};
-\node[proc, below=0.6cm of VGAC, fill=yellow!12] (RDN) {rdn 消隐控制};
-\node[io_box, right=2.5cm of VGAC] (VGAOUT) {RGB[3:0]×3\\HS / VS\\VGA 显示器};
+\node[proc, above=0.5cm of VGAC, fill=yellow!12] (SCAN) {row\_addr[8:0]\\col\_addr[9:0]};
+\node[proc, below=0.5cm of VGAC, fill=yellow!12] (RDN) {rdn\\消隐控制};
+\node[io_box, right=2.0cm of VGAC] (VGAOUT) {RGB[3:0]×3\\HS / VS\\VGA 显示器};
 
 % 渲染器阵列
-\node[render_box, right=0.8cm of SCAN, yshift=1.2cm] (R_PL)  {player\_render};
-\node[render_box, below=0.1cm of R_PL] (R_EN)  {enemy\_render ×8};
-\node[render_box, below=0.1cm of R_EN]  (R_PB)  {bullet\_render ×80};
-\node[render_box, below=0.1cm of R_PB]  (R_OB)  {obstacle\_render ×8};
-\node[render_box, below=0.1cm of R_OB]  (R_HUD) {hud\_render};
-\node[render_box, below=0.1cm of R_HUD] (R_MENU) {menu\_render};
+\node[render_box, right=0.6cm of SCAN, yshift=0.8cm] (R_PL)  {player\_render};
+\node[render_box, below=0.12cm of R_PL] (R_EN)  {enemy\_render ×8};
+\node[render_box, below=0.12cm of R_EN]  (R_PB)  {bullet\_render ×80\\(16 PB + 64 EB)};
+\node[render_box, below=0.12cm of R_PB]  (R_HUD) {hud\_render};
+\node[render_box, below=0.12cm of R_HUD] (R_MENU) {menu\_render};
 
 \draw[arr_bus] (VGAC) -- (SCAN);
 \draw[arr_bus] (VGAC) -- (RDN);
-\draw[arr_bus] (SCAN.east) -- ++(0.3,0) |- (R_PL.west);
-\draw[arr_bus] (SCAN.east) -- ++(0.3,0) |- (R_EN.west);
-\draw[arr_bus] (SCAN.east) -- ++(0.3,0) |- (R_PB.west);
-\draw[arr_bus] (SCAN.east) -- ++(0.3,0) |- (R_OB.west);
-\draw[arr_bus] (SCAN.east) -- ++(0.3,0) |- (R_HUD.west);
-\draw[arr_bus] (SCAN.east) -- ++(0.3,0) |- (R_MENU.west);
+\draw[arr_bus, shorten >=1pt] (SCAN.east) -- ++(0.25,0) |- (R_PL.west);
+\draw[arr_bus, shorten >=1pt] (SCAN.east) -- ++(0.25,0) |- (R_EN.west);
+\draw[arr_bus, shorten >=1pt] (SCAN.east) -- ++(0.25,0) |- (R_PB.west);
+\draw[arr_bus, shorten >=1pt] (SCAN.east) -- ++(0.25,0) |- (R_HUD.west);
+\draw[arr_bus, shorten >=1pt] (SCAN.east) -- ++(0.25,0) |- (R_MENU.west);
 
 % 优先级 MUX
-\node[mux_box, right=0.8cm of R_OB, yshift=-0.6cm] (MUX)
-    {\textbf{优先级 MUX}\\Menu > HUD > Player\\> PBullet > EBullet\\> Enemy > Obstacle > BG};
+\node[mux_box, right=0.8cm of R_PB, yshift=-0.3cm] (MUX)
+    {\textbf{优先级 MUX}\\Menu(MENU) > HUD\\> Player > PBullet\\> EBullet > Enemy > BG};
 
-\draw[arr] (R_PL.east)  -- ++(0.3,0) |- node[font=\tiny, pos=0.6, fill=white] {hit/col} (MUX.north);
+\draw[arr] (R_PL.east)  -- ++(0.25,0) |- node[font=\tiny, pos=0.55, fill=white] {hit/col} (MUX.north);
 \draw[arr] (R_EN.east)  -- (R_EN.east -| MUX.west);
 \draw[arr] (R_PB.east)  -- (R_PB.east -| MUX.west);
-\draw[arr] (R_OB.east)  -- (R_OB.east -| MUX.west);
 \draw[arr] (R_HUD.east) -- (R_HUD.east -| MUX.west);
 \draw[arr] (R_MENU.east) -- (R_MENU.east -| MUX.west);
 
-\draw[arr_bus] (MUX.east) -- ++(0.4,0) |- node[pos=0.8, font=\tiny, fill=white] {vga\_data[11:0]} (VGAC.east);
+\draw[arr_bus] (MUX.east) -- ++(0.35,0) |- node[pos=0.8, font=\tiny, fill=white] {vga\_data[11:0]} (VGAC.east);
 \draw[arr] (VGAC) -- (VGAOUT);
 \draw[arr] (CLK) -- (DIV);
 \draw[arr] (DIV) -- (VGAC);
 
 % ---- 下行：帧同步通路 ----
-\node[sync_box, below=0.9cm of VGAC, yshift=-1.8cm] (VS_SYNC)
+\node[sync_box, below=1.2cm of VGAC, yshift=-1.2cm] (VS_SYNC)
     {三级同步器\\vs\_sync[2:0]};
 \node[sync_box, right=0.8cm of VS_SYNC] (FTICK)
-    {frame\_tick 生成\\(vs 下降沿检测)\\约 60Hz 脉冲};
+    {frame\_tick 生成\\(vs 下降沿)\\约 60Hz 脉冲};
 \node[hproc, right=0.8cm of FTICK] (LOGIC)
-    {\textbf{game\_logic}\\游戏状态更新\\(100MHz 时钟域)};
+    {\textbf{game\_logic}\\游戏状态更新\\(100MHz 域)};
 
-\draw[arr_sync] (VGAC.south) -- ++(0,-0.5) -| node[pos=0.4, font=\tiny, fill=white] {vs} (VS_SYNC.north);
+\draw[arr_sync] (VGAC.south) -- ++(0,-0.4) -| node[pos=0.38, font=\tiny, fill=white] {vs} (VS_SYNC.north);
 \draw[arr_sync] (VS_SYNC) -- (FTICK);
 \draw[arr_sync] (FTICK) -- (LOGIC);
 
-\draw[arr, bend left=35, draw=red!70!black, thick] (LOGIC.north) --
+\draw[arr, bend left=30, draw=red!70!black, thick] (LOGIC.north) --
     node[midway, left, font=\footnotesize, text=red!70!black] {实体状态总线} (R_MENU.south);
 
 % ---- 装饰注释 ----
-\node[font=\small\bfseries, above=0.3cm of CLK, text=green!50!black]
+\node[font=\small\bfseries, above=0.2cm of CLK, text=green!50!black]
     {VGA 像素渲染管线（25MHz vga\_clk 域）};
-\node[font=\small\bfseries, below=0.3cm of VS_SYNC, text=red!60]
+\node[font=\small\bfseries, below=0.2cm of VS_SYNC, text=red!60]
     {帧同步通路（100MHz 主时钟域）};
 
 \end{tikzpicture}%
@@ -1209,14 +1202,6 @@ VGA 渲染流程与游戏逻辑并行、流水线式运行：
 在 Vivado 中进行语法检查和综合（Synthesis），通过 Messages 窗口检查 Error 和 Warning，
 对变量位宽不匹配、未连接端口、多次驱动等问题逐一修正。
 
-\begin{figure}[H]
-\centering
-% TODO: 在此插入 Vivado Synthesis 完成截图，显示资源使用概览
-% 操作步骤：Vivado → Run Synthesis → 完成后截取 Project Summary 中的 Utilization 概览
-\fbox{\parbox{0.85\textwidth}{\centering\vspace{3cm}【图：Vivado Synthesis 完成截图 - 资源使用概览】\vspace{3cm}}}
-\caption{Vivado Synthesis 综合完成截图}
-\label{fig:synth}
-\end{figure}
 
 \subsection{主要调试问题与解决方案}
 
@@ -1267,26 +1252,6 @@ VGA 渲染流程与游戏逻辑并行、流水线式运行：
 \textbf{解决方案}：将 \texttt{adx2} 扩展为 22 位宽、\texttt{ady2} 为 22 位、\texttt{dist2} 为 23 位，
 阈值比较字面量统一为 23'd 宽度。
 
-\subsection{综合资源使用}
-
-\begin{table}[H]
-\centering
-\caption{资源使用情况（以 Vivado 综合报告为准）}
-\label{tab:util}
-\begin{tabular}{lccc}
-\toprule
-\textbf{资源} & \textbf{已使用} & \textbf{总量} & \textbf{利用率} \\
-\midrule
-Slice LUTs      & {[待填入]} & 101,400 & {[\%]} \\
-Slice Registers & {[待填入]} & 202,800 & {[\%]} \\
-Block RAM       & {[待填入]} & 325 & {[\%]} \\
-IO              & {[待填入]} & 400 & {[\%]} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-% TODO: 将上表中的 [待填入] 替换为 Vivado Synthesis 的实际数据
-% 查看位置：Vivado → Synthesis → Project Summary → Utilization
 
 
 % ==================== 六、核心模块模拟仿真 ====================
@@ -1380,11 +1345,10 @@ IO              & {[待填入]} & 400 & {[\%]} \\
 
 \subsection{游戏操作}
 \begin{itemize}
-    \item W/A/S/D：上/左/下/右移动玩家飞机
-    \item J/Space/Enter：发射子弹（按住连发，受冷却限制）
+    \item W/S/A/D：上/下/左/右移动玩家飞机
+    \item J：发射子弹（按住连发，受冷却限制）
     \item P：暂停/继续（单次触发，约 4 秒冷却）
     \item Tab：切换 7 段数码管显示内容（击毁数→生命值→积分→循环）
-    \item K：武器升级（达到击杀阈值时按下）
 \end{itemize}
 
 \subsection{游戏机制}
@@ -1494,15 +1458,14 @@ Keyboard u_keyboard (
 
 \begin{lstlisting}
 // Keyboard 模块输出：
-// key_data[0]=W, key_data[1]=A, key_data[2]=S, key_data[3]=D
-// key_data[4]=J, key_data[5]=Space, key_data[6]=Enter, key_data[7]=K
+// key_data[0]=W(S上), key_data[1]=S(下), key_data[2]=A(左), key_data[3]=D(右)
+// key_data[4]=J(开火/开始), key_data[6]=P(暂停)
 wire move_up    = key_data[0];   // W
-wire move_left  = key_data[1];   // A
-wire move_down  = key_data[2];   // S
+wire move_down  = key_data[1];   // S
+wire move_left  = key_data[2];   // A
 wire move_right = key_data[3];   // D
-wire fire_key   = key_data[4] || key_data[5] || key_data[6];  // J/Space/Enter
+wire fire_key   = key_data[4];   // J
 wire start_key  = fire_key;
-wire upgrade    = key_data[7];   // K
 \end{lstlisting}
 
 \subsection{game\_logic --- FSM 状态转换}
@@ -1513,14 +1476,14 @@ case (state)
     // 初始化所有实体寄存器
     pl_alive <= 1'b1;  pl_x <= 10'd320;  pl_y <= 9'd400;
     total_score <= 20'd0;  total_kills <= 8'd0;
-    en_act <= 8'd0;  pb_act <= 16'd0;  eb_act <= 64'd0;  ob_act <= 8'd0;
+    en_act <= 8'd0;  pb_act <= 16'd0;  eb_act <= 64'd0;
 
     // 难度与模式选择
     if (key_diff[0]) sel_diff <= `DIFF_EASY;    // 按键 1
     if (key_diff[1]) sel_diff <= `DIFF_NORMAL;  // 按键 2
     if (key_diff[2]) sel_diff <= `DIFF_HARD;     // 按键 3
     if (key_diff[3]) sel_diff <= `DIFF_HELL;     // 按键 4
-    sel_mode <= key_mode ^ sel_mode;              // M 键切换
+    sel_mode <= sel_mode ^ key_mode;              // M 键切换
 
     if (start_key) begin
         state       <= `STATE_PLAYING;
@@ -1647,12 +1610,12 @@ ROM_f u_font_rom (
     多实体并行渲染无帧缓冲设计
     \item \textbf{人机交互接口}：PS/2 键盘输入（Keyboard 模块解码），
     VGA 视频 + 7 段数码管（直连 + 串行 P2S）+ LED 多种输出
-    \item \textbf{实体系统管理}：8 敌机 + 16 玩家子弹 + 64 敌方子弹 + 8 障碍物，
+    \item \textbf{实体系统管理}：8 敌机 + 16 玩家子弹 + 64 敌方子弹，
     固定槽位池管理 + 专属子槽分配，通过扁平化高位宽总线与 generate 展开在综合层面优化
     \item \textbf{碰撞检测}：逐对 AABB 轴对齐包围盒硬编码检测，无嵌套 for 循环，
-    多类型交互（玩家子弹 $\times$ 敌机、玩家子弹 $\times$ 障碍物、敌弹 $\times$ 玩家、玩家 $\times$ 敌机、玩家 $\times$ 障碍物）
+    多类型交互（玩家子弹 $\times$ 敌机、敌弹 $\times$ 玩家、玩家 $\times$ 敌机）
     \item \textbf{伪随机数生成}：16 位 Galois LFSR，多项式 $x^{16}+x^{14}+x^{13}+x^{11}+1$，
-    驱动敌机坐标、射击间隔、移动方向、障碍物参数的随机化
+     驱动敌机坐标、射击间隔、移动方向的随机化
     \item \textbf{PS/2 键盘解码}：Keyboard 模块实现 PS/2 Set 2 协议 make/break 解码、E0 扩展前缀处理、8 位按键 bitmap + 4 位难度 one-hot 输出
     \item \textbf{时钟域设计}：100MHz 系统时钟 → 25MHz VGA 时钟 + 60Hz frame\_tick
     通过三级同步器实现跨时钟域 vs 下降沿检测
@@ -1668,7 +1631,7 @@ ROM_f u_font_rom (
     \item \textbf{曲线弹道}：当前敌方子弹均为直线弹道（BTYPE\_STRAIGHT），
     \texttt{game\_defs.vh} 已预留抛物线（BTYPE\_PARABOLA）、顺时针圆弧（BTYPE\_CIRCLE\_CW）、
     逆时针圆弧（BTYPE\_CIRCLE\_CCW）三种曲线类型编码，可在 \texttt{game\_logic} 中实现对应的运动方程更新
-    \item \textbf{敌机 AI 多样化}：当前仅前 4 个敌机槽有差异化行为（下漂 + 左右微移），
+    \item \textbf{敌机 AI 多样化}：当前 8 个敌机槽各有不同的移动和射击行为模式，
     可在全部 8 个槽位实现不同 AI 策略（悬停射击、S 形移动、追踪玩家、弹幕散布等）
     \item \textbf{图形质量提升}：当前玩家飞机和敌机 UFO 为几何图形（三角形/椭圆），
     可通过 Block RAM 存储精灵位图（sprite）实现更精细的飞机和 UFO 造型

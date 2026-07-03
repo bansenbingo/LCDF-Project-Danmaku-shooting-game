@@ -6,36 +6,35 @@
 \contentsline {subsubsection}{\numberline {2.2.2}显示输出}{4}{subsubsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.3}系统总体架构}{4}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}引脚约束}{5}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}时钟域设计}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.5}时钟域设计}{6}{subsection.2.5}%
 \contentsline {section}{\numberline {3}模块结构}{6}{section.3}%
 \contentsline {subsection}{\numberline {3.1}工程文件}{6}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}各模块关系图}{8}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}核心模块详细说明}{8}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}game\_top --- FPGA 顶层模块}{8}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}vgac --- VGA 控制器}{9}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}vga\_top --- VGA 渲染管线顶层}{10}{subsubsection.3.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.4}game\_logic --- 核心游戏逻辑}{11}{subsubsection.3.3.4}%
-\contentsline {paragraph}{游戏状态机}{11}{subsubsection.3.3.4}%
-\contentsline {paragraph}{输入映射}{13}{figure.caption.7}%
-\contentsline {paragraph}{实体管理}{13}{table.caption.8}%
-\contentsline {paragraph}{碰撞检测}{14}{table.caption.8}%
-\contentsline {paragraph}{计分与武器升级}{14}{table.caption.8}%
-\contentsline {paragraph}{玩家属性}{15}{table.caption.8}%
-\contentsline {paragraph}{LFSR 伪随机数生成器}{15}{table.caption.8}%
-\contentsline {subsubsection}{\numberline {3.3.5}字库实现}{15}{subsubsection.3.3.5}%
-\contentsline {subsubsection}{\numberline {3.3.6}渲染器模块族}{15}{subsubsection.3.3.6}%
-\contentsline {section}{\numberline {4}程序流程}{16}{section.4}%
-\contentsline {subsection}{\numberline {4.1}游戏主循环}{16}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}VGA 渲染流程}{19}{subsection.4.2}%
-\contentsline {section}{\numberline {5}调试过程分析}{19}{section.5}%
-\contentsline {subsection}{\numberline {5.1}语法与综合调试}{19}{subsection.5.1}%
+\contentsline {subsection}{\numberline {3.2}各模块关系图}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}核心模块详细说明}{9}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}game\_top --- FPGA 顶层模块}{9}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}vgac --- VGA 控制器}{10}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}vga\_top --- VGA 渲染管线顶层}{11}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}game\_logic --- 核心游戏逻辑}{12}{subsubsection.3.3.4}%
+\contentsline {paragraph}{游戏状态机}{12}{subsubsection.3.3.4}%
+\contentsline {paragraph}{输入映射}{14}{figure.caption.6}%
+\contentsline {paragraph}{实体管理}{14}{table.caption.7}%
+\contentsline {paragraph}{碰撞检测}{15}{table.caption.7}%
+\contentsline {paragraph}{计分与武器升级}{15}{table.caption.7}%
+\contentsline {paragraph}{玩家属性}{15}{table.caption.7}%
+\contentsline {paragraph}{LFSR 伪随机数生成器}{16}{table.caption.7}%
+\contentsline {subsubsection}{\numberline {3.3.5}字库实现}{16}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.6}渲染器模块族}{16}{subsubsection.3.3.6}%
+\contentsline {section}{\numberline {4}程序流程}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}游戏主循环}{17}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}VGA 渲染流程}{20}{subsection.4.2}%
+\contentsline {section}{\numberline {5}调试过程分析}{20}{section.5}%
+\contentsline {subsection}{\numberline {5.1}语法与综合调试}{20}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}主要调试问题与解决方案}{20}{subsection.5.2}%
 \contentsline {subsubsection}{\numberline {5.2.1}问题 1：玩家飞机位置与移动异常}{20}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}问题 2：敌机生成和显示不全}{20}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}问题 3：子弹发射数量少}{20}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.2}问题 2：敌机生成和显示不全}{21}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}问题 3：子弹发射数量少}{21}{subsubsection.5.2.3}%
 \contentsline {subsubsection}{\numberline {5.2.4}问题 4：文字显示异常}{21}{subsubsection.5.2.4}%
 \contentsline {subsubsection}{\numberline {5.2.5}问题 5：椭球体渲染鬼影点}{21}{subsubsection.5.2.5}%
-\contentsline {subsection}{\numberline {5.3}综合资源使用}{21}{subsection.5.3}%
 \contentsline {section}{\numberline {6}核心模块模拟仿真结果}{21}{section.6}%
 \contentsline {subsection}{\numberline {6.1}键盘驱动模块（Keyboard）仿真}{21}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}游戏逻辑模块（game\_logic）仿真}{22}{subsection.6.2}%

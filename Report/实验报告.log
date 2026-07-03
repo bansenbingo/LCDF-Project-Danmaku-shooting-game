@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.7.3)  3 JUL 2026 09:47
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.7.3)  3 JUL 2026 17:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1479,116 +1479,111 @@ Package fontspec Info:
 \openout5 = `实验报告.toc'.
 
  [2]
-Overfull \hbox (3.05428pt too wide) in paragraph at lines 119--123
+Overfull \hbox (3.05428pt too wide) in paragraph at lines 117--121
 []\TU/SimSun(0)/m/n/12 本 小 组 选 择 设 计 一 个 基 于 \TU/lmr/m/n/12 FPGA \TU/SimSun(0)/
 m/n/12 的 弹 幕 射 击 游 戏。|  弹 幕 射 击 游 戏  |（\TU/lmr/m/n/12 Danmaku Shoot-
  []
 
 [3] [4]
-Overfull \hbox (106.94032pt too wide) in paragraph at lines 317--318
+Overfull \hbox (106.94032pt too wide) in paragraph at lines 314--315
 []\TU/SimSun(0)/b/n/12 串 行 输 出\TU/SimSun(0)/m/n/12 ：| \TU/lmr/m/n/12 SEG_CLK/SE
 G_DT/SEG_EN/SEG_CLR\TU/SimSun(0)/m/n/12 、| \TU/lmr/m/n/12 LED_CLK/LED_DT/LED_EN
 /LED_CLR 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 358--359
+Underfull \hbox (badness 10000) in paragraph at lines 364--365
 []|\TU/lmr/m/n/12 ZJU VGA \TU/SimSun(0)/m/n/12 控 制 器
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 358--359
+Underfull \hbox (badness 10000) in paragraph at lines 364--365
 |\TU/SimSun(0)/m/n/12 （\TU/lmr/m/n/12 640$\OMS/cmsy/m/n/12 ^^B$\TU/lmr/m/n/12 4
 80@60Hz\TU/SimSun(0)/m/n/12 ，|  输 出 扫
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 366--367
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
 []|\TU/lmr/m/n/12 HUD \TU/SimSun(0)/m/n/12 渲 染  |（分 数\TU/lmr/m/n/12 /\TU/SimSun
 (0)/m/n/12 生 命\TU/lmr/m/n/12 /\TU/SimSun(0)/m/n/12 暂
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 366--367
+Underfull \hbox (badness 2735) in paragraph at lines 371--372
 \TU/SimSun(0)/m/n/12 停\TU/lmr/m/n/12 /GAMEOVER/YOU WIN
  []
 
 
-Underfull \hbox (badness 8094) in paragraph at lines 374--375
+Underfull \hbox (badness 8094) in paragraph at lines 379--380
 []|\TU/lmr/m/n/12 7 \TU/SimSun(0)/m/n/12 段 设 备 串 行 \TU/lmr/m/n/12 P2S \TU/SimSu
 n(0)/m/n/12 输 出
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 375--376
+Underfull \hbox (badness 10000) in paragraph at lines 380--381
 []|\TU/SimSun(0)/m/n/12 参 数 化 并 转 串 移 位 寄 存 器
  []
 
-[6]
-Overfull \vbox (217.85214pt too high) has occurred while \output is active []
+[6] [7]
+Overfull \hbox (1.3898pt too wide) in paragraph at lines 525--525
+ []\TU/lmr/m/n/8 +Remap 
+ []
 
-
-[7] [8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 598--599
+[8] [9] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 606--607
 []|\TU/SimSun(0)/m/n/12 玩 家 菱 形 子 弹，|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 599--600
+Underfull \hbox (badness 10000) in paragraph at lines 607--608
 []|\TU/SimSun(0)/m/n/12 敌 方 红 色 方 块 子 弹，|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 602--603
+Underfull \hbox (badness 10000) in paragraph at lines 609--610
 []|\TU/SimSun(0)/m/n/12 菜 单 界 面  |（仅 在
  []
 
-[10] [11]
-Overfull \hbox (50.99684pt too wide) in paragraph at lines 667--669
+[11] [12]
+Overfull \hbox (50.99684pt too wide) in paragraph at lines 674--676
 []\TU/lmr/m/n/12 PLAYING $\OMS/cmsy/m/n/12 !$ \TU/lmr/m/n/12 WIN\TU/SimSun(0)/m
 /n/12 ：|  在 \TU/lmr/m/n/12 PLAYING \TU/SimSun(0)/m/n/12 状 态 下，|  积 分 模 式 下 \TU/
 lmtt/m/n/12 total_score >= SCORE_WIN_TARGET
  []
 
-
-Overfull \hbox (43.09001pt too wide) in paragraph at lines 730--731
- [][] 
- []
-
-[12] [13] [14]
-Overfull \hbox (32.75656pt too wide) in paragraph at lines 853--857
+[13] [14] [15]
+Overfull \hbox (21.24368pt too wide) in paragraph at lines 851--855
 []\TU/SimSun(0)/m/n/12 所 有 渲 染 器  |（\TU/lmr/m/n/12 player_render, enemy_render,
- bullet_render, obstacle_render, hud_render,
+ bullet_render, hud_render, menu_render\TU/SimSun(0)/m/n/12 ）|
  []
 
-[15]
 Missing character: There is no ≈ (U+2248) in font [lmroman12-regular]:mapping=t
 ex-text;!
 Missing character: There is no ≈ (U+2248) in font [lmroman12-regular]:mapping=t
 ex-text;!
 [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28]
-Underfull \hbox (badness 1997) in paragraph at lines 1613--1615
+Underfull \hbox (badness 1997) in paragraph at lines 1576--1578
 []|\TU/SimSun(0)/m/n/12 整 体 架 构 设 计、| \TU/lmr/m/n/12 game_top
  []
 
 
-Underfull \hbox (badness 5954) in paragraph at lines 1613--1615
+Underfull \hbox (badness 5954) in paragraph at lines 1576--1578
 \TU/SimSun(0)/m/n/12 顶 层 互 联、| \TU/lmr/m/n/12 VGA \TU/SimSun(0)/m/n/12 渲 染 管
  []
 
 
-Overfull \hbox (77.83797pt too wide) in paragraph at lines 1613--1615
+Overfull \hbox (77.83797pt too wide) in paragraph at lines 1576--1578
 |\TU/SimSun(0)/m/n/12 （\TU/lmr/m/n/12 player/enemy/bullet/menu/hud_render\TU/Si
 mSun(0)/m/n/12 ） 、|
  []
 
 
-Underfull \hbox (badness 6204) in paragraph at lines 1617--1619
+Underfull \hbox (badness 6204) in paragraph at lines 1580--1582
 \TU/SimSun(0)/m/n/12 随 机 数、| \TU/lmr/m/n/12 PS/2 \TU/SimSun(0)/m/n/12 键 盘 驱 动
  []
 
 [29]
-Overfull \hbox (102.5717pt too wide) in paragraph at lines 1644--1646
+Overfull \hbox (102.5717pt too wide) in paragraph at lines 1607--1609
 []\TU/SimSun(0)/b/n/12 有 限 状 态 机  |（\TU/lmr/bx/n/12 FSM\TU/SimSun(0)/b/n/12 ）| 
  设 计\TU/SimSun(0)/m/n/12 ：| \TU/lmr/m/n/12 5 \TU/SimSun(0)/m/n/12 状 态 \TU/lmr/m
 /n/12 Moore \TU/SimSun(0)/m/n/12 型 状 态 机  |（\TU/lmr/m/n/12 MENU/PLAYING/PAUSED/
@@ -1596,14 +1591,14 @@ GAMEOVER/WIN\TU/SimSun(0)/m/n/12 ） ，|
  []
 
 [30]
-Overfull \hbox (37.74852pt too wide) in paragraph at lines 1675--1678
+Overfull \hbox (37.74852pt too wide) in paragraph at lines 1638--1641
 []\TU/SimSun(0)/b/n/12 难 度 动 态 调 整\TU/SimSun(0)/m/n/12 ：| \TU/lmtt/m/n/12 game_
 defs.vh \TU/SimSun(0)/m/n/12 已 定 义 难 度 系 数  |（\TU/lmr/m/n/12 DMUL_EASY = 1.0\TU
 /SimSun(0)/m/n/12 、| \TU/lmr/m/n/12 DMUL_NORMAL
  []
 
 
-Overfull \hbox (13.54082pt too wide) in paragraph at lines 1685--1687
+Overfull \hbox (13.54082pt too wide) in paragraph at lines 1648--1650
 []\TU/lmr/m/n/12 NJU \TU/SimSun(0)/m/n/12 数 字 逻 辑 设 计 实 验 讲 义，| \TU/lmr/m/n/12 
 PS/2 \TU/SimSun(0)/m/n/12 键 盘 输 入 实 验，| []$[][][][][] [] [] [] [][][][][][][][]
 [][][][][] [] [][][][][][] []
@@ -1615,15 +1610,15 @@ LaTeX2e <2026-06-01>
 L3 programming layer <2026/06/23>
  ***********
 Package rerunfilecheck Info: File `实验报告.out' has not changed.
-(rerunfilecheck)             Checksum: 0BE7620AF2978A877FB411525EB0F720;6865.
+(rerunfilecheck)             Checksum: 805948D4765891B9C7CDEAC8E1B088F8;6759.
  ) 
 Here is how much of TeX's memory you used:
- 35169 strings out of 467814
- 774843 string characters out of 5427170
- 1647847 words of memory out of 5000000
- 63652 multiletter control sequences out of 15000+600000
- 636443 words of font info for 116 fonts, out of 8000000 for 9000
+ 35164 strings out of 467814
+ 772723 string characters out of 5427170
+ 1637847 words of memory out of 5000000
+ 63647 multiletter control sequences out of 15000+600000
+ 637991 words of font info for 122 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 93i,13n,111p,1190b,1828s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 93i,13n,111p,1190b,2009s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on 实验报告.pdf (32 pages).
